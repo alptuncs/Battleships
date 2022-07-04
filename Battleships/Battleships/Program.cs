@@ -11,7 +11,12 @@ namespace Battleships
     {
         static void Main(string[] args)
         {
+            string[][] board = CreateBoard();
+            PrintBoard(board);
+        }
 
+        static string[][] CreateBoard()
+        {
             /* initializng the board and printing it on the console */
 
             Console.WriteLine("Enter the size of the board");
@@ -37,6 +42,12 @@ namespace Battleships
                 test = string.Concat(Enumerable.Repeat("[] ", boardlength));
                 board[i] = test.Split(' ');
             }
+            return board;
+        }
+
+        static void PrintBoard(string[][] board)
+        {
+
             /* print the board */
             for (int i = 0; i < board.Length; i++)
             {
@@ -46,7 +57,6 @@ namespace Battleships
                 }
                 Console.Write("\n");
             }
-
         }
     }
 }
