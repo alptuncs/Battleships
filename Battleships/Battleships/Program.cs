@@ -13,6 +13,13 @@ namespace Battleships
         {
             string[][] board = CreateBoard();
             PrintBoard(board);
+            Console.WriteLine("Write the coordinates for the attack");
+            string attackCoordinates = Console.ReadLine();
+            int yCoordinate = int.Parse(attackCoordinates.Substring(0, attackCoordinates.IndexOf(',')));
+            int xCoordinate = int.Parse(attackCoordinates.Substring(attackCoordinates.IndexOf(',') + 1));
+            Console.Clear();
+            board[xCoordinate - 1][yCoordinate - 1] = "[x]";
+            PrintBoard(board);
         }
 
         static string[][] CreateBoard()
@@ -39,8 +46,8 @@ namespace Battleships
             for (int i = 0; i < board.Length; i++)
             {
                 string test = "";
-                test = string.Concat(Enumerable.Repeat("[] ", boardlength));
-                board[i] = test.Split(' ');
+                test = string.Concat(Enumerable.Repeat("[ ]*", boardlength));
+                board[i] = test.Split('*');
             }
             return board;
         }
