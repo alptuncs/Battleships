@@ -12,12 +12,18 @@ namespace Battleships
         {
 
             /* initializng the board and printing it on the console */
+            Console.WriteLine("Enter the size of the board");
+            string userInput = Console.ReadLine();
+            int boardHeight = int.Parse(userInput.Substring(0, userInput.IndexOf('x')));
+            int boardlength = int.Parse(userInput.Substring(userInput.IndexOf('x') + 1));
 
-            string[][] board = new string[10][];
+            string[][] board = new string[boardHeight][];
 
             for (int i = 0; i < board.Length; i++)
             {
-                board[i] = new string[] { "[ ]", "[ ]", "[ ]", "[ ]", "[ ]", "[ ]", "[ ]", "[ ]", "[ ]", "[ ]" };
+                string test = "";
+                test = string.Concat(Enumerable.Repeat("[] ", boardlength));
+                board[i] = test.Split(' ');
             }
 
             for (int i = 0; i < board.Length; i++)
