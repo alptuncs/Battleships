@@ -24,10 +24,8 @@ namespace Battleships
 
 
 
-        public Target(int xPos, int yPos, int size, string direction)
+        public Target(int size, string direction)
         {
-            this.xPos = xPos;
-            this.yPos = yPos;
             this.size = size;
             this.direction = direction;
         }

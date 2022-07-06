@@ -6,26 +6,30 @@ using System.Threading.Tasks;
 
 namespace Battleships
 {
-    public struct cell
+    public struct Cell
     {
         public bool hasShip;
+        public int shipType;
 
-        public cell(bool hasShip)
+        public Cell(bool hasShip, int shipType)
         {
             this.hasShip = hasShip;
+            this.shipType = shipType;
         }
     }
     public class BoardManager
     {
-        private cell[][] board;
+        private Cell[][] board;
+
+        public Cell[][] Board => board;
 
         public BoardManager()
         {
-            board = new cell[10][];
+            board = new Cell[10][];
 
             for (int i = 0; i < 10; i++)
             {
-                board[i] = Enumerable.Repeat(new cell(false), 10).ToArray();
+                board[i] = Enumerable.Repeat(new Cell(false,0), 10).ToArray();
             }
         }
 
@@ -46,12 +50,8 @@ namespace Battleships
             return board[i][j].hasShip;
         }
 
-        public void CheckNeighbors(Target target)
-        {
 
-        }
-
-        public void RandomPlaceShip(int count)
+        public void RandomPlaceShip(int count, Target ship)
         {
             if (count > 100)
             {
@@ -65,7 +65,7 @@ namespace Battleships
             while (shipCounter < count)
             {
 
-                if (TryPlaceShip(random.Next(0, 10), random.Next(0, 10)))
+                if (TryPlaceShip(random.Next(0, 10), random.Next(0, 10), ship))
                 {
                     shipCounter++;
                 }
@@ -74,16 +74,115 @@ namespace Battleships
             }
 
         }
-        public bool TryPlaceShip(int x, int y)
+        public bool TryPlaceShip(int x, int y, Target ship)
         {
-            if (HasShip(x, y))
+            if (ship.Size == 1)
             {
+                if (HasShip(x, y))
+                {
+                    return false;
+                }
+
+                board[x][y].hasShip = true;
+                board[x][y].shipType = ship.Size;
+                return true;
+            }
+            else
+            {
+                if (ship.Direction == "north" && x - ship.Size < 0)
+                {
+                    return false;
+                }
+                else if (ship.Direction == "south" && x + ship.Size > 10)
+                {
+                    return false;
+                }
+                else if (ship.Direction == "east" && y + ship.Size > 10)
+                {
+                    return false;
+                }
+                else if (ship.Direction == "west" && y - ship.Size < 0)
+                {
+                    return false;
+                }
+                if (CheckNeighbors(x, y, ship))
+                {
+                    switch (ship.Direction)
+                    {
+                        case "north":
+                            for (int i = 0; i < ship.Size; i++)
+                            {
+                                board[x - i][y].hasShip = true;
+                                board[x - i][y].shipType = ship.Size;
+                            }
+                            return true;
+                        case "south":
+                            for (int i = 0; i < ship.Size; i++)
+                            {
+                                board[x + i][y].hasShip = true;
+                                board[x + i][y].shipType = ship.Size;
+                            }
+                            return true;
+                        case "east":
+                            for (int i = 0; i < ship.Size; i++)
+                            {
+                                board[x][y + i].hasShip = true;
+                                board[x][y + i].shipType = ship.Size;
+                            }
+                            return true;
+                        case "west":
+                            for (int i = 0; i < ship.Size; i++)
+                            {
+                                board[x][y - i].hasShip = true;
+                                board[x][y - i].shipType = ship.Size;
+                            }
+                            return true;
+                        default:
+                            return false;
+                    }
+                }
                 return false;
             }
+        }
+        public bool CheckNeighbors(int x, int y, Target ship)
+        {
+            for (int i = 0; i < ship.Size; i++)
+            {
+                if (ship.Direction == "north")
+                {
+                    if (HasShip(x - i, y))
+                    {
+                        return false;
+                    }
+                }
+                else if (ship.Direction == "south")
+                {
+                    if (HasShip(x + i, y))
+                    {
+                        return false;
+                    }
+                }
+                else if (ship.Direction == "east")
+                {
+                    if (HasShip(x, y + i))
+                    {
+                        return false;
+                    }
+                }
+                else if (ship.Direction == "west")
+                {
+                    if (HasShip(x, y - i))
+                    {
+                        return false;
+                    }
+                }
 
-            board[x][y].hasShip = true;
+            }
+
             return true;
         }
+
+
 
     }
 }

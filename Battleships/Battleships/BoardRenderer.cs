@@ -60,7 +60,8 @@ namespace Battleships
                 {
                     if (boardManager.HasShip(i, j))
                     {
-                        BoardSurface[i][j] = "[X]";
+
+                        BoardSurface[i][j] = $"[{boardManager.Board[i][j].shipType}]";
                     }
                 }
 
