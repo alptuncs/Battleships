@@ -52,6 +52,7 @@
     <Compile Include="BoardUnitTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TargetUnitTests.cs" />
+    <Compile Include="BoardManagerUnitTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

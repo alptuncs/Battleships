@@ -12,9 +12,13 @@ namespace Battleships
         static void Main(string[] args)
         {
 
-            Board test = new Board(10, 10);
-            test.Print();
-
+            BoardRenderer boardRenderer = new BoardRenderer(10, 10);
+            BoardManager boardManager = new BoardManager();
+            boardManager.RandomPlaceShip(5);
+            boardRenderer.Render(boardManager);
+            Console.WriteLine("-----------------------------------------");
+            boardManager.RandomPlaceShip(10);
+            boardRenderer.Render(boardManager);
         }
     }
 }

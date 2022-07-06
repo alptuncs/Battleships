@@ -13,10 +13,12 @@ namespace Board_Tests
             int expectedXPos = 0;
             int expectedYPos = 0;
 
-            Target actualTarget = new Target(0, 0);
+            Target actualTarget = new Target(0, 0, 1, "north");
 
-            Assert.AreEqual(expectedYPos, actualTarget.GetYPos());
-            Assert.AreEqual(expectedXPos, actualTarget.GetXPos());
+            Assert.AreEqual(expectedYPos, actualTarget.XPos);
+            Assert.AreEqual(expectedXPos, actualTarget.YPos);
         }
     }
+
+
 }

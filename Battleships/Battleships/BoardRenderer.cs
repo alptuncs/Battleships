@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Battleships
 {
-    public class Board
+    public class BoardRenderer
     {
         private int _height;
         private int _width;
@@ -16,7 +16,7 @@ namespace Battleships
         public string BoardGraphicString => _boardGraphicString;
 
 
-        public Board(int height, int width)
+        public BoardRenderer(int height, int width)
         {
             this._height = height;
             this._width = width;
@@ -52,8 +52,24 @@ namespace Battleships
 
         }
 
+        public void Render(BoardManager boardManager)
+        {
+            for (int i = 0; i < 10; i++)
+            {
+                for (int j = 0; j < 10; j++)
+                {
+                    if (boardManager.HasShip(i, j))
+                    {
+                        BoardSurface[i][j] = "[X]";
+                    }
+                }
 
 
 
+            }
+
+            Print();
+
+        }
     }
 }

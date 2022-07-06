@@ -10,22 +10,28 @@ namespace Battleships
     {
         private int xPos;
         private int yPos;
+        private int size;
+        private string direction;
 
-        public Target(int xPos, int yPos)
+
+
+        public int XPos => xPos;
+        public int YPos => yPos;
+        public int Size => size;
+
+        public string Direction => direction;
+
+
+
+
+        public Target(int xPos, int yPos, int size, string direction)
         {
             this.xPos = xPos;
             this.yPos = yPos;
+            this.size = size;
+            this.direction = direction;
         }
-
-        public int GetXPos()
-        {
-            return xPos;
-        }
-
-        public int GetYPos()
-        { 
-            return yPos;
-        }
+        
 
     }
 }
