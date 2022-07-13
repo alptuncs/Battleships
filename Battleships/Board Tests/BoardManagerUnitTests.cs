@@ -96,7 +96,7 @@ namespace Board_Tests
 
         [TestMethod]
 
-        public void MaxShipCountTestExceptionTest()
+        public void Kapaisteden_fazla_gemi_eklenince_exception_atar()
         {
             BoardManager boardManager = new BoardManager();
             Target kruvazor = new Target(3, "north");

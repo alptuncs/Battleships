@@ -29,20 +29,13 @@ namespace Battleships
 
             for (int i = 0; i < 10; i++)
             {
-                board[i] = Enumerable.Repeat(new Cell(false,0), 10).ToArray();
+                board[i] = Enumerable.Repeat(new Cell(false, 0), 10).ToArray();
             }
         }
 
         public void PlaceShip(int i, int j)
         {
-            if (HasShip(i, j) == false)
-            {
-                board[i][j].hasShip = true;
-            }
-            else
-            {
-                Console.WriteLine("This cell is occupied");
-            }
+            board[i][j].hasShip = !HasShip(i, j) ? true : false;
         }
 
         public bool HasShip(int i, int j)
@@ -64,21 +57,19 @@ namespace Battleships
 
             while (shipCounter < count)
             {
-
                 if (TryPlaceShip(random.Next(0, 10), random.Next(0, 10), ship))
                 {
                     shipCounter++;
+
                 }
-
-
             }
-
         }
+
         public bool TryPlaceShip(int x, int y, Target ship)
         {
             if (ship.Size == 1)
             {
-                if (HasShip(x, y))
+                if (HasShip(x, y) || !CheckAdjacentSquares(x, y))
                 {
                     return false;
                 }
@@ -150,33 +141,94 @@ namespace Battleships
             {
                 if (ship.Direction == "north")
                 {
-                    if (HasShip(x - i, y))
+                    if (HasShip(x - i, y) || !CheckAdjacentSquares(x - i, y))
                     {
                         return false;
                     }
                 }
                 else if (ship.Direction == "south")
                 {
-                    if (HasShip(x + i, y))
+                    if (HasShip(x + i, y) || !CheckAdjacentSquares(x + i, y))
                     {
                         return false;
                     }
                 }
                 else if (ship.Direction == "east")
                 {
-                    if (HasShip(x, y + i))
+                    if (HasShip(x, y + i) || !CheckAdjacentSquares(x, y + i))
                     {
                         return false;
                     }
                 }
                 else if (ship.Direction == "west")
                 {
-                    if (HasShip(x, y - i))
+                    if (HasShip(x, y - i) || !CheckAdjacentSquares(x, y - i))
                     {
                         return false;
                     }
                 }
 
+            }
+
+            return true;
+        }
+        public bool CheckAdjacentSquares(int x, int y)
+        {
+            if (x + 1 < 10)
+            {
+                if (HasShip(x + 1, y))
+                {
+                    return false;
+                }
+            }
+            if (x - 1 >= 0)
+            {
+                if (HasShip(x - 1, y))
+                {
+                    return false;
+                }
+            }
+            if (y + 1 < 10)
+            {
+                if (HasShip(x, y + 1))
+                {
+                    return false;
+                }
+            }
+            if (y - 1 >= 0)
+            {
+                if (HasShip(x, y - 1))
+                {
+                    return false;
+                }
+            }
+            if (y + 1 < 10 && x + 1 < 10)
+            {
+                if (HasShip(x + 1, y + 1))
+                {
+                    return false;
+                }
+            }
+            if (y + 1 < 10 && x - 1 >= 0)
+            {
+                if (HasShip(x - 1, y + 1))
+                {
+                    return false;
+                }
+            }
+            if (y - 1 >= 0 && x + 1 < 10)
+            {
+                if (HasShip(x + 1, y - 1))
+                {
+                    return false;
+                }
+            }
+            if (y - 1 >= 0 && x - 1 >= 0)
+            {
+                if (HasShip(x - 1, y - 1))
+                {
+                    return false;
+                }
             }
 
             return true;
