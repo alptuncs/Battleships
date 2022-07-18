@@ -9,7 +9,7 @@ namespace Board_Tests
     public class BoardRendererUnitTests
     {
         [TestMethod]
-        public void BoardTest2x3()
+        public void Verilen_Boyutlarda_Oyun_Tahtası_Cizer()
         {
             // Arrange
             BoardRenderer testBoard = new BoardRenderer(2, 3);
@@ -31,7 +31,7 @@ namespace Board_Tests
         }
 
         [TestMethod]
-        public void BoardTest3x2()
+        public void Verilen_Boyutlarda_Oyun_Tahtası_Cizer_2()
         {
             BoardRenderer testBoard = new BoardRenderer(3, 2);
             string[][] expectedBoard = new string[3][];
@@ -52,7 +52,7 @@ namespace Board_Tests
         }
 
         [TestMethod]
-        public void PrintTest2x2()
+        public void Verilen_Boyutlarda_Oyun_Tahtası_Ekrana_Cizer()
         {
             BoardRenderer testBoard = new BoardRenderer(2, 2);
             string expectedBoardGraphicString = "[ ] [ ]\n[ ] [ ]";
@@ -63,7 +63,7 @@ namespace Board_Tests
         }
 
         [TestMethod]
-        public void PrintTest5x5()
+        public void Verilen_Boyutlarda_Oyun_Tahtası_Ekrana_Cizer_2()
         {
             BoardRenderer testBoard = new BoardRenderer(5, 5);
             string expectedBoardGraphicString = string.Concat(Enumerable.Repeat("[ ] [ ] [ ] [ ] [ ]\n", 5));
@@ -76,11 +76,11 @@ namespace Board_Tests
         }
 
         [TestMethod]
-        public void RenderTest()
+        public void Verilen_Boyutlarda_Oyun_Tahtasını_Render_Fonksiyonu_ile_Ekrana_Cizer()
         {
             BoardRenderer testBoardRenderer = new BoardRenderer(2, 2);
             BoardManager testBoardManager = new BoardManager(2, 2);
-            Target denizalti = new Target(1, "north","denizalti");
+            Target denizalti = new Target(1, "north", "denizalti");
 
             string expectedBoardGraphicString = @"[1] [ ]
 [ ] [ ]";

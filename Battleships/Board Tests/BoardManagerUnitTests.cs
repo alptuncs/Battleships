@@ -9,21 +9,6 @@ namespace Board_Tests
     public class BoardManagerUnitTests
     {
         [TestMethod]
-        public void HasShipTest()
-        {
-            BoardManager boardManager = new BoardManager(10, 10);
-
-            for (int i = 0; i < 10; i++)
-            {
-                for (int j = 0; j < 10; j++)
-                {
-                    Assert.IsFalse(boardManager.HasShip(i, j));
-                }
-            }
-
-        }
-
-        [TestMethod]
         public void PlaceShip_Gemiyi_Dogru_Koordinatta_Yerlestirmeye_Baslar()
         {
             BoardManager boardManager = new BoardManager(10, 10);
@@ -46,9 +31,25 @@ namespace Board_Tests
             Assert.IsTrue(boardManager.HasShip(2, 4), "3,5 olmadı");
             Assert.IsFalse(boardManager.HasShip(5, 5), "5,5 hatalı yerleştirme");
         }
+        [TestMethod]
+
+        public void Tahta_Dısı_Koordinat_Verilince_HasShip_Exception_Atar()
+        {
+            BoardManager boardManager = new BoardManager(10, 10);
+
+            Assert.ThrowsException<InvalidOperationException>(() => boardManager.HasShip(105, 5));
+        }
+        [TestMethod]
+
+        public void Tahta_Dısı_Koordinat_Verilince_IsHit_Exception_Atar()
+        {
+            BoardManager boardManager = new BoardManager(10, 10);
+
+            Assert.ThrowsException<InvalidOperationException>(() => boardManager.IsHit(105, 5));
+        }
 
         [TestMethod]
-        public void RandomPlaceShipTest()
+        public void Belirli_Sayıda_Gemiyi_Rastgele_Yerleştirir()
         {
             BoardManager boardManager = new BoardManager(10, 10);
             Target amiralGemisi = new Target(4, "east", "amiralGemisi");
@@ -72,7 +73,7 @@ namespace Board_Tests
 
         [TestMethod]
 
-        public void Kapaisteden_fazla_gemi_eklenince_exception_atar()
+        public void Kapasiteden_fazla_gemi_eklenince_exception_atar()
         {
             BoardManager boardManager = new BoardManager(10, 10);
             Target kruvazor = new Target(3, "north", "kruvazor");
