@@ -44,19 +44,39 @@ namespace Battleships
 
         public void PlaceShip(int i, int j, Target ship)
         {
-            TryPlaceShip(i, j, ship);
+            TryPlaceShip(i - 1, j - 1, ship);
         }
 
         public bool HasShip(int i, int j)
         {
-            return board[i][j].hasShip;
+            if (CheckPlacementBounds(i, j))
+            {
+                return board[i][j].hasShip;
+            }
+            throw new InvalidOperationException("Out of bounds");
+        }
+
+        public bool IsHit(int i, int j)
+        {
+            if (CheckPlacementBounds(i, j))
+            {
+                return board[i][j].isHit;
+            }
+            throw new InvalidOperationException("Out of bounds");
+        }
+
+        public void HitSquare(int i, int j)
+        {
+            if (CheckPlacementBounds(i - 1, j - 1) && !IsHit(i - 1, j - 1))
+            {
+                board[i - 1][j - 1].isHit = true;
+            }
         }
 
 
         public void RandomPlaceShip(int count, Target ship)
         {
-            object value = count > 100 ? throw new InvalidOperationException("Count can not exceed total cell count, total cell count = 100!") : "no exception";
-
+            if (count > 100) throw new InvalidOperationException("Count can not exceed total cell count, total cell count = 100!");
             Random random = new Random(10);
 
             int shipCounter = 0;
@@ -156,6 +176,26 @@ namespace Battleships
                 return false;
             }
             else if (ship.Direction == "west" && y - ship.Size < 0)
+            {
+                return false;
+            }
+            return true;
+        }
+        public bool CheckPlacementBounds(int x, int y)
+        {
+            if (x < 0)
+            {
+                return false;
+            }
+            else if (x >= _height)
+            {
+                return false;
+            }
+            else if (y >= _height)
+            {
+                return false;
+            }
+            else if (y < 0)
             {
                 return false;
             }

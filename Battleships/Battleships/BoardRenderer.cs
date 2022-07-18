@@ -60,8 +60,11 @@ namespace Battleships
                 {
                     if (boardManager.HasShip(i, j))
                     {
-
                         BoardSurface[i][j] = $"[{boardManager.Board[i][j].shipType}]";
+                    }
+                    if (boardManager.IsHit(i, j))
+                    {
+                        BoardSurface[i][j] = "[*]";
                     }
                 }
 
@@ -70,7 +73,7 @@ namespace Battleships
             }
 
             Print();
-
+            InitializeBoardSurface();
         }
     }
 }

@@ -9,18 +9,29 @@ namespace Battleships
     public class GameManager
     {
         private IConsole console;
-        private BoardManager playerBoard;
-        private BoardManager computerBoard;
-        private BoardRenderer boardRenderer;
+        private BoardManager _playerBoard;
+        private BoardManager _computerBoard;
+        private BoardRenderer _boardRenderer;
 
         public GameManager(IConsole console, BoardManager playerBoard, BoardManager computerBoard, BoardRenderer boardRenderer)
         {
             this.console = console;
-            this.playerBoard = playerBoard;
-            this.computerBoard = computerBoard;
-            this.boardRenderer = boardRenderer;
+            _playerBoard = playerBoard;
+            _computerBoard = computerBoard;
+            _boardRenderer = boardRenderer;
         }
 
+        public void FireMissile(BoardManager board, int i, int j)
+        {
+            board.HitSquare(i, j);
+        }
+
+        public void RenderGame()
+        {
+            _boardRenderer.Render(_computerBoard);
+            console.WriteLine("---------------------------");
+            _boardRenderer.Render(_playerBoard);
+        }
 
     }
 }

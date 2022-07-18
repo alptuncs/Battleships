@@ -80,7 +80,7 @@ namespace Board_Tests
         {
             BoardRenderer testBoardRenderer = new BoardRenderer(2, 2);
             BoardManager testBoardManager = new BoardManager(2, 2);
-            Target denizalti = new Target(1, "north");
+            Target denizalti = new Target(1, "north","denizalti");
 
             string expectedBoardGraphicString = @"[1] [ ]
 [ ] [ ]";

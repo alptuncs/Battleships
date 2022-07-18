@@ -11,8 +11,8 @@ namespace Battleships
     {
         static void Main(string[] args)
         {
-
-            Target amiralGemisi = new Target(4, "east","amiralGemisi");
+            IConsole console = new SystemConsole();
+            Target amiralGemisi = new Target(4, "east", "amiralGemisi");
             Target kruvazor = new Target(3, "north", "kruvazor");
             Target mayinGemisi = new Target(2, "east", "mayinGemisi");
             Target denizalti = new Target(1, "north", "denizalti");
@@ -24,16 +24,23 @@ namespace Battleships
             targets.Add(denizalti);
 
             BoardRenderer boardRenderer = new BoardRenderer(10, 10);
-            BoardManager boardManager = new BoardManager(10, 10);
-            boardRenderer.Render(boardManager);
-            Console.WriteLine("-----------------------------------------");
+            BoardManager playerBoard = new BoardManager(10, 10);
+            BoardManager computerBoard = new BoardManager(10, 10);
 
             foreach (Target target in targets)
             {
-                boardManager.RandomPlaceShip(5 - target.Size, target);
+                computerBoard.RandomPlaceShip(5 - target.Size, target);
             }
-            boardRenderer.Render(boardManager);
 
+            playerBoard.PlaceShip(5, 5, kruvazor);
+
+
+
+            GameManager gameManager = new GameManager(console, playerBoard, computerBoard, boardRenderer);
+
+            gameManager.FireMissile(playerBoard, 5, 5);
+            gameManager.FireMissile(computerBoard, 5, 5);
+            gameManager.RenderGame();
         }
     }
 }

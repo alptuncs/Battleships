@@ -13,6 +13,6 @@ namespace Battleships
 
         void Clear();
 
-        void ReadLine();
+        string ReadLine();
     }
 }

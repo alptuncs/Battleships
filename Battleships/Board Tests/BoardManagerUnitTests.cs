@@ -24,18 +24,27 @@ namespace Board_Tests
         }
 
         [TestMethod]
-        public void PlaceShipTest()
+        public void PlaceShip_Gemiyi_Dogru_Koordinatta_Yerlestirmeye_Baslar()
         {
             BoardManager boardManager = new BoardManager(10, 10);
-            Target amiralGemisi = new Target(4, "east");
+            Target amiralGemisi = new Target(4, "east", "amiralGemisi");
 
             boardManager.PlaceShip(3, 2, amiralGemisi);
 
-            Assert.IsTrue(boardManager.HasShip(3, 2));
-            Assert.IsTrue(boardManager.HasShip(3, 3));
-            Assert.IsTrue(boardManager.HasShip(3, 4));
-            Assert.IsTrue(boardManager.HasShip(3, 5));
-            Assert.IsFalse(boardManager.HasShip(5, 5));
+            Assert.IsTrue(boardManager.HasShip(2, 1), "3,2 olmadı");
+            Assert.IsFalse(boardManager.HasShip(5, 5), "5,5 hatalı yerleştirme");
+        }
+        [TestMethod]
+        public void PlaceShip_Gemiyi_Dogru_Koordinatta_Yerlestirmeyi_Bitirir()
+        {
+            BoardManager boardManager = new BoardManager(10, 10);
+            Target amiralGemisi = new Target(4, "east", "amiralGemisi");
+
+            boardManager.PlaceShip(3, 2, amiralGemisi);
+
+
+            Assert.IsTrue(boardManager.HasShip(2, 4), "3,5 olmadı");
+            Assert.IsFalse(boardManager.HasShip(5, 5), "5,5 hatalı yerleştirme");
         }
 
         [TestMethod]
