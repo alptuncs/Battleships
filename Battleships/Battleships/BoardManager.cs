@@ -9,12 +9,14 @@ namespace Battleships
     public struct Cell
     {
         public bool hasShip;
+        public bool isHit;
         public int shipType;
 
         public Cell(bool hasShip, int shipType)
         {
             this.hasShip = hasShip;
             this.shipType = shipType;
+            isHit = false;
         }
     }
     public class BoardManager
@@ -53,10 +55,7 @@ namespace Battleships
 
         public void RandomPlaceShip(int count, Target ship)
         {
-            if (count > 100)
-            {
-                throw new InvalidOperationException("Count can not exceed total cell count, total cell count = 100!");
-            }
+            object value = count > 100 ? throw new InvalidOperationException("Count can not exceed total cell count, total cell count = 100!") : "no exception";
 
             Random random = new Random(10);
 

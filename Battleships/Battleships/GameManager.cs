@@ -6,8 +6,21 @@ using System.Threading.Tasks;
 
 namespace Battleships
 {
-    internal class GameManager
+    public class GameManager
     {
+        private IConsole console;
+        private BoardManager playerBoard;
+        private BoardManager computerBoard;
+        private BoardRenderer boardRenderer;
+
+        public GameManager(IConsole console, BoardManager playerBoard, BoardManager computerBoard, BoardRenderer boardRenderer)
+        {
+            this.console = console;
+            this.playerBoard = playerBoard;
+            this.computerBoard = computerBoard;
+            this.boardRenderer = boardRenderer;
+        }
+
 
     }
 }

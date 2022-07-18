@@ -12,10 +12,10 @@ namespace Battleships
         static void Main(string[] args)
         {
 
-            Target amiralGemisi = new Target(4, "east");
-            Target kruvazor = new Target(3, "north");
-            Target mayinGemisi = new Target(2, "east");
-            Target denizalti = new Target(1, "north");
+            Target amiralGemisi = new Target(4, "east","amiralGemisi");
+            Target kruvazor = new Target(3, "north", "kruvazor");
+            Target mayinGemisi = new Target(2, "east", "mayinGemisi");
+            Target denizalti = new Target(1, "north", "denizalti");
 
             List<Target> targets = new List<Target>();
             targets.Add(amiralGemisi);

@@ -42,10 +42,10 @@ namespace Board_Tests
         public void RandomPlaceShipTest()
         {
             BoardManager boardManager = new BoardManager(10, 10);
-            Target amiralGemisi = new Target(4, "east");
-            Target kruvazor = new Target(3, "north");
-            Target mayinGemisi = new Target(2, "east");
-            Target denizalti = new Target(1, "north");
+            Target amiralGemisi = new Target(4, "east", "amiralGemisi");
+            Target kruvazor = new Target(3, "north", "kruvazor");
+            Target mayinGemisi = new Target(2, "east", "mayinGemisi");
+            Target denizalti = new Target(1, "north", "denizalti");
 
             List<Target> targets = new List<Target>();
             targets.Add(amiralGemisi);
@@ -66,18 +66,9 @@ namespace Board_Tests
         public void Kapaisteden_fazla_gemi_eklenince_exception_atar()
         {
             BoardManager boardManager = new BoardManager(10, 10);
-            Target kruvazor = new Target(3, "north");
+            Target kruvazor = new Target(3, "north", "kruvazor");
 
-            try
-            {
-                boardManager.RandomPlaceShip(105, kruvazor);
-                Assert.Fail("no exception thrown");
-            }
-            catch (Exception e)
-            {
-                Assert.IsTrue(e is InvalidOperationException);
-            }
-
+            Assert.ThrowsException<InvalidOperationException>(() => boardManager.RandomPlaceShip(105, kruvazor));
 
 
         }

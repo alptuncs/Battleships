@@ -12,7 +12,7 @@ namespace Battleships
         private int yPos;
         private int size;
         private string direction;
-
+        private string name { get; set; }
 
 
         public int XPos => xPos;
@@ -24,12 +24,13 @@ namespace Battleships
 
 
 
-        public Target(int size, string direction)
+        public Target(int size, string direction, string name)
         {
             this.size = size;
             this.direction = direction;
+            this.name = name;
         }
-        
+
 
     }
 }
