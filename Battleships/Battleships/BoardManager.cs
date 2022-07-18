@@ -19,23 +19,30 @@ namespace Battleships
     }
     public class BoardManager
     {
+        private int _height;
+        private int _width;
+        private int _placedShips;
         private Cell[][] board;
 
         public Cell[][] Board => board;
+        public int PlacedShips => _placedShips;
 
-        public BoardManager()
+        public BoardManager(int height, int width)
         {
+            this._height = height;
+            this._width = width;
+            _placedShips = 0;
             board = new Cell[10][];
 
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < height; i++)
             {
-                board[i] = Enumerable.Repeat(new Cell(false, 0), 10).ToArray();
+                board[i] = Enumerable.Repeat(new Cell(false, 0), width).ToArray();
             }
         }
 
-        public void PlaceShip(int i, int j)
+        public void PlaceShip(int i, int j, Target ship)
         {
-            board[i][j].hasShip = !HasShip(i, j) ? true : false;
+            TryPlaceShip(i, j, ship);
         }
 
         public bool HasShip(int i, int j)
@@ -57,7 +64,7 @@ namespace Battleships
 
             while (shipCounter < count)
             {
-                if (TryPlaceShip(random.Next(0, 10), random.Next(0, 10), ship))
+                if (TryPlaceShip(random.Next(0, _height), random.Next(0, _width), ship))
                 {
                     shipCounter++;
 
@@ -69,71 +76,91 @@ namespace Battleships
         {
             if (ship.Size == 1)
             {
-                if (HasShip(x, y) || !CheckAdjacentSquares(x, y))
+                if (CheckPlacementBounds(x, y, ship))
                 {
-                    return false;
-                }
+                    if (HasShip(x, y) || !CheckAdjacentSquares(x, y))
+                    {
+                        return false;
+                    }
 
-                board[x][y].hasShip = true;
-                board[x][y].shipType = ship.Size;
-                return true;
+                    board[x][y].hasShip = true;
+                    board[x][y].shipType = ship.Size;
+                    _placedShips++;
+                    return true;
+                }
             }
+
             else
             {
-                if (ship.Direction == "north" && x - ship.Size < 0)
+                if (CheckPlacementBounds(x, y, ship))
                 {
-                    return false;
-                }
-                else if (ship.Direction == "south" && x + ship.Size > 10)
-                {
-                    return false;
-                }
-                else if (ship.Direction == "east" && y + ship.Size > 10)
-                {
-                    return false;
-                }
-                else if (ship.Direction == "west" && y - ship.Size < 0)
-                {
-                    return false;
-                }
-                if (CheckNeighbors(x, y, ship))
-                {
-                    switch (ship.Direction)
+                    if (CheckNeighbors(x, y, ship))
                     {
-                        case "north":
-                            for (int i = 0; i < ship.Size; i++)
-                            {
-                                board[x - i][y].hasShip = true;
-                                board[x - i][y].shipType = ship.Size;
-                            }
-                            return true;
-                        case "south":
-                            for (int i = 0; i < ship.Size; i++)
-                            {
-                                board[x + i][y].hasShip = true;
-                                board[x + i][y].shipType = ship.Size;
-                            }
-                            return true;
-                        case "east":
-                            for (int i = 0; i < ship.Size; i++)
-                            {
-                                board[x][y + i].hasShip = true;
-                                board[x][y + i].shipType = ship.Size;
-                            }
-                            return true;
-                        case "west":
-                            for (int i = 0; i < ship.Size; i++)
-                            {
-                                board[x][y - i].hasShip = true;
-                                board[x][y - i].shipType = ship.Size;
-                            }
-                            return true;
-                        default:
-                            return false;
+                        switch (ship.Direction)
+                        {
+                            case "north":
+                                for (int i = 0; i < ship.Size; i++)
+                                {
+                                    board[x - i][y].hasShip = true;
+                                    board[x - i][y].shipType = ship.Size;
+
+                                }
+                                _placedShips++;
+                                return true;
+                            case "south":
+                                for (int i = 0; i < ship.Size; i++)
+                                {
+                                    board[x + i][y].hasShip = true;
+                                    board[x + i][y].shipType = ship.Size;
+                                }
+                                _placedShips++;
+                                return true;
+                            case "east":
+                                for (int i = 0; i < ship.Size; i++)
+                                {
+                                    board[x][y + i].hasShip = true;
+                                    board[x][y + i].shipType = ship.Size;
+                                }
+                                _placedShips++;
+                                return true;
+                            case "west":
+                                for (int i = 0; i < ship.Size; i++)
+                                {
+                                    board[x][y - i].hasShip = true;
+                                    board[x][y - i].shipType = ship.Size;
+                                }
+                                _placedShips++;
+                                return true;
+                            default:
+                                return false;
+                        }
                     }
+                    return false;
+
                 }
+            }
+            return false;
+        }
+
+        public bool CheckPlacementBounds(int x, int y, Target ship)
+        {
+            if (ship.Direction == "north" && x - ship.Size < 0)
+            {
                 return false;
             }
+            else if (ship.Direction == "south" && x + ship.Size >= _height)
+            {
+                return false;
+            }
+            else if (ship.Direction == "east" && y + ship.Size >= _height)
+            {
+                return false;
+            }
+            else if (ship.Direction == "west" && y - ship.Size < 0)
+            {
+                return false;
+            }
+            return true;
         }
         public bool CheckNeighbors(int x, int y, Target ship)
         {
@@ -174,7 +201,7 @@ namespace Battleships
         }
         public bool CheckAdjacentSquares(int x, int y)
         {
-            if (x + 1 < 10)
+            if (x + 1 < _height)
             {
                 if (HasShip(x + 1, y))
                 {
@@ -188,7 +215,7 @@ namespace Battleships
                     return false;
                 }
             }
-            if (y + 1 < 10)
+            if (y + 1 < _width)
             {
                 if (HasShip(x, y + 1))
                 {
@@ -202,21 +229,21 @@ namespace Battleships
                     return false;
                 }
             }
-            if (y + 1 < 10 && x + 1 < 10)
+            if (y + 1 < _width && x + 1 < _height)
             {
                 if (HasShip(x + 1, y + 1))
                 {
                     return false;
                 }
             }
-            if (y + 1 < 10 && x - 1 >= 0)
+            if (y + 1 < _width && x - 1 >= 0)
             {
                 if (HasShip(x - 1, y + 1))
                 {
                     return false;
                 }
             }
-            if (y - 1 >= 0 && x + 1 < 10)
+            if (y - 1 >= 0 && x + 1 < _height)
             {
                 if (HasShip(x + 1, y - 1))
                 {

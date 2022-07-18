@@ -24,7 +24,7 @@ namespace Battleships
             targets.Add(denizalti);
 
             BoardRenderer boardRenderer = new BoardRenderer(10, 10);
-            BoardManager boardManager = new BoardManager();
+            BoardManager boardManager = new BoardManager(10, 10);
             boardRenderer.Render(boardManager);
             Console.WriteLine("-----------------------------------------");
 

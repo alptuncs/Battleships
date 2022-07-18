@@ -11,7 +11,7 @@ namespace Board_Tests
         [TestMethod]
         public void HasShipTest()
         {
-            BoardManager boardManager = new BoardManager();
+            BoardManager boardManager = new BoardManager(10, 10);
 
             for (int i = 0; i < 10; i++)
             {
@@ -26,18 +26,22 @@ namespace Board_Tests
         [TestMethod]
         public void PlaceShipTest()
         {
-            BoardManager boardManager = new BoardManager();
+            BoardManager boardManager = new BoardManager(10, 10);
+            Target amiralGemisi = new Target(4, "east");
 
-            boardManager.PlaceShip(3, 2);
+            boardManager.PlaceShip(3, 2, amiralGemisi);
 
             Assert.IsTrue(boardManager.HasShip(3, 2));
+            Assert.IsTrue(boardManager.HasShip(3, 3));
+            Assert.IsTrue(boardManager.HasShip(3, 4));
+            Assert.IsTrue(boardManager.HasShip(3, 5));
             Assert.IsFalse(boardManager.HasShip(5, 5));
         }
 
         [TestMethod]
         public void RandomPlaceShipTest()
         {
-            BoardManager boardManager = new BoardManager();
+            BoardManager boardManager = new BoardManager(10, 10);
             Target amiralGemisi = new Target(4, "east");
             Target kruvazor = new Target(3, "north");
             Target mayinGemisi = new Target(2, "east");
@@ -54,51 +58,14 @@ namespace Board_Tests
                 boardManager.RandomPlaceShip(5 - target.Size, target);
             }
 
-            int amiralGemisiCounter = 0;
-            int kruvazorCounter = 0;
-            int mayinGemisiCounter = 0;
-            int denizaltiCounter = 0;
-
-            for (int i = 0; i < 10; i++)
-            {
-                for (int j = 0; j < 10; j++)
-                {
-                    if (boardManager.HasShip(i, j))
-                    {
-                        switch (boardManager.Board[i][j].shipType)
-                        {
-                            case 1:
-                                denizaltiCounter++;
-                                break;
-                            case 2:
-                                mayinGemisiCounter++;
-                                break;
-                            case 3:
-                                kruvazorCounter++;
-                                break;
-                            case 4:
-                                amiralGemisiCounter++;
-                                break;
-                            default:
-                                break;
-                        }
-
-                    }
-                }
-
-            }
-
-            Assert.AreEqual(denizaltiCounter, 4);
-            Assert.AreEqual(mayinGemisiCounter, 6);
-            Assert.AreEqual(kruvazorCounter, 6);
-            Assert.AreEqual(amiralGemisiCounter, 4);
+            Assert.AreEqual(boardManager.PlacedShips, 10);
         }
 
         [TestMethod]
 
         public void Kapaisteden_fazla_gemi_eklenince_exception_atar()
         {
-            BoardManager boardManager = new BoardManager();
+            BoardManager boardManager = new BoardManager(10, 10);
             Target kruvazor = new Target(3, "north");
 
             try

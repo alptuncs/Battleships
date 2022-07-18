@@ -6,7 +6,7 @@ using System.Linq;
 namespace Board_Tests
 {
     [TestClass]
-    public class BoardUnitTests
+    public class BoardRendererUnitTests
     {
         [TestMethod]
         public void BoardTest2x3()
@@ -21,13 +21,13 @@ namespace Board_Tests
             // Act
 
             // Assert
-            for (int i = 0; i < expectedBoard.Length; i++)
-            {
-                for (int j = 0; j < expectedBoard[0].Length; j++)
-                {
-                    Assert.AreEqual(expectedBoard[i][j], testBoard.BoardSurface[i][j]);
-                }
-            }
+
+            Assert.AreEqual(expectedBoard[0][0], testBoard.BoardSurface[0][0]);
+            Assert.AreEqual(expectedBoard[0][1], testBoard.BoardSurface[0][1]);
+            Assert.AreEqual(expectedBoard[0][2], testBoard.BoardSurface[0][2]);
+            Assert.AreEqual(expectedBoard[1][0], testBoard.BoardSurface[1][0]);
+            Assert.AreEqual(expectedBoard[1][1], testBoard.BoardSurface[1][1]);
+            Assert.AreEqual(expectedBoard[1][2], testBoard.BoardSurface[1][2]);
         }
 
         [TestMethod]
@@ -43,13 +43,12 @@ namespace Board_Tests
             // Act
 
             // Assert
-            for (int i = 0; i < expectedBoard.Length; i++)
-            {
-                for (int j = 0; j < expectedBoard[0].Length; j++)
-                {
-                    Assert.AreEqual(expectedBoard[i][j], testBoard.BoardSurface[i][j]);
-                }
-            }
+            Assert.AreEqual(expectedBoard[0][0], testBoard.BoardSurface[0][0]);
+            Assert.AreEqual(expectedBoard[0][1], testBoard.BoardSurface[0][1]);
+            Assert.AreEqual(expectedBoard[1][0], testBoard.BoardSurface[1][0]);
+            Assert.AreEqual(expectedBoard[1][1], testBoard.BoardSurface[1][1]);
+            Assert.AreEqual(expectedBoard[2][0], testBoard.BoardSurface[2][0]);
+            Assert.AreEqual(expectedBoard[2][1], testBoard.BoardSurface[2][1]);
         }
 
         [TestMethod]
@@ -79,22 +78,16 @@ namespace Board_Tests
         [TestMethod]
         public void RenderTest()
         {
-            BoardRenderer testBoardRenderer = new BoardRenderer(10, 10);
-            BoardManager testBoardManager = new BoardManager();
+            BoardRenderer testBoardRenderer = new BoardRenderer(2, 2);
+            BoardManager testBoardManager = new BoardManager(2, 2);
+            Target denizalti = new Target(1, "north");
 
-            string expectedBoardGraphicString = string.Concat(Enumerable.Repeat("[X] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ]\n", 10));
-            expectedBoardGraphicString = expectedBoardGraphicString.Substring(0, expectedBoardGraphicString.Length - 1);
+            string expectedBoardGraphicString = @"[1] [ ]
+[ ] [ ]";
+            expectedBoardGraphicString = expectedBoardGraphicString.Substring(0, expectedBoardGraphicString.Length);
 
-            testBoardManager.PlaceShip(0, 0);
-            testBoardManager.PlaceShip(1, 0);
-            testBoardManager.PlaceShip(2, 0);
-            testBoardManager.PlaceShip(3, 0);
-            testBoardManager.PlaceShip(4, 0);
-            testBoardManager.PlaceShip(5, 0);
-            testBoardManager.PlaceShip(6, 0);
-            testBoardManager.PlaceShip(7, 0);
-            testBoardManager.PlaceShip(8, 0);
-            testBoardManager.PlaceShip(9, 0);
+            testBoardManager.PlaceShip(1, 1, denizalti);
+
 
             testBoardRenderer.Render(testBoardManager);
 

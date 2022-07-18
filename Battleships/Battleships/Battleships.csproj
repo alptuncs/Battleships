@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="BoardRenderer.cs" />
     <Compile Include="BoardManager.cs" />
+    <Compile Include="GameManager.cs" />
     <Compile Include="Target.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
