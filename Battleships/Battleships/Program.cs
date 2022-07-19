@@ -9,6 +9,7 @@ namespace Battleships
 {
     internal class Program
     {
+
         static void Main(string[] args)
         {
             IConsole console = new SystemConsole();
