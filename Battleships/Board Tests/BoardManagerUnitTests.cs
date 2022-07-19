@@ -41,7 +41,7 @@ namespace Board_Tests
         }
         [TestMethod]
 
-        public void Tahta_Dısı_Koordinat_Verilince_IsHit_Exception_Atar()
+        public void Tahta_Disinda_Koordinat_Verilince_IsHit_Exception_Atar()
         {
             BoardManager boardManager = new BoardManager(10, 10);
 

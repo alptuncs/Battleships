@@ -44,7 +44,7 @@ namespace Battleships
 
         public void PlaceShip(int i, int j, Target ship)
         {
-            TryPlaceShip(i - 1, j - 1, ship);
+            TryPlaceShip(i, j, ship);
         }
 
         public bool HasShip(int i, int j)
@@ -67,9 +67,9 @@ namespace Battleships
 
         public void HitSquare(int i, int j)
         {
-            if (CheckPlacementBounds(i - 1, j - 1) && !IsHit(i - 1, j - 1))
+            if (CheckPlacementBounds(i, j) && !IsHit(i, j))
             {
-                board[i - 1][j - 1].isHit = true;
+                board[i][j].isHit = true;
             }
         }
 

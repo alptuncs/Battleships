@@ -11,6 +11,7 @@ namespace Battleships
         private int _height;
         private int _width;
         private string _boardGraphicString;
+        IConsole console;
 
         public string[][] BoardSurface;
         public string BoardGraphicString => _boardGraphicString;
@@ -20,7 +21,7 @@ namespace Battleships
         {
             this._height = height;
             this._width = width;
-
+            console = new SystemConsole();
             InitializeBoardSurface();
         }
 
@@ -36,7 +37,7 @@ namespace Battleships
                 }
                 _boardGraphicString += i < BoardSurface.Length - 1 ? "\n" : "";
             }
-            Console.WriteLine(_boardGraphicString);
+            console.WriteLine(_boardGraphicString);
         }
 
 
