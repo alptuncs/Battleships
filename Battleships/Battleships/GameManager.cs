@@ -93,12 +93,16 @@ namespace Battleships
         {
             if (gameStatus == false) return;
 
-            Regex rx = new Regex(@"\d+,\d+");
+            Regex rx = new Regex(@"^\d{1,2},\d{1,2}");
             string[] playerInput = new string[2];
             string stringPlayerInput = "";
             stringPlayerInput = Console.ReadLine();
 
             if (!rx.IsMatch(stringPlayerInput))
+            {
+                message = "Wrong input";
+            }
+            else if (int.Parse(playerInput[0]) < 0 || int.Parse(playerInput[0]) > 10 || int.Parse(playerInput[1]) < 0 || int.Parse(playerInput[1]) > 10)
             {
                 message = "Wrong input";
             }
