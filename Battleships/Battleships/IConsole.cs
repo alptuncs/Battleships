@@ -12,7 +12,7 @@ namespace Battleships
         void WriteLine(string message, params object[] args);
 
         void Clear();
-
+        
         string ReadLine();
     }
 }
