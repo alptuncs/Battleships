@@ -11,7 +11,7 @@ namespace Battleships
         private int _height;
         private int _width;
         private string _boardGraphicString;
-        IConsole console;
+      
 
         public string[][] BoardSurface;
         public string BoardGraphicString => _boardGraphicString;
