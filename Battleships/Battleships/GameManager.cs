@@ -16,7 +16,7 @@ namespace Battleships
         List<Target> targets = new List<Target>();
         private int playerLives = 30;
         private int score = 0;
-        private int shipValue = 64;
+        private int shipValue = 0;
         private int consecutiveHits = 0;
         private string message = "";
         bool gameStatus = true;
@@ -40,16 +40,18 @@ namespace Battleships
             foreach (Target target in targets)
             {
                 computerBoard.RandomPlaceShip(5 - target.Size, target);
+                shipValue += target.Size * target.Size * (5 - target.Size);
             }
         }
         public void play()
         {
 
-            while (gameStatus)
+            do
             {
                 RenderGame();
                 UpdateGame();
-            }
+            } while (gameStatus);
+            RenderGame();
         }
         private void FireMissile(BoardManager board, int i, int j)
         {
@@ -89,6 +91,8 @@ namespace Battleships
         }
         private void UpdateGame()
         {
+            if (gameStatus == false) return;
+
             Regex rx = new Regex(@"\d+,\d+");
             string[] playerInput = new string[2];
             string stringPlayerInput = "";
@@ -107,6 +111,12 @@ namespace Battleships
                     message = "Out of lives...";
                     gameStatus = false;
                 }
+                else if (shipValue == 0)
+                {
+                    message = "You won !";
+                    gameStatus = false;
+                }
+
             }
         }
     }
