@@ -12,7 +12,6 @@ namespace Battleships
         private BoardManager _playerBoard;
         private BoardManager _computerBoard;
         private BoardRenderer _boardRenderer;
-
         public GameManager(IConsole console, BoardManager playerBoard, BoardManager computerBoard, BoardRenderer boardRenderer)
         {
             this.console = console;
@@ -20,19 +19,15 @@ namespace Battleships
             _computerBoard = computerBoard;
             _boardRenderer = boardRenderer;
         }
-
         public void FireMissile(BoardManager board, int i, int j)
         {
             board.HitSquare(i, j);
         }
-
         public void RenderGame()
         {
             console.WriteLine(_boardRenderer.Render(_computerBoard));
             console.WriteLine("---------------------------");
             console.WriteLine(_boardRenderer.Render(_playerBoard));
         }
-
-
     }
 }

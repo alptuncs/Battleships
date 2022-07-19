@@ -34,8 +34,6 @@ namespace Battleships
 
             playerBoard.PlaceShip(5, 5, kruvazor);
 
-
-
             GameManager gameManager = new GameManager(console, playerBoard, computerBoard, boardRenderer);
 
             gameManager.FireMissile(playerBoard, 5, 5);

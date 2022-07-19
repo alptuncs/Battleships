@@ -11,19 +11,14 @@ namespace Battleships
         private int _height;
         private int _width;
         private string _boardGraphicString;
-      
-
         public string[][] BoardSurface;
         public string BoardGraphicString => _boardGraphicString;
-
-
         public BoardRenderer(int height, int width)
         {
             this._height = height;
             this._width = width;
             InitializeBoardSurface();
         }
-
         public string InitializeBoardGraphicString()
         {
             _boardGraphicString = "";
@@ -36,10 +31,9 @@ namespace Battleships
                 }
                 _boardGraphicString += i < BoardSurface.Length - 1 ? "\n" : "";
             }
+            InitializeBoardSurface();
             return _boardGraphicString;
         }
-
-
         private void InitializeBoardSurface()
         {
             BoardSurface = new string[_height][];
@@ -48,10 +42,7 @@ namespace Battleships
             {
                 BoardSurface[i] = Enumerable.Repeat("[ ]", _width).ToArray();
             }
-
-
         }
-
         public string Render(BoardManager boardManager)
         {
             for (int i = 0; i < _height; i++)
@@ -67,11 +58,7 @@ namespace Battleships
                         BoardSurface[i][j] = "[*]";
                     }
                 }
-
-
-
             }
-
             return InitializeBoardGraphicString();
         }
     }

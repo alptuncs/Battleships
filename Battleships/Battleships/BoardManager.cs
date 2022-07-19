@@ -25,10 +25,8 @@ namespace Battleships
         private int _width;
         private int _placedShips;
         private Cell[][] board;
-
         public Cell[][] Board => board;
         public int PlacedShips => _placedShips;
-
         public BoardManager(int height, int width)
         {
             this._height = height;
@@ -41,12 +39,10 @@ namespace Battleships
                 board[i] = Enumerable.Repeat(new Cell(false, 0), width).ToArray();
             }
         }
-
         public void PlaceShip(int i, int j, Target ship)
         {
             TryPlaceShip(i, j, ship);
         }
-
         public bool HasShip(int i, int j)
         {
             if (CheckPlacementBounds(i, j))
@@ -55,7 +51,6 @@ namespace Battleships
             }
             throw new InvalidOperationException("Out of bounds");
         }
-
         public bool IsHit(int i, int j)
         {
             if (CheckPlacementBounds(i, j))
@@ -64,7 +59,6 @@ namespace Battleships
             }
             throw new InvalidOperationException("Out of bounds");
         }
-
         public void HitSquare(int i, int j)
         {
             if (CheckPlacementBounds(i, j) && !IsHit(i, j))
@@ -72,8 +66,6 @@ namespace Battleships
                 board[i][j].isHit = true;
             }
         }
-
-
         public void RandomPlaceShip(int count, Target ship)
         {
             if (count > 100) throw new InvalidOperationException("Count can not exceed total cell count, total cell count = 100!");
@@ -86,29 +78,22 @@ namespace Battleships
                 if (TryPlaceShip(random.Next(0, _height), random.Next(0, _width), ship))
                 {
                     shipCounter++;
-
                 }
             }
         }
-
         public bool TryPlaceShip(int x, int y, Target ship)
         {
             if (ship.Size == 1)
             {
                 if (CheckPlacementBounds(x, y, ship))
                 {
-                    if (HasShip(x, y) || !CheckAdjacentSquares(x, y))
-                    {
-                        return false;
-                    }
-
+                    if (HasShip(x, y) || !CheckAdjacentSquares(x, y)) return false;
                     board[x][y].hasShip = true;
                     board[x][y].shipType = ship.Size;
                     _placedShips++;
                     return true;
                 }
             }
-
             else
             {
                 if (CheckPlacementBounds(x, y, ship))
@@ -155,12 +140,10 @@ namespace Battleships
                         }
                     }
                     return false;
-
                 }
             }
             return false;
         }
-
         public bool CheckPlacementBounds(int x, int y, Target ship)
         {
             if (ship.Direction == "north" && x - ship.Size < 0)
@@ -233,9 +216,7 @@ namespace Battleships
                         return false;
                     }
                 }
-
             }
-
             return true;
         }
         public bool CheckAdjacentSquares(int x, int y)
@@ -296,11 +277,7 @@ namespace Battleships
                     return false;
                 }
             }
-
             return true;
         }
-
-
-
     }
 }
