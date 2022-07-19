@@ -19,6 +19,4 @@ namespace Board_Tests
             Assert.AreEqual(expectedXPos, actualTarget.YPos, "Y pozisyonu yanlış");
         }
     }
-
-
 }

@@ -27,7 +27,6 @@ namespace Board_Tests
 
             boardManager.PlaceShip(3, 2, amiralGemisi);
 
-
             Assert.IsTrue(boardManager.HasShip(3, 5), "3,5 olmadı");
             Assert.IsFalse(boardManager.HasShip(5, 5), "5,5 hatalı yerleştirme");
         }
@@ -79,8 +78,6 @@ namespace Board_Tests
             Target kruvazor = new Target(3, "north", "kruvazor");
 
             Assert.ThrowsException<InvalidOperationException>(() => boardManager.RandomPlaceShip(105, kruvazor));
-
-
         }
     }
 }

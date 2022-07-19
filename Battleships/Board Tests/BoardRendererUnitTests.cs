@@ -35,9 +35,7 @@ namespace Board_Tests
 
             testBoardManager.PlaceShip(1, 1, denizalti);
 
-
             testBoardRenderer.Render(testBoardManager);
-
 
             Assert.AreEqual(expectedBoardGraphicString, testBoardRenderer.BoardGraphicString);
 
