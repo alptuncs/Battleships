@@ -28,9 +28,9 @@ namespace Battleships
 
         public void RenderGame()
         {
-            _boardRenderer.Render(_computerBoard);
+            console.WriteLine(_boardRenderer.Render(_computerBoard));
             console.WriteLine("---------------------------");
-            _boardRenderer.Render(_playerBoard);
+            console.WriteLine(_boardRenderer.Render(_playerBoard));
         }
 
 

@@ -38,8 +38,8 @@ namespace Battleships
 
             GameManager gameManager = new GameManager(console, playerBoard, computerBoard, boardRenderer);
 
-            //gameManager.FireMissile(playerBoard, 5, 5);
-            //gameManager.FireMissile(computerBoard, 5, 5);
+            gameManager.FireMissile(playerBoard, 5, 5);
+            gameManager.FireMissile(computerBoard, 5, 5);
             gameManager.RenderGame();
         }
     }

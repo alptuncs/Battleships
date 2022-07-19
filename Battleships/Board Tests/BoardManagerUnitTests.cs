@@ -16,7 +16,7 @@ namespace Board_Tests
 
             boardManager.PlaceShip(3, 2, amiralGemisi);
 
-            Assert.IsTrue(boardManager.HasShip(2, 1), "3,2 olmadı");
+            Assert.IsTrue(boardManager.HasShip(3, 2), "3,2 olmadı");
             Assert.IsFalse(boardManager.HasShip(5, 5), "5,5 hatalı yerleştirme");
         }
         [TestMethod]
@@ -28,12 +28,12 @@ namespace Board_Tests
             boardManager.PlaceShip(3, 2, amiralGemisi);
 
 
-            Assert.IsTrue(boardManager.HasShip(2, 4), "3,5 olmadı");
+            Assert.IsTrue(boardManager.HasShip(3, 5), "3,5 olmadı");
             Assert.IsFalse(boardManager.HasShip(5, 5), "5,5 hatalı yerleştirme");
         }
         [TestMethod]
 
-        public void Tahta_Dısı_Koordinat_Verilince_HasShip_Exception_Atar()
+        public void Tahta_Disinda_Koordinat_Verilince_HasShip_Exception_Atar()
         {
             BoardManager boardManager = new BoardManager(10, 10);
 

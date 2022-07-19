@@ -16,21 +16,21 @@ namespace Board_Tests
             BoardRenderer testBoard = new BoardRenderer(2, 2);
             string expectedBoardGraphicString = "[ ] [ ]\n[ ] [ ]";
 
-            testBoard.Print();
+            testBoard.InitializeBoardGraphicString();
 
             Assert.AreEqual(expectedBoardGraphicString, testBoard.BoardGraphicString);
         }
 
 
         [TestMethod]
-        public void Verilen_Boyutlarda_Oyun_Tahtasını_Render_Fonksiyonu_ile_Ekrana_Cizer()
+        public void Verilen_Boyutlarda_Oyun_Tahtasini_Render_Fonksiyonu_ile_Ekrana_Cizer()
         {
             BoardRenderer testBoardRenderer = new BoardRenderer(2, 2);
             BoardManager testBoardManager = new BoardManager(2, 2);
             Target denizalti = new Target(1, "north", "denizalti");
 
-            string expectedBoardGraphicString = @"[1] [ ]
-[ ] [ ]";
+            string expectedBoardGraphicString = @"[ ] [ ]
+[ ] [1]";
             expectedBoardGraphicString = expectedBoardGraphicString.Substring(0, expectedBoardGraphicString.Length);
 
             testBoardManager.PlaceShip(1, 1, denizalti);

@@ -21,11 +21,10 @@ namespace Battleships
         {
             this._height = height;
             this._width = width;
-            console = new SystemConsole();
             InitializeBoardSurface();
         }
 
-        public void Print()
+        public string InitializeBoardGraphicString()
         {
             _boardGraphicString = "";
 
@@ -37,7 +36,7 @@ namespace Battleships
                 }
                 _boardGraphicString += i < BoardSurface.Length - 1 ? "\n" : "";
             }
-            console.WriteLine(_boardGraphicString);
+            return _boardGraphicString;
         }
 
 
@@ -53,7 +52,7 @@ namespace Battleships
 
         }
 
-        public void Render(BoardManager boardManager)
+        public string Render(BoardManager boardManager)
         {
             for (int i = 0; i < _height; i++)
             {
@@ -73,8 +72,7 @@ namespace Battleships
 
             }
 
-            Print();
-            InitializeBoardSurface();
+            return InitializeBoardGraphicString();
         }
     }
 }
