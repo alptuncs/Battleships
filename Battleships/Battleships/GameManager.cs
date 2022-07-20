@@ -13,10 +13,11 @@ namespace Battleships
         private BoardManager _playerBoard;
         private BoardManager _computerBoard;
         private BoardRenderer _boardRenderer;
+        private Coordinate _coordinates;
         List<Target> _targets = new List<Target>();
         private int playerLives = 30;
         private int score = 0;
-        private int shipValue = 0;
+        private int shipValue = 500;
         private int consecutiveHits = 0;
         private string message = "";
         bool gameStatus = true;
@@ -27,14 +28,17 @@ namespace Battleships
             _computerBoard = computerBoard;
             _boardRenderer = boardRenderer;
             _targets = targets;
-
+            InitializeComputerBoard();
+        }
+        public void InitializeComputerBoard()
+        {
             foreach (Target target in _targets)
             {
-                computerBoard.RandomPlaceShip(5 - target.Size, target);
+                _computerBoard.RandomPlaceShip(5 - target.Size, target);
                 shipValue += target.Size * target.Size * (5 - target.Size);
             }
         }
-        public void play()
+        public void Play()
         {
 
             do
@@ -44,26 +48,26 @@ namespace Battleships
             } while (gameStatus);
             RenderGame();
         }
-        private void FireMissile(BoardManager board, int i, int j)
+        private void FireMissile(BoardManager board, Coordinate coordinates)
         {
-            if (board.IsHit(i, j))
+            if (board.IsHit(coordinates))
             {
                 message = "That coordinate has already been hit";
                 playerLives--;
                 consecutiveHits = 0;
             }
-            else if (!board.HasShip(i, j))
+            else if (!board.HasShip(coordinates))
             {
-                board.HitSquare(i, j);
+                board.HitSquare(coordinates);
                 message = "You missed...";
                 playerLives--;
                 consecutiveHits = 0;
 
             }
-            else if (board.HasShip(i, j))
+            else if (board.HasShip(coordinates))
             {
-                board.HitSquare(i, j);
-                shipValue -= board.Board[i][j].shipType;
+                board.HitSquare(coordinates);
+                shipValue -= board.Board[coordinates.XPos][coordinates.YPos].shipType;
                 consecutiveHits++;
                 score += 100 * consecutiveHits;
                 message = "Successful hit !";
@@ -100,8 +104,8 @@ namespace Battleships
             }
             else
             {
-
-                FireMissile(_computerBoard, int.Parse(playerInput[0]) - 1, int.Parse(playerInput[1]) - 1);
+                _coordinates = new Coordinate(int.Parse(playerInput[0]) - 1, int.Parse(playerInput[1]) - 1);
+                FireMissile(_computerBoard, _coordinates);
                 if (playerLives == 0)
                 {
                     message = "Out of lives...";

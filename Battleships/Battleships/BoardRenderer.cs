@@ -49,15 +49,15 @@ namespace Battleships
             {
                 for (int j = 0; j < _width; j++)
                 {
-                    if (boardManager.HasShip(i, j) && !hide)
+                    if (boardManager.HasShip(new Coordinate(i, j)) && !hide)
                     {
                         BoardSurface[i][j] = $"[{boardManager.Board[i][j].shipType}]";
                     }
-                    if (boardManager.IsHit(i, j) && boardManager.HasShip(i, j))
+                    if (boardManager.IsHit(new Coordinate(i, j)) && boardManager.HasShip(new Coordinate(i, j)))
                     {
                         BoardSurface[i][j] = "[*]";
                     }
-                    else if (boardManager.IsHit(i, j) && !boardManager.HasShip(i, j))
+                    else if (boardManager.IsHit(new Coordinate(i, j)) && !boardManager.HasShip(new Coordinate(i, j)))
                     {
                         BoardSurface[i][j] = "[X]";
                     }
