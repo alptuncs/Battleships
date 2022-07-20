@@ -13,31 +13,22 @@ namespace Battleships
         private BoardManager _playerBoard;
         private BoardManager _computerBoard;
         private BoardRenderer _boardRenderer;
-        List<Target> targets = new List<Target>();
+        List<Target> _targets = new List<Target>();
         private int playerLives = 30;
         private int score = 0;
         private int shipValue = 0;
         private int consecutiveHits = 0;
         private string message = "";
         bool gameStatus = true;
-        public GameManager(IConsole console, BoardManager playerBoard, BoardManager computerBoard, BoardRenderer boardRenderer)
+        public GameManager(IConsole console, BoardManager playerBoard, BoardManager computerBoard, BoardRenderer boardRenderer, List<Target> targets)
         {
             this.console = console;
             _playerBoard = playerBoard;
             _computerBoard = computerBoard;
             _boardRenderer = boardRenderer;
+            _targets = targets;
 
-            Target amiralGemisi = new Target(4, "east", "amiralGemisi");
-            Target kruvazor = new Target(3, "north", "kruvazor");
-            Target mayinGemisi = new Target(2, "east", "mayinGemisi");
-            Target denizalti = new Target(1, "north", "denizalti");
-
-            targets.Add(amiralGemisi);
-            targets.Add(kruvazor);
-            targets.Add(mayinGemisi);
-            targets.Add(denizalti);
-
-            foreach (Target target in targets)
+            foreach (Target target in _targets)
             {
                 computerBoard.RandomPlaceShip(5 - target.Size, target);
                 shipValue += target.Size * target.Size * (5 - target.Size);
@@ -97,6 +88,7 @@ namespace Battleships
             string[] playerInput = new string[2];
             string stringPlayerInput = "";
             stringPlayerInput = Console.ReadLine();
+            playerInput = stringPlayerInput.Split(',');
 
             if (!rx.IsMatch(stringPlayerInput))
             {
@@ -108,7 +100,7 @@ namespace Battleships
             }
             else
             {
-                playerInput = stringPlayerInput.Split(',');
+
                 FireMissile(_computerBoard, int.Parse(playerInput[0]) - 1, int.Parse(playerInput[1]) - 1);
                 if (playerLives == 0)
                 {

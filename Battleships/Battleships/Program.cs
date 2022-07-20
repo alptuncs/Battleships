@@ -15,8 +15,20 @@ namespace Battleships
             BoardRenderer boardRenderer = new BoardRenderer(10, 10);
             BoardManager playerBoard = new BoardManager(10, 10);
             BoardManager computerBoard = new BoardManager(10, 10);
+            List<Target> targets = new List<Target>();
+            Target amiralGemisi = new Target(4, "east", "amiralGemisi");
+            Target kruvazor = new Target(3, "north", "kruvazor");
+            Target mayinGemisi = new Target(2, "east", "mayinGemisi");
+            Target denizalti = new Target(1, "north", "denizalti");
 
-            GameManager gameManager = new GameManager(console, playerBoard, computerBoard, boardRenderer);
+            targets.Add(amiralGemisi);
+            targets.Add(kruvazor);
+            targets.Add(mayinGemisi);
+            targets.Add(denizalti);
+
+
+
+            GameManager gameManager = new GameManager(console, playerBoard, computerBoard, boardRenderer, targets);
 
             gameManager.play();
         }
