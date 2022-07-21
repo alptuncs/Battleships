@@ -17,7 +17,7 @@ namespace Battleships
         List<Target> _targets = new List<Target>();
         private int playerLives = 30;
         private int score = 0;
-        private int shipValue = 500;
+        private int shipValue = 0;
         private int consecutiveHits = 0;
         private string message = "";
         bool gameStatus = true;
@@ -28,9 +28,8 @@ namespace Battleships
             _computerBoard = computerBoard;
             _boardRenderer = boardRenderer;
             _targets = targets;
-            InitializeComputerBoard();
         }
-        public void InitializeComputerBoard()
+        public void Initialize()
         {
             foreach (Target target in _targets)
             {
