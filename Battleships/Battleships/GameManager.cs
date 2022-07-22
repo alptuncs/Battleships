@@ -20,7 +20,8 @@ namespace Battleships
         private int shipValue = 0;
         private int consecutiveHits = 0;
         private string message = "";
-        bool gameStatus = true;
+        public string Message => message;
+        private bool gameStatus = true;
         public GameManager(IConsole console, BoardManager playerBoard, BoardManager computerBoard, BoardRenderer boardRenderer, List<Target> targets)
         {
             this.console = console;
@@ -80,7 +81,8 @@ namespace Battleships
             console.WriteLine($"{message} \n");
             if (gameStatus)
             {
-                console.WriteLine("Please enter the coordinates");
+                message = "Please enter the coordinates";
+                console.WriteLine(message);
             }
         }
         private void UpdateGame()
@@ -90,7 +92,7 @@ namespace Battleships
             Regex rx = new Regex(@"^\d{1,2},\d{1,2}");
             string[] playerInput = new string[2];
             string stringPlayerInput = "";
-            stringPlayerInput = Console.ReadLine();
+            stringPlayerInput = console.ReadLine();
             playerInput = stringPlayerInput.Split(',');
 
             if (!rx.IsMatch(stringPlayerInput))

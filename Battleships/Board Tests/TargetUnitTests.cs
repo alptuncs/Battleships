@@ -8,15 +8,13 @@ namespace Board_Tests
     public class TargetUnitTests
     {
         [TestMethod]
-        public void Dogru_bir_sekilde_Target_olusturur()
+        public void Dogru_Target_Olusturur()
         {
-            int expectedXPos = 0;
-            int expectedYPos = 0;
+            var actualTarget = new Target(1, "north", "denizalti");
 
-            Target actualTarget = new Target(1, "north","denizalti");
-
-            Assert.AreEqual(expectedYPos, actualTarget.XPos, "X pozisyonu yanlış");
-            Assert.AreEqual(expectedXPos, actualTarget.YPos, "Y pozisyonu yanlış");
+            Assert.AreEqual(actualTarget.Direction, "north", "Direction yanlış");
+            Assert.AreEqual(actualTarget.Size, 1, "Size Yanlış");
+            Assert.AreEqual(actualTarget.Name, "denizalti", "TypeYanlış");
         }
     }
 }

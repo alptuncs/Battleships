@@ -8,14 +8,14 @@ namespace Battleships
 {
     public class Coordinate
     {
-        private int _Xpos;
-        private int _Ypos;
-        public int XPos => _Xpos;
-        public int YPos => _Ypos;
+        private int x;
+        private int y;
+        public int XPos => x;
+        public int YPos => y;
         public Coordinate(int i, int j)
         {
-            _Xpos = i;
-            _Ypos = j;
+            x = i;
+            y = j;
         }
     }
 }
