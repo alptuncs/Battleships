@@ -21,6 +21,7 @@ namespace Battleships
         private int consecutiveHits = 0;
         private string message = "";
         bool gameStatus = true;
+
         public GameManager(IConsole console, BoardManager playerBoard, BoardManager computerBoard, BoardRenderer boardRenderer, List<Target> targets)
         {
             this.console = console;
@@ -33,18 +34,18 @@ namespace Battleships
         {
             foreach (Target target in _targets)
             {
-                _computerBoard.RandomPlaceShip(5 - target.Size, target);
+                _computerBoard.PlaceShip(5 - target.Size, target);
                 shipValue += target.Size * target.Size * (5 - target.Size);
             }
         }
         public void Play()
         {
-
             do
             {
                 RenderGame();
                 UpdateGame();
             } while (gameStatus);
+
             RenderGame();
         }
         private void FireMissile(BoardManager board, Coordinate coordinates)
@@ -76,7 +77,7 @@ namespace Battleships
         {
             console.Clear();
             console.WriteLine($"Lives: {playerLives}    Score: {score} \n");
-            console.WriteLine(_boardRenderer.Render(_computerBoard, true));
+            console.WriteLine(_boardRenderer.Render(_computerBoard, false));
             console.WriteLine($"{message} \n");
             if (gameStatus)
             {
@@ -97,7 +98,7 @@ namespace Battleships
             {
                 message = "Wrong input";
             }
-            else if (int.Parse(playerInput[0]) < 0 || int.Parse(playerInput[0]) > 10 || int.Parse(playerInput[1]) < 0 || int.Parse(playerInput[1]) > 10)
+            else if (int.Parse(playerInput[0]) <= 0 || int.Parse(playerInput[0]) > 10 || int.Parse(playerInput[1]) <= 0 || int.Parse(playerInput[1]) > 10)
             {
                 message = "Wrong input";
             }
@@ -115,7 +116,6 @@ namespace Battleships
                     message = "You won !";
                     gameStatus = false;
                 }
-
             }
         }
     }

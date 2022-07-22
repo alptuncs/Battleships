@@ -13,10 +13,11 @@ namespace Board_Tests
             int expectedXPos = 0;
             int expectedYPos = 0;
 
-            Target actualTarget = new Target(1, "north","denizalti");
+            Target actualTarget = new Target(1, Direction.North,"denizalti");
 
-            Assert.AreEqual(expectedYPos, actualTarget.XPos, "X pozisyonu yanlış");
-            Assert.AreEqual(expectedXPos, actualTarget.YPos, "Y pozisyonu yanlış");
+            Assert.AreEqual(expectedYPos, actualTarget.Origin.XPos, "X pozisyonu yanlış");
+            Assert.AreEqual(expectedXPos, actualTarget.Origin.YPos, "Y pozisyonu yanlış");
         }
     }
 }
+

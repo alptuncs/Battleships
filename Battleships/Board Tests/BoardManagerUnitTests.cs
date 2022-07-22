@@ -12,23 +12,23 @@ namespace Board_Tests
         public void PlaceShip_Gemiyi_Dogru_Koordinatta_Yerlestirmeye_Baslar()
         {
             BoardManager boardManager = new BoardManager(10, 10);
-            Target amiralGemisi = new Target(4, "east", "amiralGemisi");
+            Target amiralGemisi = new Target(4, Direction.East, "amiralGemisi");
 
-            boardManager.PlaceShip(3, 2, amiralGemisi);
+            boardManager.PlaceShip(new Coordinate(3, 2), amiralGemisi);
 
-            Assert.IsTrue(boardManager.HasShip(3, 2), "3,2 olmadı");
-            Assert.IsFalse(boardManager.HasShip(5, 5), "5,5 hatalı yerleştirme");
+            Assert.IsTrue(boardManager.HasShip(new Coordinate(3, 2)), "3,2 olmadı");
+            Assert.IsFalse(boardManager.HasShip(new Coordinate(5, 5)), "5,5 hatalı yerleştirme");
         }
         [TestMethod]
         public void PlaceShip_Gemiyi_Dogru_Koordinatta_Yerlestirmeyi_Bitirir()
         {
             BoardManager boardManager = new BoardManager(10, 10);
-            Target amiralGemisi = new Target(4, "east", "amiralGemisi");
+            Target amiralGemisi = new Target(4, Direction.East, "amiralGemisi");
 
-            boardManager.PlaceShip(3, 2, amiralGemisi);
+            boardManager.PlaceShip(new Coordinate(3, 2), amiralGemisi);
 
-            Assert.IsTrue(boardManager.HasShip(3, 5), "3,5 olmadı");
-            Assert.IsFalse(boardManager.HasShip(5, 5), "5,5 hatalı yerleştirme");
+            Assert.IsTrue(boardManager.HasShip(new Coordinate(3, 5)), "3,5 olmadı");
+            Assert.IsFalse(boardManager.HasShip(new Coordinate(5, 5)), "5,5 hatalı yerleştirme");
         }
         [TestMethod]
 
@@ -36,7 +36,7 @@ namespace Board_Tests
         {
             BoardManager boardManager = new BoardManager(10, 10);
 
-            Assert.ThrowsException<InvalidOperationException>(() => boardManager.HasShip(105, 5));
+            Assert.ThrowsException<InvalidOperationException>(() => boardManager.HasShip(new Coordinate(105, 5)));
         }
         [TestMethod]
 
@@ -44,17 +44,17 @@ namespace Board_Tests
         {
             BoardManager boardManager = new BoardManager(10, 10);
 
-            Assert.ThrowsException<InvalidOperationException>(() => boardManager.IsHit(105, 5));
+            Assert.ThrowsException<InvalidOperationException>(() => boardManager.IsHit(new Coordinate(105, 5)));
         }
 
         [TestMethod]
         public void Belirli_Sayıda_Gemiyi_Rastgele_Yerleştirir()
         {
             BoardManager boardManager = new BoardManager(10, 10);
-            Target amiralGemisi = new Target(4, "east", "amiralGemisi");
-            Target kruvazor = new Target(3, "north", "kruvazor");
-            Target mayinGemisi = new Target(2, "east", "mayinGemisi");
-            Target denizalti = new Target(1, "north", "denizalti");
+            Target amiralGemisi = new Target(4, Direction.East, "amiralGemisi");
+            Target kruvazor = new Target(3, Direction.North, "kruvazor");
+            Target mayinGemisi = new Target(2, Direction.East, "mayinGemisi");
+            Target denizalti = new Target(1, Direction.North, "denizalti");
 
             List<Target> targets = new List<Target>();
             targets.Add(amiralGemisi);
@@ -64,7 +64,7 @@ namespace Board_Tests
 
             foreach (Target target in targets)
             {
-                boardManager.RandomPlaceShip(5 - target.Size, target);
+                boardManager.PlaceShip(5 - target.Size, target);
             }
 
             Assert.AreEqual(boardManager.PlacedShips, 10);
@@ -75,9 +75,9 @@ namespace Board_Tests
         public void Kapasiteden_fazla_gemi_eklenince_exception_atar()
         {
             BoardManager boardManager = new BoardManager(10, 10);
-            Target kruvazor = new Target(3, "north", "kruvazor");
+            Target kruvazor = new Target(3, Direction.North, "kruvazor");
 
-            Assert.ThrowsException<InvalidOperationException>(() => boardManager.RandomPlaceShip(105, kruvazor));
+            Assert.ThrowsException<InvalidOperationException>(() => boardManager.PlaceShip(105, kruvazor));
         }
     }
 }

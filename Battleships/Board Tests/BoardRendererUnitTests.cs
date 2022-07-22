@@ -1,14 +1,12 @@
 ﻿using Battleships;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Linq;
 
 namespace Board_Tests
 {
     [TestClass]
     public class BoardRendererUnitTests
     {
-       
+
 
         [TestMethod]
         public void Verilen_Boyutlarda_Oyun_Tahtası_Ekrana_Cizer()
@@ -27,15 +25,14 @@ namespace Board_Tests
         {
             BoardRenderer testBoardRenderer = new BoardRenderer(2, 2);
             BoardManager testBoardManager = new BoardManager(2, 2);
-            Target denizalti = new Target(1, "north", "denizalti");
+            Target denizalti = new Target(1, Direction.North, "denizalti");
 
-            string expectedBoardGraphicString = @"[ ] [ ]
-[ ] [1]";
+            string expectedBoardGraphicString = "[ ] [ ]\n[ ] [1]";
             expectedBoardGraphicString = expectedBoardGraphicString.Substring(0, expectedBoardGraphicString.Length);
 
-            testBoardManager.PlaceShip(1, 1, denizalti);
+            testBoardManager.PlaceShip(new Coordinate(1, 1), denizalti);
 
-            testBoardRenderer.Render(testBoardManager,false);
+            testBoardRenderer.Render(testBoardManager, false);
 
             Assert.AreEqual(expectedBoardGraphicString, testBoardRenderer.BoardGraphicString);
 
