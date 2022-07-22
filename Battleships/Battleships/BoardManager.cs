@@ -47,7 +47,7 @@ namespace Battleships
         {
             if (CheckPlacementBounds(coordinates))
             {
-                return board[coordinates.XPos][coordinates.YPos].hasShip;
+                return board[coordinates.][coordinates.YPos].hasShip;
             }
             throw new InvalidOperationException("Out of bounds");
         }

@@ -10,12 +10,12 @@ namespace Battleships
     {
         private int x;
         private int y;
-        public int XPos => x;
-        public int YPos => y;
-        public Coordinate(int i, int j)
+        public int XPos { get { return x; } }
+        public int YPos { get { return y; } }
+        public Coordinate(int x, int y)
         {
-            x = i;
-            y = j;
+            this.x = x;
+            this.y = y;
         }
     }
 }
