@@ -97,7 +97,7 @@ namespace Battleships
             {
                 message = "Wrong input";
             }
-            else if (int.Parse(playerInput[0]) < 0 || int.Parse(playerInput[0]) > 10 || int.Parse(playerInput[1]) < 0 || int.Parse(playerInput[1]) > 10)
+            else if (int.Parse(playerInput[0]) <= 0 || int.Parse(playerInput[0]) > 10 || int.Parse(playerInput[1]) <= 0 || int.Parse(playerInput[1]) > 10)
             {
                 message = "Wrong input";
             }
