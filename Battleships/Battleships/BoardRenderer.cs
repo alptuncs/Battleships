@@ -43,20 +43,25 @@ namespace Battleships
                 BoardSurface[i] = Enumerable.Repeat("[ ]", _width).ToArray();
             }
         }
-        public string Render(BoardManager boardManager)
+        public string Render(BoardManager boardManager, bool hide)
         {
             for (int i = 0; i < _height; i++)
             {
                 for (int j = 0; j < _width; j++)
                 {
-                    if (boardManager.HasShip(i, j))
+                    if (boardManager.HasShip(new Coordinate(i, j)) && !hide)
                     {
                         BoardSurface[i][j] = $"[{boardManager.Board[i][j].shipType}]";
                     }
-                    if (boardManager.IsHit(i, j))
+                    if (boardManager.IsHit(new Coordinate(i, j)) && boardManager.HasShip(new Coordinate(i, j)))
                     {
                         BoardSurface[i][j] = "[*]";
                     }
+                    else if (boardManager.IsHit(new Coordinate(i, j)) && !boardManager.HasShip(new Coordinate(i, j)))
+                    {
+                        BoardSurface[i][j] = "[X]";
+                    }
+
                 }
             }
             return InitializeBoardGraphicString();

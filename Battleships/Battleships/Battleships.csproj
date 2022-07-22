@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="BoardRenderer.cs" />
     <Compile Include="BoardManager.cs" />
+    <Compile Include="Coordinate.cs" />
     <Compile Include="SystemConsole.cs" />
     <Compile Include="GameManager.cs" />
     <Compile Include="IConsole.cs" />
