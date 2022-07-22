@@ -8,14 +8,12 @@ namespace Battleships
 {
     public class Coordinate
     {
-        private int x;
-        private int y;
-        public int XPos { get { return x; } }
-        public int YPos { get { return y; } }
+        public int xPos { get; private set; }
+        public int yPos { get; private set; }
         public Coordinate(int x, int y)
         {
-            this.x = x;
-            this.y = y;
+            xPos = x;
+            yPos = y;
         }
     }
 }

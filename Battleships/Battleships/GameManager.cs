@@ -67,7 +67,7 @@ namespace Battleships
             else if (board.HasShip(coordinates))
             {
                 board.HitSquare(coordinates);
-                shipValue -= board.Board[coordinates.XPos][coordinates.YPos].shipType;
+                shipValue -= board.Board[coordinates.xPos][coordinates.yPos].shipType;
                 consecutiveHits++;
                 score += 100 * consecutiveHits;
                 message = "Successful hit !";

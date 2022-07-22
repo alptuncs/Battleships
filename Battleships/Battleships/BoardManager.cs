@@ -47,7 +47,7 @@ namespace Battleships
         {
             if (CheckPlacementBounds(coordinates))
             {
-                return board[coordinates.][coordinates.YPos].hasShip;
+                return board[coordinates.xPos][coordinates.yPos].hasShip;
             }
             throw new InvalidOperationException("Out of bounds");
         }
@@ -55,7 +55,7 @@ namespace Battleships
         {
             if (CheckPlacementBounds(coordinates))
             {
-                return board[coordinates.XPos][coordinates.YPos].isHit;
+                return board[coordinates.xPos][coordinates.yPos].isHit;
             }
             throw new InvalidOperationException("Out of bounds");
         }
@@ -63,7 +63,7 @@ namespace Battleships
         {
             if (CheckPlacementBounds(coordinates) && !IsHit(coordinates))
             {
-                board[coordinates.XPos][coordinates.YPos].isHit = true;
+                board[coordinates.xPos][coordinates.yPos].isHit = true;
             }
         }
         public void RandomPlaceShip(int count, Target ship)
@@ -88,8 +88,8 @@ namespace Battleships
                 if (CheckPlacementBounds(coordinates, ship))
                 {
                     if (HasShip(coordinates) || !CheckAdjacentSquares(coordinates)) return false;
-                    board[coordinates.XPos][coordinates.YPos].hasShip = true;
-                    board[coordinates.XPos][coordinates.YPos].shipType = ship.Size;
+                    board[coordinates.xPos][coordinates.yPos].hasShip = true;
+                    board[coordinates.xPos][coordinates.yPos].shipType = ship.Size;
                     _placedShips++;
                     return true;
                 }
@@ -105,8 +105,8 @@ namespace Battleships
                             case "north":
                                 for (int i = 0; i < ship.Size; i++)
                                 {
-                                    board[coordinates.XPos - i][coordinates.YPos].hasShip = true;
-                                    board[coordinates.XPos - i][coordinates.YPos].shipType = ship.Size;
+                                    board[coordinates.xPos - i][coordinates.yPos].hasShip = true;
+                                    board[coordinates.xPos - i][coordinates.yPos].shipType = ship.Size;
 
                                 }
                                 _placedShips++;
@@ -114,24 +114,24 @@ namespace Battleships
                             case "south":
                                 for (int i = 0; i < ship.Size; i++)
                                 {
-                                    board[coordinates.XPos + i][coordinates.YPos].hasShip = true;
-                                    board[coordinates.XPos + i][coordinates.YPos].shipType = ship.Size;
+                                    board[coordinates.xPos + i][coordinates.yPos].hasShip = true;
+                                    board[coordinates.xPos + i][coordinates.yPos].shipType = ship.Size;
                                 }
                                 _placedShips++;
                                 return true;
                             case "east":
                                 for (int i = 0; i < ship.Size; i++)
                                 {
-                                    board[coordinates.XPos][coordinates.YPos + i].hasShip = true;
-                                    board[coordinates.XPos][coordinates.YPos + i].shipType = ship.Size;
+                                    board[coordinates.xPos][coordinates.yPos + i].hasShip = true;
+                                    board[coordinates.xPos][coordinates.yPos + i].shipType = ship.Size;
                                 }
                                 _placedShips++;
                                 return true;
                             case "west":
                                 for (int i = 0; i < ship.Size; i++)
                                 {
-                                    board[coordinates.XPos][coordinates.YPos - i].hasShip = true;
-                                    board[coordinates.XPos][coordinates.YPos - i].shipType = ship.Size;
+                                    board[coordinates.xPos][coordinates.yPos - i].hasShip = true;
+                                    board[coordinates.xPos][coordinates.yPos - i].shipType = ship.Size;
                                 }
                                 _placedShips++;
                                 return true;
@@ -146,19 +146,19 @@ namespace Battleships
         }
         public bool CheckPlacementBounds(Coordinate coordinates, Target ship)
         {
-            if (ship.Direction == "north" && coordinates.XPos - ship.Size < 0)
+            if (ship.Direction == "north" && coordinates.xPos - ship.Size < 0)
             {
                 return false;
             }
-            else if (ship.Direction == "south" && coordinates.XPos + ship.Size >= _height)
+            else if (ship.Direction == "south" && coordinates.xPos + ship.Size >= _height)
             {
                 return false;
             }
-            else if (ship.Direction == "east" && coordinates.YPos + ship.Size >= _height)
+            else if (ship.Direction == "east" && coordinates.yPos + ship.Size >= _height)
             {
                 return false;
             }
-            else if (ship.Direction == "west" && coordinates.YPos - ship.Size < 0)
+            else if (ship.Direction == "west" && coordinates.yPos - ship.Size < 0)
             {
                 return false;
             }
@@ -166,19 +166,19 @@ namespace Battleships
         }
         public bool CheckPlacementBounds(Coordinate coordinates)
         {
-            if (coordinates.XPos < 0)
+            if (coordinates.xPos < 0)
             {
                 return false;
             }
-            else if (coordinates.XPos >= _height)
+            else if (coordinates.xPos >= _height)
             {
                 return false;
             }
-            else if (coordinates.YPos >= _height)
+            else if (coordinates.yPos >= _height)
             {
                 return false;
             }
-            else if (coordinates.YPos < 0)
+            else if (coordinates.yPos < 0)
             {
                 return false;
             }
@@ -190,28 +190,28 @@ namespace Battleships
             {
                 if (ship.Direction == "north")
                 {
-                    if (HasShip(new Coordinate(coordinates.XPos - i, coordinates.YPos)) || !CheckAdjacentSquares(new Coordinate(coordinates.XPos - i, coordinates.YPos)))
+                    if (HasShip(new Coordinate(coordinates.xPos - i, coordinates.yPos)) || !CheckAdjacentSquares(new Coordinate(coordinates.xPos - i, coordinates.yPos)))
                     {
                         return false;
                     }
                 }
                 else if (ship.Direction == "south")
                 {
-                    if (HasShip(new Coordinate(coordinates.XPos + i, coordinates.YPos)) || !CheckAdjacentSquares(new Coordinate(coordinates.XPos + i, coordinates.YPos)))
+                    if (HasShip(new Coordinate(coordinates.xPos + i, coordinates.yPos)) || !CheckAdjacentSquares(new Coordinate(coordinates.xPos + i, coordinates.yPos)))
                     {
                         return false;
                     }
                 }
                 else if (ship.Direction == "east")
                 {
-                    if (HasShip(new Coordinate(coordinates.XPos, coordinates.YPos + i)) || !CheckAdjacentSquares(new Coordinate(coordinates.XPos, coordinates.YPos + i)))
+                    if (HasShip(new Coordinate(coordinates.xPos, coordinates.yPos + i)) || !CheckAdjacentSquares(new Coordinate(coordinates.xPos, coordinates.yPos + i)))
                     {
                         return false;
                     }
                 }
                 else if (ship.Direction == "west")
                 {
-                    if (HasShip(new Coordinate(coordinates.XPos, coordinates.YPos - i)) || !CheckAdjacentSquares(new Coordinate(coordinates.XPos, coordinates.YPos - i)))
+                    if (HasShip(new Coordinate(coordinates.xPos, coordinates.yPos - i)) || !CheckAdjacentSquares(new Coordinate(coordinates.xPos, coordinates.yPos - i)))
                     {
                         return false;
                     }
@@ -221,58 +221,58 @@ namespace Battleships
         }
         public bool CheckAdjacentSquares(Coordinate coordinates)
         {
-            if (coordinates.XPos + 1 < _height)
+            if (coordinates.xPos + 1 < _height)
             {
-                if (HasShip(new Coordinate(coordinates.XPos + 1, coordinates.YPos)))
+                if (HasShip(new Coordinate(coordinates.xPos + 1, coordinates.yPos)))
                 {
                     return false;
                 }
             }
-            if (coordinates.XPos - 1 >= 0)
+            if (coordinates.xPos - 1 >= 0)
             {
-                if (HasShip(new Coordinate(coordinates.XPos - 1, coordinates.YPos)))
+                if (HasShip(new Coordinate(coordinates.xPos - 1, coordinates.yPos)))
                 {
                     return false;
                 }
             }
-            if (coordinates.YPos + 1 < _width)
+            if (coordinates.yPos + 1 < _width)
             {
-                if (HasShip(new Coordinate(coordinates.XPos, coordinates.YPos + 1)))
+                if (HasShip(new Coordinate(coordinates.xPos, coordinates.yPos + 1)))
                 {
                     return false;
                 }
             }
-            if (coordinates.YPos - 1 >= 0)
+            if (coordinates.yPos - 1 >= 0)
             {
-                if (HasShip(new Coordinate(coordinates.XPos, coordinates.YPos - 1)))
+                if (HasShip(new Coordinate(coordinates.xPos, coordinates.yPos - 1)))
                 {
                     return false;
                 }
             }
-            if (coordinates.YPos + 1 < _width && coordinates.XPos + 1 < _height)
+            if (coordinates.yPos + 1 < _width && coordinates.xPos + 1 < _height)
             {
-                if (HasShip(new Coordinate(coordinates.XPos + 1, coordinates.YPos + 1)))
+                if (HasShip(new Coordinate(coordinates.xPos + 1, coordinates.yPos + 1)))
                 {
                     return false;
                 }
             }
-            if (coordinates.YPos + 1 < _width && coordinates.XPos - 1 >= 0)
+            if (coordinates.yPos + 1 < _width && coordinates.xPos - 1 >= 0)
             {
-                if (HasShip(new Coordinate(coordinates.XPos - 1, coordinates.YPos + 1)))
+                if (HasShip(new Coordinate(coordinates.xPos - 1, coordinates.yPos + 1)))
                 {
                     return false;
                 }
             }
-            if (coordinates.YPos - 1 >= 0 && coordinates.XPos + 1 < _height)
+            if (coordinates.yPos - 1 >= 0 && coordinates.xPos + 1 < _height)
             {
-                if (HasShip(new Coordinate(coordinates.XPos + 1, coordinates.YPos - 1)))
+                if (HasShip(new Coordinate(coordinates.xPos + 1, coordinates.yPos - 1)))
                 {
                     return false;
                 }
             }
-            if (coordinates.YPos - 1 >= 0 && coordinates.XPos - 1 >= 0)
+            if (coordinates.yPos - 1 >= 0 && coordinates.xPos - 1 >= 0)
             {
-                if (HasShip(new Coordinate(coordinates.XPos - 1, coordinates.YPos - 1)))
+                if (HasShip(new Coordinate(coordinates.xPos - 1, coordinates.yPos - 1)))
                 {
                     return false;
                 }
