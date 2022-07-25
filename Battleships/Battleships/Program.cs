@@ -12,9 +12,9 @@ namespace Battleships
         static void Main(string[] args)
         {
             IConsole console = new SystemConsole();
-            BoardRenderer boardRenderer = new BoardRenderer(10, 10);
-            BoardManager playerBoard = new BoardManager(10, 10);
-            BoardManager computerBoard = new BoardManager(10, 10);
+            var boardRenderer = new BoardRenderer(10, 10);
+            var playerBoard = new BoardManager(10, 10);
+            var computerBoard = new BoardManager(10, 10);
             List<Target> targets = new List<Target>();
             Target amiralGemisi = new Target(4, Direction.East, "amiralGemisi");
             Target kruvazor = new Target(3, Direction.North, "kruvazor");

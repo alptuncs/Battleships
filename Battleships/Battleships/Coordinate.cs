@@ -15,14 +15,12 @@ namespace Battleships
     }
     public class Coordinate
     {
-        private int _Xpos;
-        private int _Ypos;
-        public int XPos => _Xpos;
-        public int YPos => _Ypos;
-        public Coordinate(int i, int j)
+        public int xPos { get; private set; }
+        public int yPos { get; private set; }
+        public Coordinate(int x, int y)
         {
-            _Xpos = i;
-            _Ypos = j;
+            xPos = x;
+            yPos = y;
         }
 
         public static Coordinate GetNeighbour(Coordinate coordinate, Direction direction)

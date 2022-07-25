@@ -41,7 +41,7 @@ namespace Battleships
         {
             if (CheckPlacementBounds(coordinates))
             {
-                return board[coordinates.XPos][coordinates.YPos].hasShip;
+                return board[coordinates.xPos][coordinates.yPos].hasShip;
             }
 
             throw new InvalidOperationException("Out of bounds");
@@ -50,7 +50,7 @@ namespace Battleships
         {
             if (CheckPlacementBounds(coordinates))
             {
-                return board[coordinates.XPos][coordinates.YPos].isHit;
+                return board[coordinates.xPos][coordinates.yPos].isHit;
             }
             throw new InvalidOperationException("Out of bounds");
         }
@@ -58,7 +58,7 @@ namespace Battleships
         {
             if (CheckPlacementBounds(coordinates) && !IsHit(coordinates))
             {
-                board[coordinates.XPos][coordinates.YPos].isHit = true;
+                board[coordinates.xPos][coordinates.yPos].isHit = true;
             }
         }
 
@@ -157,19 +157,19 @@ namespace Battleships
 
         private bool CheckPlacementBounds(Coordinate coordinates)
         {
-            if (coordinates.XPos < 0)
+            if (coordinates.xPos < 0)
             {
                 return false;
             }
-            else if (coordinates.XPos >= _height)
+            else if (coordinates.xPos >= _height)
             {
                 return false;
             }
-            else if (coordinates.YPos >= _height)
+            else if (coordinates.yPos >= _height)
             {
                 return false;
             }
-            else if (coordinates.YPos < 0)
+            else if (coordinates.yPos < 0)
             {
                 return false;
             }

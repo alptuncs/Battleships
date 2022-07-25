@@ -34,7 +34,7 @@ namespace Board_Tests
 
         public void Tahta_Disinda_Koordinat_Verilince_HasShip_Exception_Atar()
         {
-            BoardManager boardManager = new BoardManager(10, 10);
+            var boardManager = new BoardManager(10, 10);
 
             Assert.ThrowsException<InvalidOperationException>(() => boardManager.HasShip(new Coordinate(105, 5)));
         }
@@ -42,7 +42,7 @@ namespace Board_Tests
 
         public void Tahta_Disinda_Koordinat_Verilince_IsHit_Exception_Atar()
         {
-            BoardManager boardManager = new BoardManager(10, 10);
+            var boardManager = new BoardManager(10, 10);
 
             Assert.ThrowsException<InvalidOperationException>(() => boardManager.IsHit(new Coordinate(105, 5)));
         }
@@ -72,12 +72,23 @@ namespace Board_Tests
 
         [TestMethod]
 
-        public void Kapasiteden_fazla_gemi_eklenince_exception_atar()
+        public void Kapasiteden_Fazla_Gemi_Eklenince_Exception_Atar()
         {
             BoardManager boardManager = new BoardManager(10, 10);
             Target kruvazor = new Target(3, Direction.North, "kruvazor");
 
             Assert.ThrowsException<InvalidOperationException>(() => boardManager.PlaceShip(105, kruvazor));
+        }
+
+        [TestMethod]
+        public void Salrıdı_Icin_Koordinat_Verilince_O_Koordinatı_Vurur()
+        {
+            var boardManager = new BoardManager(10, 10);
+            var coordinate = new Coordinate(2, 5);
+            boardManager.HitSquare(coordinate);
+
+            Assert.IsTrue(boardManager.IsHit(coordinate));
+
         }
     }
 }
