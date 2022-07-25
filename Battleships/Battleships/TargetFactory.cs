@@ -8,7 +8,7 @@ namespace Battleships
 {
     internal class TargetFactory
     {
-        public static Target Create(Direction direction, string shipType)
+        public static Target Create(string direction, string shipType)
         {
             if (shipType == "denizalti")
             {

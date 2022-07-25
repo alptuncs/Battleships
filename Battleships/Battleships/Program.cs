@@ -16,10 +16,10 @@ namespace Battleships
             var playerBoard = new BoardManager(10, 10);
             var computerBoard = new BoardManager(10, 10);
             List<Target> targets = new List<Target>();
-            Target amiralGemisi = new Target(4, Direction.East, "amiralGemisi");
-            Target kruvazor = new Target(3, Direction.North, "kruvazor");
-            Target mayinGemisi = new Target(2, Direction.East, "mayinGemisi");
-            Target denizalti = new Target(1, Direction.North, "denizalti");
+            Target amiralGemisi = new Target(4, "East", "amiralGemisi");
+            Target kruvazor = new Target(3, "North", "kruvazor");
+            Target mayinGemisi = new Target(2, "East", "mayinGemisi");
+            Target denizalti = new Target(1, "North", "denizalti");
 
             targets.Add(amiralGemisi);
             targets.Add(kruvazor);

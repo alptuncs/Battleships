@@ -46,7 +46,9 @@
     <Compile Include="BoardManagerFactory.cs" />
     <Compile Include="BoardRenderer.cs" />
     <Compile Include="BoardManager.cs" />
+    <Compile Include="Cell.cs" />
     <Compile Include="Coordinate.cs" />
+    <Compile Include="Dİrection.cs" />
     <Compile Include="GameSession.cs" />
     <Compile Include="SystemConsole.cs" />
     <Compile Include="GameManager.cs" />

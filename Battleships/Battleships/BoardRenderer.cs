@@ -51,7 +51,7 @@ namespace Battleships
                 {
                     if (boardManager.HasShip(new Coordinate(i, j)) && !hide)
                     {
-                        BoardSurface[i][j] = $"[{boardManager.Board[i][j].shipType}]";
+                        BoardSurface[i][j] = $"[{boardManager.Board[i, j].shipType}]";
                     }
                     if (boardManager.IsHit(new Coordinate(i, j)) && boardManager.HasShip(new Coordinate(i, j)))
                     {

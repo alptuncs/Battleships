@@ -2,17 +2,6 @@
 
 namespace Battleships
 {
-    public enum Direction
-    {
-        North,
-        East,
-        South,
-        West,
-        NorthEast,
-        NorthWest,
-        SouthEast,
-        SouthWest
-    }
     public class Coordinate
     {
         public int XPos { get; private set; }
@@ -25,27 +14,27 @@ namespace Battleships
 
         public static Coordinate GetNeighbour(Coordinate coordinate, Direction direction)
         {
-            switch (direction)
+            switch (direction.Value)
             {
-                case Direction.North:
+                case "North":
                     if (coordinate.XPos - 1 >= 0)
                     {
                         return new Coordinate(coordinate.XPos - 1, coordinate.YPos);
                     }
                     return coordinate;
-                case Direction.East:
+                case "East":
                     if (coordinate.YPos - 1 >= 0)
                     {
                         return new Coordinate(coordinate.XPos, coordinate.YPos + 1);
                     }
                     return coordinate;
-                case Direction.South:
+                case "South":
                     if (coordinate.XPos + 1 < 10)
                     {
                         return new Coordinate(coordinate.XPos + 1, coordinate.YPos);
                     }
                     return coordinate;
-                case Direction.West:
+                case "West":
                     if (coordinate.YPos - 1 >= 0)
                     {
                         return new Coordinate(coordinate.XPos, coordinate.YPos - 1);

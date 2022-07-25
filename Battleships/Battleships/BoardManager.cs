@@ -3,37 +3,27 @@ using System.Linq;
 
 namespace Battleships
 {
-    public struct Cell
-    {
-        public bool hasShip;
-        public bool isHit;
-        public int shipType;
-
-        public Cell(bool hasShip, int shipType)
-        {
-            this.hasShip = hasShip;
-            this.shipType = shipType;
-            isHit = false;
-        }
-    }
     public class BoardManager
     {
         private int _height;
         private int _width;
         private int _placedShips;
-        private Cell[][] board;
-        public Cell[][] Board => board;
+        private Cell[,] board;
+        public Cell[,] Board => board;
         public int PlacedShips => _placedShips;
         public BoardManager(int height, int width)
         {
             this._height = height;
             this._width = width;
             _placedShips = 0;
-            board = new Cell[10][];
+            board = new Cell[height, width];
 
             for (int i = 0; i < height; i++)
             {
-                board[i] = Enumerable.Repeat(new Cell(false, 0), width).ToArray();
+                for (int j = 0; j < width; j++)
+                {
+                    board[i, j] = new Cell(false, 0);
+                }
             }
         }
 
@@ -41,7 +31,7 @@ namespace Battleships
         {
             if (CheckPlacementBounds(coordinates))
             {
-                return board[coordinates.XPos][coordinates.YPos].hasShip;
+                return board[coordinates.XPos, coordinates.YPos].hasShip;
             }
 
             throw new InvalidOperationException("Out of bounds");
@@ -50,7 +40,7 @@ namespace Battleships
         {
             if (CheckPlacementBounds(coordinates))
             {
-                return board[coordinates.XPos][coordinates.YPos].isHit;
+                return board[coordinates.XPos, coordinates.YPos].isHit;
             }
             throw new InvalidOperationException("Out of bounds");
         }
@@ -58,7 +48,7 @@ namespace Battleships
         {
             if (CheckPlacementBounds(coordinates) && !IsHit(coordinates))
             {
-                board[coordinates.XPos][coordinates.YPos].isHit = true;
+                board[coordinates.XPos, coordinates.YPos].isHit = true;
             }
         }
 
@@ -86,46 +76,40 @@ namespace Battleships
 
         private bool TryPlaceShip(Coordinate coordinate, Target ship)
         {
-            if (!CanPlaceShip(coordinate, ship))
+            if (!CanPlaceShip(coordinate, ship) || !CheckNeighbors(coordinate, ship)) return false;
+
+            switch (ship.Direction.Value)
             {
-                return false;
-            }
-            if (!CheckNeighbors(coordinate, ship))
-            {
-                return false;
-            }
-            switch (ship.Direction)
-            {
-                case Direction.North:
+                case "North":
                     for (int i = 0; i < ship.Size; i++)
                     {
-                        board[coordinate.XPos - i][coordinate.YPos].hasShip = true;
-                        board[coordinate.XPos - i][coordinate.YPos].shipType = ship.Size;
+                        board[coordinate.XPos - i, coordinate.YPos].hasShip = true;
+                        board[coordinate.XPos - i, coordinate.YPos].shipType = ship.Size;
 
                     }
                     _placedShips++;
                     return true;
-                case Direction.South:
+                case "South":
                     for (int i = 0; i < ship.Size; i++)
                     {
-                        board[coordinate.XPos + i][coordinate.YPos].hasShip = true;
-                        board[coordinate.XPos + i][coordinate.YPos].shipType = ship.Size;
+                        board[coordinate.XPos + i, coordinate.YPos].hasShip = true;
+                        board[coordinate.XPos + i, coordinate.YPos].shipType = ship.Size;
                     }
                     _placedShips++;
                     return true;
-                case Direction.East:
+                case "East":
                     for (int i = 0; i < ship.Size; i++)
                     {
-                        board[coordinate.XPos][coordinate.YPos + i].hasShip = true;
-                        board[coordinate.XPos][coordinate.YPos + i].shipType = ship.Size;
+                        board[coordinate.XPos, coordinate.YPos + i].hasShip = true;
+                        board[coordinate.XPos, coordinate.YPos + i].shipType = ship.Size;
                     }
                     _placedShips++;
                     return true;
-                case Direction.West:
+                case "West":
                     for (int i = 0; i < ship.Size; i++)
                     {
-                        board[coordinate.XPos][coordinate.YPos - i].hasShip = true;
-                        board[coordinate.XPos][coordinate.YPos - i].shipType = ship.Size;
+                        board[coordinate.XPos, coordinate.YPos - i].hasShip = true;
+                        board[coordinate.XPos, coordinate.YPos - i].shipType = ship.Size;
                     }
                     _placedShips++;
                     return true;
@@ -136,19 +120,19 @@ namespace Battleships
 
         public bool CanPlaceShip(Coordinate coordinates, Target ship)
         {
-            if (ship.Direction == Direction.North && coordinates.XPos - ship.Size < 0)
+            if (ship.Direction.Value == "North" && coordinates.XPos - ship.Size < 0)
             {
                 return false;
             }
-            else if (ship.Direction == Direction.South && coordinates.XPos + ship.Size >= _height)
+            else if (ship.Direction.Value == "South" && coordinates.XPos + ship.Size >= _height)
             {
                 return false;
             }
-            else if (ship.Direction == Direction.East && coordinates.YPos + ship.Size >= _height)
+            else if (ship.Direction.Value == "East" && coordinates.YPos + ship.Size >= _height)
             {
                 return false;
             }
-            else if (ship.Direction == Direction.West && coordinates.YPos - ship.Size < 0)
+            else if (ship.Direction.Value == "West" && coordinates.YPos - ship.Size < 0)
             {
                 return false;
             }

@@ -12,7 +12,6 @@ namespace Board_Tests
         {
             var actualTarget = new Target(1, Direction.North, "denizalti");
 
-            Assert.AreEqual(actualTarget.Direction, "north", "Direction yanlış");
             Assert.AreEqual(actualTarget.Size, 1, "Size Yanlış");
         }
     }
