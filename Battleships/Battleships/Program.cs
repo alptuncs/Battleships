@@ -30,8 +30,9 @@ namespace Battleships
 
             GameManager gameManager = new GameManager(console, playerBoard, computerBoard, boardRenderer, targets);
 
-            gameManager.Initialize();
-            gameManager.Play();
+            GameSession gameSession = new GameSession(gameManager);
+
+            gameSession.Play();
         }
     }
 }

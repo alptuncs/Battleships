@@ -41,7 +41,7 @@ namespace Battleships
         {
             if (CheckPlacementBounds(coordinates))
             {
-                return board[coordinates.xPos][coordinates.yPos].hasShip;
+                return board[coordinates.XPos][coordinates.YPos].hasShip;
             }
 
             throw new InvalidOperationException("Out of bounds");
@@ -50,7 +50,7 @@ namespace Battleships
         {
             if (CheckPlacementBounds(coordinates))
             {
-                return board[coordinates.xPos][coordinates.yPos].isHit;
+                return board[coordinates.XPos][coordinates.YPos].isHit;
             }
             throw new InvalidOperationException("Out of bounds");
         }
@@ -58,7 +58,7 @@ namespace Battleships
         {
             if (CheckPlacementBounds(coordinates) && !IsHit(coordinates))
             {
-                board[coordinates.xPos][coordinates.yPos].isHit = true;
+                board[coordinates.XPos][coordinates.YPos].isHit = true;
             }
         }
 
@@ -86,52 +86,52 @@ namespace Battleships
 
         private bool TryPlaceShip(Coordinate coordinate, Target ship)
         {
-            if (CanPlaceShip(coordinate, ship))
+            if (!CanPlaceShip(coordinate, ship))
             {
-                if (CheckNeighbors(coordinate, ship))
-                {
-                    switch (ship.Direction)
-                    {
-                        case Direction.North:
-                            for (int i = 0; i < ship.Size; i++)
-                            {
-                                board[coordinate.XPos - i][coordinate.YPos].hasShip = true;
-                                board[coordinate.XPos - i][coordinate.YPos].shipType = ship.Size;
-
-                            }
-                            _placedShips++;
-                            return true;
-                        case Direction.South:
-                            for (int i = 0; i < ship.Size; i++)
-                            {
-                                board[coordinate.XPos + i][coordinate.YPos].hasShip = true;
-                                board[coordinate.XPos + i][coordinate.YPos].shipType = ship.Size;
-                            }
-                            _placedShips++;
-                            return true;
-                        case Direction.East:
-                            for (int i = 0; i < ship.Size; i++)
-                            {
-                                board[coordinate.XPos][coordinate.YPos + i].hasShip = true;
-                                board[coordinate.XPos][coordinate.YPos + i].shipType = ship.Size;
-                            }
-                            _placedShips++;
-                            return true;
-                        case Direction.West:
-                            for (int i = 0; i < ship.Size; i++)
-                            {
-                                board[coordinate.XPos][coordinate.YPos - i].hasShip = true;
-                                board[coordinate.XPos][coordinate.YPos - i].shipType = ship.Size;
-                            }
-                            _placedShips++;
-                            return true;
-                        default:
-                            return false;
-                    }
-                }
                 return false;
             }
-            return false;
+            if (!CheckNeighbors(coordinate, ship))
+            {
+                return false;
+            }
+            switch (ship.Direction)
+            {
+                case Direction.North:
+                    for (int i = 0; i < ship.Size; i++)
+                    {
+                        board[coordinate.XPos - i][coordinate.YPos].hasShip = true;
+                        board[coordinate.XPos - i][coordinate.YPos].shipType = ship.Size;
+
+                    }
+                    _placedShips++;
+                    return true;
+                case Direction.South:
+                    for (int i = 0; i < ship.Size; i++)
+                    {
+                        board[coordinate.XPos + i][coordinate.YPos].hasShip = true;
+                        board[coordinate.XPos + i][coordinate.YPos].shipType = ship.Size;
+                    }
+                    _placedShips++;
+                    return true;
+                case Direction.East:
+                    for (int i = 0; i < ship.Size; i++)
+                    {
+                        board[coordinate.XPos][coordinate.YPos + i].hasShip = true;
+                        board[coordinate.XPos][coordinate.YPos + i].shipType = ship.Size;
+                    }
+                    _placedShips++;
+                    return true;
+                case Direction.West:
+                    for (int i = 0; i < ship.Size; i++)
+                    {
+                        board[coordinate.XPos][coordinate.YPos - i].hasShip = true;
+                        board[coordinate.XPos][coordinate.YPos - i].shipType = ship.Size;
+                    }
+                    _placedShips++;
+                    return true;
+                default:
+                    return false;
+            }
         }
 
         public bool CanPlaceShip(Coordinate coordinates, Target ship)
@@ -157,19 +157,19 @@ namespace Battleships
 
         private bool CheckPlacementBounds(Coordinate coordinates)
         {
-            if (coordinates.xPos < 0)
+            if (coordinates.XPos < 0)
             {
                 return false;
             }
-            else if (coordinates.xPos >= _height)
+            else if (coordinates.XPos >= _height)
             {
                 return false;
             }
-            else if (coordinates.yPos >= _height)
+            else if (coordinates.YPos >= _height)
             {
                 return false;
             }
-            else if (coordinates.yPos < 0)
+            else if (coordinates.YPos < 0)
             {
                 return false;
             }

@@ -15,12 +15,12 @@ namespace Battleships
     }
     public class Coordinate
     {
-        public int xPos { get; private set; }
-        public int yPos { get; private set; }
+        public int XPos { get; private set; }
+        public int YPos { get; private set; }
         public Coordinate(int x, int y)
         {
-            xPos = x;
-            yPos = y;
+            XPos = x;
+            YPos = y;
         }
 
         public static Coordinate GetNeighbour(Coordinate coordinate, Direction direction)
@@ -28,27 +28,27 @@ namespace Battleships
             switch (direction)
             {
                 case Direction.North:
-                    if (coordinate._Xpos - 1 >= 0)
+                    if (coordinate.XPos - 1 >= 0)
                     {
-                        return new Coordinate(coordinate._Xpos - 1, coordinate.YPos);
+                        return new Coordinate(coordinate.XPos - 1, coordinate.YPos);
                     }
                     return coordinate;
                 case Direction.East:
-                    if (coordinate._Ypos - 1 >= 0)
+                    if (coordinate.YPos - 1 >= 0)
                     {
-                        return new Coordinate(coordinate._Xpos, coordinate._Ypos + 1);
+                        return new Coordinate(coordinate.XPos, coordinate.YPos + 1);
                     }
                     return coordinate;
                 case Direction.South:
-                    if (coordinate._Xpos + 1 < 10)
+                    if (coordinate.XPos + 1 < 10)
                     {
-                        return new Coordinate(coordinate._Xpos + 1, coordinate._Ypos);
+                        return new Coordinate(coordinate.XPos + 1, coordinate.YPos);
                     }
                     return coordinate;
                 case Direction.West:
-                    if (coordinate._Ypos - 1 >= 0)
+                    if (coordinate.YPos - 1 >= 0)
                     {
-                        return new Coordinate(coordinate._Xpos, coordinate._Ypos - 1);
+                        return new Coordinate(coordinate.XPos, coordinate.YPos - 1);
                     }
                     return coordinate;
                 default:
@@ -64,9 +64,9 @@ namespace Battleships
             {
                 for (int j = -1; j <= 1; j++)
                 {
-                    if (_Xpos + i < xUpperBound && _Xpos + i >= xLowerBound && _Ypos + j >= yLowerBound && _Ypos + j < yUpperBound)
+                    if (XPos + i < xUpperBound && XPos + i >= xLowerBound && YPos + j >= yLowerBound && YPos + j < yUpperBound)
                     {
-                        neightbourList.Add(new Coordinate(_Xpos + i, _Ypos + j));
+                        neightbourList.Add(new Coordinate(XPos + i, YPos + j));
                     }
                 }
             }

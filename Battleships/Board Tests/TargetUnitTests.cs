@@ -10,11 +10,10 @@ namespace Board_Tests
         [TestMethod]
         public void Dogru_Target_Olusturur()
         {
-            var actualTarget = new Target(1, "north", "denizalti");
+            var actualTarget = new Target(1, Direction.North, "denizalti");
 
             Assert.AreEqual(actualTarget.Direction, "north", "Direction yanlış");
             Assert.AreEqual(actualTarget.Size, 1, "Size Yanlış");
-            Assert.AreEqual(actualTarget.Name, "denizalti", "TypeYanlış");
         }
     }
 }

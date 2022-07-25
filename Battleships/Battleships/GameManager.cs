@@ -21,7 +21,7 @@ namespace Battleships
         private int consecutiveHits = 0;
         private string message = "";
         public string Message => message;
-        private bool gameStatus = true;
+        public bool GameStatus { get; private set; }
         public GameManager(IConsole console, BoardManager playerBoard, BoardManager computerBoard, BoardRenderer boardRenderer, List<Target> targets)
         {
             this.console = console;
@@ -29,6 +29,7 @@ namespace Battleships
             _computerBoard = computerBoard;
             _boardRenderer = boardRenderer;
             _targets = targets;
+            GameStatus = true;
         }
         public void Initialize()
         {
@@ -37,16 +38,6 @@ namespace Battleships
                 _computerBoard.PlaceShip(5 - target.Size, target);
                 shipValue += target.Size * target.Size * (5 - target.Size);
             }
-        }
-        public void Play()
-        {
-            do
-            {
-                RenderGame();
-                UpdateGame();
-            } while (gameStatus);
-
-            RenderGame();
         }
         private void FireMissile(BoardManager board, Coordinate coordinates)
         {
@@ -67,57 +58,82 @@ namespace Battleships
             else if (board.HasShip(coordinates))
             {
                 board.HitSquare(coordinates);
-                shipValue -= board.Board[coordinates.xPos][coordinates.yPos].shipType;
+                shipValue -= board.Board[coordinates.XPos][coordinates.YPos].shipType;
                 consecutiveHits++;
                 score += 100 * consecutiveHits;
                 message = "Successful hit !";
             }
         }
-        private void RenderGame()
+        public void RenderGame()
         {
             console.Clear();
             console.WriteLine($"Lives: {playerLives}    Score: {score} \n");
             console.WriteLine(_boardRenderer.Render(_computerBoard, false));
             console.WriteLine($"{message} \n");
-            if (gameStatus)
+            SetDefaultGameMessage();
+        }
+        public void SetDefaultGameMessage()
+        {
+            if (GameStatus)
             {
                 message = "Please enter the coordinates";
                 console.WriteLine(message);
             }
         }
-        private void UpdateGame()
+        public void UpdateGame(string optionalInput = "TakeUserInputForCoordinate")
         {
-            if (gameStatus == false) return;
+            if (GameStatus == false) return;
+            if (optionalInput == "TakeUserInputForCoordinate")
+            {
+                Regex rx = new Regex(@"^\d{1,2},\d{1,2}$");
+                string[] playerInput = new string[2];
+                string stringPlayerInput = "";
+                stringPlayerInput = console.ReadLine();
+                playerInput = stringPlayerInput.Split(',');
 
-            Regex rx = new Regex(@"^\d{1,2},\d{1,2}");
-            string[] playerInput = new string[2];
-            string stringPlayerInput = "";
-            stringPlayerInput = console.ReadLine();
-            playerInput = stringPlayerInput.Split(',');
+                if (!rx.IsMatch(stringPlayerInput))
+                {
+                    message = "Wrong input";
+                    return;
+                }
+                else if (int.Parse(playerInput[0]) <= 0 || int.Parse(playerInput[0]) > 10 || int.Parse(playerInput[1]) <= 0 || int.Parse(playerInput[1]) > 10)
+                {
+                    message = "Wrong input";
+                    return;
+                }
 
-            if (!rx.IsMatch(stringPlayerInput))
-            {
-                message = "Wrong input";
-            }
-            else if (int.Parse(playerInput[0]) <= 0 || int.Parse(playerInput[0]) > 10 || int.Parse(playerInput[1]) <= 0 || int.Parse(playerInput[1]) > 10)
-            {
-                message = "Wrong input";
-            }
-            else
-            {
                 _coordinates = new Coordinate(int.Parse(playerInput[0]) - 1, int.Parse(playerInput[1]) - 1);
                 FireMissile(_computerBoard, _coordinates);
                 if (playerLives == 0)
                 {
                     message = "Out of lives...";
-                    gameStatus = false;
+                    GameStatus = false;
                 }
                 else if (shipValue == 0)
                 {
                     message = "You won !";
-                    gameStatus = false;
+                    GameStatus = false;
                 }
             }
+            else
+            {
+                string[] givenInput = optionalInput.Split(',');
+
+                _coordinates = new Coordinate(int.Parse(givenInput[0]) - 1, int.Parse(givenInput[1]) - 1);
+                FireMissile(_computerBoard, _coordinates);
+                if (playerLives == 0)
+                {
+                    message = "Out of lives...";
+                    GameStatus = false;
+                }
+                else if (shipValue == 0)
+                {
+                    message = "You won !";
+                    GameStatus = false;
+                }
+
+            }
+
         }
     }
 }

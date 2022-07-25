@@ -15,10 +15,10 @@ namespace Board_Tests
             var boardRenderer = new BoardRenderer(10, 10);
             IConsole console = new SystemConsole();
             List<Target> targets = new List<Target>();
-            var amiralGemisi = new Target(4, "east", "amiralGemisi");
-            var kruvazor = new Target(3, "north", "kruvazor");
-            var mayinGemisi = new Target(2, "east", "mayinGemisi");
-            var denizalti = new Target(1, "north", "denizalti");
+            Target amiralGemisi = new Target(4, Direction.East, "amiralGemisi");
+            Target kruvazor = new Target(3, Direction.North, "kruvazor");
+            Target mayinGemisi = new Target(2, Direction.East, "mayinGemisi");
+            Target denizalti = new Target(1, Direction.North, "denizalti");
 
             targets.Add(amiralGemisi);
             targets.Add(kruvazor);
@@ -26,9 +26,9 @@ namespace Board_Tests
             targets.Add(denizalti);
             var game = new Battleships.GameManager(console, playerBoard, computerBoard, boardRenderer, targets);
             game.Initialize();
-            game.Play();
+            game.SetDefaultGameMessage();
 
-            Assert.AreEqual(game.Message, "Please enter the coordinates");
+            Assert.AreEqual("Please enter the coordinates", game.Message, game.Message);
         }
 
         [TestMethod]
@@ -39,11 +39,52 @@ namespace Board_Tests
             var boardRenderer = new BoardRenderer(10, 10);
             IConsole console = new SystemConsole();
             List<Target> targets = new List<Target>();
+            Target amiralGemisi = new Target(4, Direction.East, "amiralGemisi");
+            Target kruvazor = new Target(3, Direction.North, "kruvazor");
+            Target mayinGemisi = new Target(2, Direction.East, "mayinGemisi");
+            Target denizalti = new Target(1, Direction.North, "denizalti");
+            targets.Add(amiralGemisi);
+            targets.Add(kruvazor);
+            targets.Add(mayinGemisi);
+            targets.Add(denizalti);
 
             var game = new Battleships.GameManager(console, playerBoard, computerBoard, boardRenderer, targets);
 
             game.Initialize();
-            game.Play();
+
+            game.UpdateGame("1,1");
+            game.UpdateGame("1,1");
+            game.UpdateGame("1,1");
+            game.UpdateGame("1,1");
+            game.UpdateGame("1,1");
+            game.UpdateGame("1,1");
+            game.UpdateGame("1,1");
+            game.UpdateGame("1,1");
+            game.UpdateGame("1,1");
+            game.UpdateGame("1,1");
+            game.UpdateGame("1,1");
+            game.UpdateGame("1,1");
+            game.UpdateGame("1,1");
+            game.UpdateGame("1,1");
+            game.UpdateGame("1,1");
+            game.UpdateGame("1,1");
+            game.UpdateGame("1,1");
+            game.UpdateGame("1,1");
+            game.UpdateGame("1,1");
+            game.UpdateGame("1,1");
+            game.UpdateGame("1,1");
+            game.UpdateGame("1,1");
+            game.UpdateGame("1,1");
+            game.UpdateGame("1,1");
+            game.UpdateGame("1,1");
+            game.UpdateGame("1,1");
+            game.UpdateGame("1,1");
+            game.UpdateGame("1,1");
+            game.UpdateGame("1,1");
+            game.UpdateGame("1,1");
+            game.UpdateGame("1,1");
+
+            Assert.AreEqual("Out of lives...", game.Message, game.Message);
 
 
         }
@@ -57,10 +98,11 @@ namespace Board_Tests
             List<Target> targets = new List<Target>();
 
             var game = new Battleships.GameManager(console, playerBoard, computerBoard, boardRenderer, targets);
-            var denizalti = new Target(1, "north", "denizalti");
+            var denizalti = new Target(1, Direction.North, "denizalti");
             targets.Add(denizalti);
 
-            game.Play();
+            game.Initialize();
+            game.UpdateGame("1,1");
         }
     }
 }
