@@ -25,11 +25,11 @@ namespace Board_Tests
             targets.Add(kruvazor);
             targets.Add(mayinGemisi);
             targets.Add(denizalti);
-            var game = new Battleships.GameManager(console, playerBoard, computerBoard, boardRenderer, targets);
+            var game = new Battleships.GameManager(console, computerBoard, boardRenderer, targets);
             game.Initialize();
-            game.SetDefaultGameMessage();
+            game.UpdateGame(true, "1,1");
 
-            Assert.AreEqual("Please enter the coordinates", game.Message, game.Message);
+            Assert.AreEqual("Please enter the coordinates", game.Message.GetMessage(), game.Message.GetMessage());
         }
 
         [TestMethod]
@@ -51,14 +51,14 @@ namespace Board_Tests
             targets.Add(mayinGemisi);
             targets.Add(denizalti);
 
-            var game = new Battleships.GameManager(console, playerBoard, computerBoard, boardRenderer, targets);
+            var game = new Battleships.GameManager(console, computerBoard, boardRenderer, targets);
 
             game.Initialize();
             game.SetPlayerLives(2);
             game.UpdateGame(true, "1,1");
             game.UpdateGame(true, "1,1");
 
-            Assert.AreEqual("Out of lives...", game.Message, game.Message);
+            Assert.AreEqual("Out of lives...", game.Message.GetMessage(), game.Message.GetMessage());
 
 
         }
@@ -74,7 +74,7 @@ namespace Board_Tests
             var denizalti = targetFactory.Create(Direction.North(), "denizalti");
             targets.Add(denizalti);
 
-            var game = new Battleships.GameManager(console, playerBoard, computerBoard, boardRenderer, targets);
+            var game = new Battleships.GameManager(console, computerBoard, boardRenderer, targets);
 
 
             game.Initialize();
@@ -83,7 +83,7 @@ namespace Board_Tests
             game.UpdateGame(true, "8,7");
             game.UpdateGame(true, "10,8");
 
-            Assert.AreEqual("You won !", game.Message, game.Message);
+            Assert.AreEqual("You won !", game.Message.GetMessage(), game.Message.GetMessage());
         }
     }
 }

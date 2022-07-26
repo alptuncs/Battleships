@@ -33,23 +33,6 @@ namespace Board_Tests
             Assert.IsFalse(boardManager.HasShip(new Coordinate(5, 5)), "5,5 hatalı yerleştirme");
         }
         [TestMethod]
-
-        public void Tahta_Disinda_Koordinat_Verilince_HasShip_Exception_Atar()
-        {
-            var boardManager = new BoardManager(10, 10);
-
-            Assert.ThrowsException<InvalidOperationException>(() => boardManager.HasShip(new Coordinate(105, 5)));
-        }
-        [TestMethod]
-
-        public void Tahta_Disinda_Koordinat_Verilince_IsHit_Exception_Atar()
-        {
-            var boardManager = new BoardManager(10, 10);
-
-            Assert.ThrowsException<InvalidOperationException>(() => boardManager.IsHit(new Coordinate(105, 5)));
-        }
-
-        [TestMethod]
         public void Belirli_Sayıda_Gemiyi_Rastgele_Yerleştirir()
         {
             BoardManager boardManager = new BoardManager(10, 10);
@@ -92,6 +75,19 @@ namespace Board_Tests
             boardManager.HitSquare(coordinate);
 
             Assert.IsTrue(boardManager.IsHit(coordinate));
+
+        }
+        [TestMethod]
+
+        public void Koseye_tahtanin_disina_bakicak_sekilde_denizalti_yerlestirir()
+        {
+            var boardManager = new BoardManagerFactory().Create(1, 1);
+            var coordinate = new Coordinate(0, 0);
+            var target = new TargetFactory().Create(Direction.North(), "denizalti");
+
+            boardManager.PlaceShip(coordinate, target);
+
+            Assert.IsTrue(boardManager.HasShip(coordinate));
 
         }
     }

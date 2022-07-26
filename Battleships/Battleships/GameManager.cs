@@ -10,37 +10,39 @@ namespace Battleships
     public class GameManager
     {
         private IConsole console;
-        private BoardManager _playerBoard;
-        private BoardManager _computerBoard;
-        private BoardRenderer _boardRenderer;
-        List<ITarget> _targets = new List<ITarget>();
-        private int playerLives = 30;
-        private int score = 0;
-        private int shipValue = 0;
-        private int consecutiveHits = 0;
-        private string message = "";
-        public string Message => message;
+        private BoardManager computerBoard;
+        private BoardRenderer boardRenderer;
+        public List<ITarget> Targets { get; private set; }
+        public int PlayerLives { get; private set; }
+        public int Score { get; private set; }
+        public int ShipValue { get; private set; }
+        public int ConsecutiveHits { get; private set; }
+        public IMessage Message { get; private set; }
         public bool GameStatus { get; private set; }
-        public GameManager(IConsole console, BoardManager playerBoard, BoardManager computerBoard, BoardRenderer boardRenderer, List<ITarget> targets)
+        public GameManager(IConsole console, BoardManager computerBoard, BoardRenderer boardRenderer, List<ITarget> targets)
         {
             this.console = console;
-            _playerBoard = playerBoard;
-            _computerBoard = computerBoard;
-            _boardRenderer = boardRenderer;
-            _targets = targets;
+            this.computerBoard = computerBoard;
+            this.boardRenderer = boardRenderer;
+            Targets = targets;
             GameStatus = true;
+            Score = 0;
+            ShipValue = 0;
+            ConsecutiveHits = 0;
+            PlayerLives = 30;
+            Message = UpdateMessage(7);
         }
         public void Initialize()
         {
-            foreach (ITarget target in _targets)
+            foreach (ITarget target in Targets)
             {
-                _computerBoard.PlaceShip(5 - target.Size, target);
-                shipValue += target.Size * target.Size * (5 - target.Size);
+                computerBoard.PlaceShip(5 - target.Size, target);
+                ShipValue += target.Size * target.Size * (5 - target.Size);
             }
         }
         public void SetPlayerLives(int i)
         {
-            playerLives = i;
+            PlayerLives = i;
         }
         public void UpdateGame(bool manualUpdate = false, string manualInput = "TakeUserInputForCoordinate")
         {
@@ -52,23 +54,32 @@ namespace Battleships
 
                 string[] playerInput = userInput.Split(',');
 
-                FireMissile(_computerBoard, new Coordinate(int.Parse(playerInput[0]) - 1, int.Parse(playerInput[1]) - 1));
-                if (playerLives == 0)
+                FireMissile(computerBoard, new Coordinate(int.Parse(playerInput[0]) - 1, int.Parse(playerInput[1]) - 1));
+                if (PlayerLives == 0)
                 {
-                    UpdateMessage(2);
+                    Message = UpdateMessage(3);
                     GameStatus = false;
                 }
-                else if (shipValue == 0)
+                else if (ShipValue == 0)
                 {
-                    UpdateMessage(2);
+                    Message = UpdateMessage(4);
                     GameStatus = false;
                 }
             }
             else
             {
                 string[] givenInput = manualInput.Split(',');
-                FireMissile(_computerBoard, new Coordinate(int.Parse(givenInput[0]) - 1, int.Parse(givenInput[1]) - 1));
-                UpdateMessage(2);
+                FireMissile(computerBoard, new Coordinate(int.Parse(givenInput[0]) - 1, int.Parse(givenInput[1]) - 1));
+                if (PlayerLives == 0)
+                {
+                    Message = UpdateMessage(3);
+                    GameStatus = false;
+                }
+                else if (ShipValue == 0)
+                {
+                    Message = UpdateMessage(4);
+                    GameStatus = false;
+                }
             }
         }
         private void FireMissile(BoardManager board, Coordinate coordinates)
@@ -76,35 +87,35 @@ namespace Battleships
 
             if (board.IsHit(coordinates))
             {
-                message = "That coordinate has already been hit";
-                playerLives--;
-                consecutiveHits = 0;
+                Message = UpdateMessage(0);
+                PlayerLives--;
+                ConsecutiveHits = 0;
             }
             else if (!board.HasShip(coordinates))
             {
                 board.HitSquare(coordinates);
-                message = "You missed...";
-                playerLives--;
-                consecutiveHits = 0;
+                Message = UpdateMessage(2);
+                PlayerLives--;
+                ConsecutiveHits = 0;
 
             }
             else if (board.HasShip(coordinates))
             {
                 board.HitSquare(coordinates);
-                shipValue -= board.Board[coordinates.XPos, coordinates.YPos].shipType;
-                consecutiveHits++;
-                score += 100 * consecutiveHits;
-                message = "Successful hit !";
+                ShipValue -= board.Board[coordinates.XPos, coordinates.YPos].shipType;
+                ConsecutiveHits++;
+                Score += 100 * ConsecutiveHits;
+                Message = UpdateMessage(1);
             }
         }
-
         public void RenderGame()
         {
             console.Clear();
-            console.WriteLine($"Lives: {playerLives}    Score: {score} \n");
-            console.WriteLine(_boardRenderer.Render(_computerBoard, false));
-            console.WriteLine($"{message} \n");
-            SetDefaultGameMessage();
+            console.WriteLine($"Lives: {PlayerLives}    Score: {Score} \n");
+            console.WriteLine(boardRenderer.Render(computerBoard, false));
+            console.WriteLine($"{Message.GetMessage()} \n");
+            Message = UpdateMessage(8);
+            console.WriteLine(Message.GetMessage());
         }
 
         private string TakeInput()
@@ -120,55 +131,22 @@ namespace Battleships
 
             if (!rx.IsMatch(stringPlayerInput))
             {
-                UpdateMessage(0);
+                Message = UpdateMessage(5);
                 return false;
             }
 
             if (int.Parse(playerInput[0]) <= 0 || int.Parse(playerInput[0]) > 10 || int.Parse(playerInput[1]) <= 0 || int.Parse(playerInput[1]) > 10)
             {
-                UpdateMessage(1);
+                Message = UpdateMessage(6);
                 return false;
             }
 
             return true;
         }
 
-        public void SetDefaultGameMessage()
+        private IMessage UpdateMessage(int messageType)
         {
-            if (GameStatus)
-            {
-                message = "Please enter the coordinates";
-                console.WriteLine(message);
-            }
-        }
-
-        private void UpdateMessage(int option)
-        {
-            if (option == 0)
-            {
-                message = "Wrong input";
-                return;
-            }
-
-            if (option == 1)
-            {
-                message = "Out of Bounds";
-                return;
-            }
-
-            if (playerLives == 0 && option == 2)
-            {
-                message = "Out of lives...";
-                GameStatus = false;
-                return;
-            }
-
-            if (shipValue == 0 && option == 2)
-            {
-                message = "You won !";
-                GameStatus = false;
-                return;
-            }
+            return MessageFactory.Create(messageType);
         }
     }
 }

@@ -21,27 +21,27 @@ namespace Battleships
                     {
                         return new Coordinate(coordinate.XPos - 1, coordinate.YPos);
                     }
-                    return coordinate;
+                    return null;
                 case "East":
-                    if (coordinate.YPos - 1 >= 0)
+                    if (coordinate.YPos + 1 < 10)
                     {
                         return new Coordinate(coordinate.XPos, coordinate.YPos + 1);
                     }
-                    return coordinate;
+                    return null;
                 case "South":
                     if (coordinate.XPos + 1 < 10)
                     {
                         return new Coordinate(coordinate.XPos + 1, coordinate.YPos);
                     }
-                    return coordinate;
+                    return null;
                 case "West":
                     if (coordinate.YPos - 1 >= 0)
                     {
                         return new Coordinate(coordinate.XPos, coordinate.YPos - 1);
                     }
-                    return coordinate;
+                    return null;
                 default:
-                    return coordinate;
+                    return null;
             }
         }
 
@@ -64,3 +64,4 @@ namespace Battleships
         }
     }
 }
+
