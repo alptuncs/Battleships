@@ -6,35 +6,30 @@ using System.Threading.Tasks;
 
 namespace Battleships
 {
-    internal class TargetFactory
+    public class TargetFactory
     {
-        public static Target Create(string direction, string shipType)
+        public ITarget Create(Direction direction, string shipType)
         {
+            ITarget target = null;
             if (shipType == "denizalti")
             {
-                return new Target(1, direction, shipType);
+                target = new Submarine();
             }
             else if (shipType == "mayingemisi")
             {
-                return new Target(2, direction, shipType);
+                target = new Minelayer();
             }
             else if (shipType == "kruvazor")
             {
-                return new Target(3, direction, shipType);
+                target = new Destroyer();
             }
             else
             {
-                return new Target(4, direction, "amiralgemisi");
+                target = new Flagship();
             }
-        }
-        public static List<Target> CreateTargetList(params Target[] values)
-        {
-            List<Target> list = new List<Target>();
-            foreach (Target value in values)
-            {
-                list.Add(value);
-            }
-            return list;
+
+            target.SetShipDirection(direction);
+            return target;
         }
     }
 }

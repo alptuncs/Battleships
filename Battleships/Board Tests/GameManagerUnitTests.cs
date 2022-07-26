@@ -14,11 +14,12 @@ namespace Board_Tests
             var playerBoard = new BoardManager(10, 10);
             var boardRenderer = new BoardRenderer(10, 10);
             IConsole console = new SystemConsole();
-            List<Target> targets = new List<Target>();
-            Target amiralGemisi = new Target(4, Direction.East, "amiralGemisi");
-            Target kruvazor = new Target(3, Direction.North, "kruvazor");
-            Target mayinGemisi = new Target(2, Direction.East, "mayinGemisi");
-            Target denizalti = new Target(1, Direction.North, "denizalti");
+            var targetFactory = new TargetFactory();
+            List<ITarget> targets = new List<ITarget>();
+            ITarget amiralGemisi = targetFactory.Create(Direction.East(), "amiralgemisi");
+            ITarget kruvazor = targetFactory.Create(Direction.North(), "kruvazor");
+            ITarget mayinGemisi = targetFactory.Create(Direction.East(), "mayingemisi");
+            ITarget denizalti = targetFactory.Create(Direction.North(), "denizalti");
 
             targets.Add(amiralGemisi);
             targets.Add(kruvazor);
@@ -38,11 +39,13 @@ namespace Board_Tests
             var playerBoard = new BoardManager(10, 10);
             var boardRenderer = new BoardRenderer(10, 10);
             IConsole console = new SystemConsole();
-            List<Target> targets = new List<Target>();
-            Target amiralGemisi = new Target(4, Direction.East, "amiralGemisi");
-            Target kruvazor = new Target(3, Direction.North, "kruvazor");
-            Target mayinGemisi = new Target(2, Direction.East, "mayinGemisi");
-            Target denizalti = new Target(1, Direction.North, "denizalti");
+            var targetFactory = new TargetFactory();
+            List<ITarget> targets = new List<ITarget>();
+            ITarget amiralGemisi = targetFactory.Create(Direction.East(), "amiralgemisi");
+            ITarget kruvazor = targetFactory.Create(Direction.North(), "kruvazor");
+            ITarget mayinGemisi = targetFactory.Create(Direction.East(), "mayingemisi");
+            ITarget denizalti = targetFactory.Create(Direction.North(), "denizalti");
+
             targets.Add(amiralGemisi);
             targets.Add(kruvazor);
             targets.Add(mayinGemisi);
@@ -51,38 +54,9 @@ namespace Board_Tests
             var game = new Battleships.GameManager(console, playerBoard, computerBoard, boardRenderer, targets);
 
             game.Initialize();
-
-            game.UpdateGame("1,1");
-            game.UpdateGame("1,1");
-            game.UpdateGame("1,1");
-            game.UpdateGame("1,1");
-            game.UpdateGame("1,1");
-            game.UpdateGame("1,1");
-            game.UpdateGame("1,1");
-            game.UpdateGame("1,1");
-            game.UpdateGame("1,1");
-            game.UpdateGame("1,1");
-            game.UpdateGame("1,1");
-            game.UpdateGame("1,1");
-            game.UpdateGame("1,1");
-            game.UpdateGame("1,1");
-            game.UpdateGame("1,1");
-            game.UpdateGame("1,1");
-            game.UpdateGame("1,1");
-            game.UpdateGame("1,1");
-            game.UpdateGame("1,1");
-            game.UpdateGame("1,1");
-            game.UpdateGame("1,1");
-            game.UpdateGame("1,1");
-            game.UpdateGame("1,1");
-            game.UpdateGame("1,1");
-            game.UpdateGame("1,1");
-            game.UpdateGame("1,1");
-            game.UpdateGame("1,1");
-            game.UpdateGame("1,1");
-            game.UpdateGame("1,1");
-            game.UpdateGame("1,1");
-            game.UpdateGame("1,1");
+            game.SetPlayerLives(2);
+            game.UpdateGame(true, "1,1");
+            game.UpdateGame(true, "1,1");
 
             Assert.AreEqual("Out of lives...", game.Message, game.Message);
 
@@ -95,14 +69,21 @@ namespace Board_Tests
             var playerBoard = new BoardManager(10, 10);
             var boardRenderer = new BoardRenderer(10, 10);
             IConsole console = new SystemConsole();
-            List<Target> targets = new List<Target>();
-
-            var game = new Battleships.GameManager(console, playerBoard, computerBoard, boardRenderer, targets);
-            var denizalti = new Target(1, Direction.North, "denizalti");
+            var targetFactory = new TargetFactory();
+            List<ITarget> targets = new List<ITarget>();
+            var denizalti = targetFactory.Create(Direction.North(), "denizalti");
             targets.Add(denizalti);
 
+            var game = new Battleships.GameManager(console, playerBoard, computerBoard, boardRenderer, targets);
+
+
             game.Initialize();
-            game.UpdateGame("1,1");
+            game.UpdateGame(true, "4,5");
+            game.UpdateGame(true, "8,3");
+            game.UpdateGame(true, "8,7");
+            game.UpdateGame(true, "10,8");
+
+            Assert.AreEqual("You won !", game.Message, game.Message);
         }
     }
 }

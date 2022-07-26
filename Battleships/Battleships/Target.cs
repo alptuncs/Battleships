@@ -1,19 +1,49 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Battleships
 {
-    public class Target
+    public class Submarine : ITarget
     {
-        public int Size { get; private set; }
+        public int Size { get { return 1; } }
+
         public Direction Direction { get; private set; }
-        public Target(int size, string direction, string name)
+
+        public void SetShipDirection(Direction direction)
         {
-            Size = size;
-            Direction = new Direction(direction);
+            Direction = direction;
+        }
+    }
+    public class Minelayer : ITarget
+    {
+        public int Size { get { return 2; } }
+
+        public Direction Direction { get; private set; }
+
+        public void SetShipDirection(Direction direction)
+        {
+            Direction = direction;
+        }
+    }
+    public class Destroyer : ITarget
+    {
+        public int Size { get { return 3; } }
+
+        public Direction Direction { get; private set; }
+
+        public void SetShipDirection(Direction direction)
+        {
+            Direction = direction;
+        }
+    }
+    public class Flagship : ITarget
+    {
+        public int Size { get { return 4; } }
+
+        public Direction Direction { get; private set; }
+
+        public void SetShipDirection(Direction direction)
+        {
+            Direction = direction;
         }
     }
 }

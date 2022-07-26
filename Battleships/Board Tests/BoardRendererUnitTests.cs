@@ -25,12 +25,13 @@ namespace Board_Tests
         {
             BoardRenderer testBoardRenderer = new BoardRenderer(2, 2);
             BoardManager testBoardManager = new BoardManager(2, 2);
-            Target denizalti = new Target(1, Direction.North, "denizalti");
+            var targetFactory = new TargetFactory();
+            ITarget ship = targetFactory.Create(Direction.North(), "denizalti");
 
             string expectedBoardGraphicString = "[ ] [ ]\n[ ] [1]";
             expectedBoardGraphicString = expectedBoardGraphicString.Substring(0, expectedBoardGraphicString.Length);
 
-            testBoardManager.PlaceShip(new Coordinate(1, 1), denizalti);
+            testBoardManager.PlaceShip(new Coordinate(1, 1), ship);
 
             testBoardRenderer.Render(testBoardManager, false);
 

@@ -13,8 +13,7 @@ namespace Battleships
         private BoardManager _playerBoard;
         private BoardManager _computerBoard;
         private BoardRenderer _boardRenderer;
-        private Coordinate _coordinates;
-        List<Target> _targets = new List<Target>();
+        List<ITarget> _targets = new List<ITarget>();
         private int playerLives = 30;
         private int score = 0;
         private int shipValue = 0;
@@ -22,7 +21,7 @@ namespace Battleships
         private string message = "";
         public string Message => message;
         public bool GameStatus { get; private set; }
-        public GameManager(IConsole console, BoardManager playerBoard, BoardManager computerBoard, BoardRenderer boardRenderer, List<Target> targets)
+        public GameManager(IConsole console, BoardManager playerBoard, BoardManager computerBoard, BoardRenderer boardRenderer, List<ITarget> targets)
         {
             this.console = console;
             _playerBoard = playerBoard;
@@ -33,17 +32,20 @@ namespace Battleships
         }
         public void Initialize()
         {
-            foreach (Target target in _targets)
+            foreach (ITarget target in _targets)
             {
                 _computerBoard.PlaceShip(5 - target.Size, target);
                 shipValue += target.Size * target.Size * (5 - target.Size);
             }
         }
-
-        public void UpdateGame(string optionalInput = "TakeUserInputForCoordinate")
+        public void SetPlayerLives(int i)
+        {
+            playerLives = i;
+        }
+        public void UpdateGame(bool manualUpdate = false, string manualInput = "TakeUserInputForCoordinate")
         {
             if (GameStatus == false) return;
-            if (optionalInput == "TakeUserInputForCoordinate")
+            if (!manualUpdate)
             {
                 string userInput = TakeInput();
                 if (!InputCheck(userInput)) return;
@@ -64,7 +66,7 @@ namespace Battleships
             }
             else
             {
-                string[] givenInput = optionalInput.Split(',');
+                string[] givenInput = manualInput.Split(',');
                 FireMissile(_computerBoard, new Coordinate(int.Parse(givenInput[0]) - 1, int.Parse(givenInput[1]) - 1));
                 UpdateMessage(2);
             }
@@ -121,11 +123,13 @@ namespace Battleships
                 UpdateMessage(0);
                 return false;
             }
-            else if (int.Parse(playerInput[0]) <= 0 || int.Parse(playerInput[0]) > 10 || int.Parse(playerInput[1]) <= 0 || int.Parse(playerInput[1]) > 10)
+
+            if (int.Parse(playerInput[0]) <= 0 || int.Parse(playerInput[0]) > 10 || int.Parse(playerInput[1]) <= 0 || int.Parse(playerInput[1]) > 10)
             {
                 UpdateMessage(1);
                 return false;
             }
+
             return true;
         }
 
@@ -145,19 +149,25 @@ namespace Battleships
                 message = "Wrong input";
                 return;
             }
+
             if (option == 1)
             {
                 message = "Out of Bounds";
+                return;
             }
+
             if (playerLives == 0 && option == 2)
             {
                 message = "Out of lives...";
                 GameStatus = false;
+                return;
             }
-            else if (shipValue == 0 && option == 2)
+
+            if (shipValue == 0 && option == 2)
             {
                 message = "You won !";
                 GameStatus = false;
+                return;
             }
         }
     }

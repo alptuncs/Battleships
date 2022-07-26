@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Battleships
 {
-    internal class BoardManagerFactory
+    public class BoardManagerFactory
     {
-        public static BoardManager Create(int height, int width)
+        public BoardManager Create(int height, int width)
         {
             return new BoardManager(height, width);
         }

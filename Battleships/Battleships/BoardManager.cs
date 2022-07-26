@@ -52,12 +52,12 @@ namespace Battleships
             }
         }
 
-        public void PlaceShip(Coordinate coordinate, Target ship)
+        public void PlaceShip(Coordinate coordinate, ITarget ship)
         {
             TryPlaceShip(coordinate, ship);
         }
 
-        public void PlaceShip(int count, Target ship)
+        public void PlaceShip(int count, ITarget ship)
         {
             if (count > 100) throw new InvalidOperationException("Count can not exceed total cell count, total cell count = 100!");
 
@@ -74,7 +74,7 @@ namespace Battleships
             }
         }
 
-        private bool TryPlaceShip(Coordinate coordinate, Target ship)
+        private bool TryPlaceShip(Coordinate coordinate, ITarget ship)
         {
             if (!CanPlaceShip(coordinate, ship) || !CheckNeighbors(coordinate, ship)) return false;
 
@@ -118,7 +118,7 @@ namespace Battleships
             }
         }
 
-        public bool CanPlaceShip(Coordinate coordinates, Target ship)
+        public bool CanPlaceShip(Coordinate coordinates, ITarget ship)
         {
             if (ship.Direction.Value == "North" && coordinates.XPos - ship.Size < 0)
             {
@@ -160,7 +160,7 @@ namespace Battleships
             return true;
         }
 
-        private bool CheckNeighbors(Coordinate coordinate, Target ship)
+        private bool CheckNeighbors(Coordinate coordinate, ITarget ship)
         {
             for (int i = 0; i < ship.Size; i++)
             {

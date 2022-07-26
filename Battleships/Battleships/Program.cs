@@ -15,15 +15,16 @@ namespace Battleships
             var boardRenderer = new BoardRenderer(10, 10);
             var playerBoard = new BoardManager(10, 10);
             var computerBoard = new BoardManager(10, 10);
-            List<Target> targets = new List<Target>();
-            Target amiralGemisi = new Target(4, "East", "amiralGemisi");
-            Target kruvazor = new Target(3, "North", "kruvazor");
-            Target mayinGemisi = new Target(2, "East", "mayinGemisi");
-            Target denizalti = new Target(1, "North", "denizalti");
+            var targetFactory = new TargetFactory();
+            List<ITarget> targets = new List<ITarget>();
+            // ITarget amiralGemisi = targetFactory.Create(Direction.East(), "amiralgemisi");
+            //ITarget kruvazor = targetFactory.Create(Direction.North(), "kruvazor");
+            //ITarget mayinGemisi = targetFactory.Create(Direction.East(), "mayingemisi");
+            ITarget denizalti = targetFactory.Create(Direction.North(), "denizalti");
 
-            targets.Add(amiralGemisi);
-            targets.Add(kruvazor);
-            targets.Add(mayinGemisi);
+            //targets.Add(amiralGemisi);
+            //targets.Add(kruvazor);
+            //targets.Add(mayinGemisi);
             targets.Add(denizalti);
 
 

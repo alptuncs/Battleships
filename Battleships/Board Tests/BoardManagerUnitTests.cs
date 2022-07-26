@@ -12,7 +12,8 @@ namespace Board_Tests
         public void PlaceShip_Gemiyi_Dogru_Koordinatta_Yerlestirmeye_Baslar()
         {
             BoardManager boardManager = new BoardManager(10, 10);
-            Target amiralGemisi = new Target(4, Direction.East, "amiralGemisi");
+            var targetFactory = new TargetFactory();
+            ITarget amiralGemisi = targetFactory.Create(Direction.East(), "amiralgemisi");
 
             boardManager.PlaceShip(new Coordinate(3, 2), amiralGemisi);
 
@@ -23,7 +24,8 @@ namespace Board_Tests
         public void PlaceShip_Gemiyi_Dogru_Koordinatta_Yerlestirmeyi_Bitirir()
         {
             BoardManager boardManager = new BoardManager(10, 10);
-            Target amiralGemisi = new Target(4, Direction.East, "amiralGemisi");
+            var targetFactory = new TargetFactory();
+            ITarget amiralGemisi = targetFactory.Create(Direction.East(), "amiralgemisi");
 
             boardManager.PlaceShip(new Coordinate(3, 2), amiralGemisi);
 
@@ -51,18 +53,19 @@ namespace Board_Tests
         public void Belirli_Sayıda_Gemiyi_Rastgele_Yerleştirir()
         {
             BoardManager boardManager = new BoardManager(10, 10);
-            Target amiralGemisi = new Target(4, Direction.East, "amiralGemisi");
-            Target kruvazor = new Target(3, Direction.North, "kruvazor");
-            Target mayinGemisi = new Target(2, Direction.East, "mayinGemisi");
-            Target denizalti = new Target(1, Direction.North, "denizalti");
+            var targetFactory = new TargetFactory();
+            ITarget amiralGemisi = targetFactory.Create(Direction.East(), "amiralgemisi");
+            ITarget kruvazor = targetFactory.Create(Direction.North(), "kruvazor");
+            ITarget mayinGemisi = targetFactory.Create(Direction.East(), "mayingemisi");
+            ITarget denizalti = targetFactory.Create(Direction.North(), "denizalti");
 
-            List<Target> targets = new List<Target>();
+            List<ITarget> targets = new List<ITarget>();
             targets.Add(amiralGemisi);
             targets.Add(kruvazor);
             targets.Add(mayinGemisi);
             targets.Add(denizalti);
 
-            foreach (Target target in targets)
+            foreach (ITarget target in targets)
             {
                 boardManager.PlaceShip(5 - target.Size, target);
             }
@@ -75,7 +78,8 @@ namespace Board_Tests
         public void Kapasiteden_Fazla_Gemi_Eklenince_Exception_Atar()
         {
             BoardManager boardManager = new BoardManager(10, 10);
-            Target kruvazor = new Target(3, Direction.North, "kruvazor");
+            var targetFactory = new TargetFactory();
+            ITarget kruvazor = targetFactory.Create(Direction.North(), "kruvazor");
 
             Assert.ThrowsException<InvalidOperationException>(() => boardManager.PlaceShip(105, kruvazor));
         }

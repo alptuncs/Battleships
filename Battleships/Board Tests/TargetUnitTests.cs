@@ -10,7 +10,8 @@ namespace Board_Tests
         [TestMethod]
         public void Dogru_Target_Olusturur()
         {
-            var actualTarget = new Target(1, Direction.North, "denizalti");
+            var targetFactory = new TargetFactory();
+            ITarget actualTarget = targetFactory.Create(Direction.North(), "denizalti");
 
             Assert.AreEqual(actualTarget.Size, 1, "Size Yanlış");
         }
