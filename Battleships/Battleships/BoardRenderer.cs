@@ -33,10 +33,10 @@ namespace Battleships
                 BoardGraphicString += i < BoardSurface.Length - 1 ? "\n" : "";
             }
 
-
             InitializeBoardSurface();
             return BoardGraphicString;
         }
+
         private void InitializeBoardSurface()
         {
             BoardSurface = new string[Height][];
@@ -46,6 +46,7 @@ namespace Battleships
                 BoardSurface[i] = Enumerable.Repeat("[ ]", Width).ToArray();
             }
         }
+
         public string Render(BoardManager boardManager, bool hide)
         {
             for (int i = 0; i < Height; i++)

@@ -10,7 +10,7 @@ namespace Battleships
     {
         int Size { get; }
         Direction Direction{ get; }
-        void SetShipDirection(Direction direction);
 
+        void SetShipDirection(Direction direction);
     }
 }

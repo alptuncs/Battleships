@@ -19,14 +19,17 @@ namespace Battleships
         {
             return new Direction("East");
         }
+
         public static Direction West()
         {
             return new Direction("West");
         }
+
         public static Direction North()
         {
             return new Direction("North");
         }
+
         public static Direction South()
         {
             return new Direction("South");

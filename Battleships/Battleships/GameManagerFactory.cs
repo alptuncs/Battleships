@@ -26,7 +26,6 @@ namespace Battleships
             targets.Add(denizalti);
 
             return new GameManager(console, computerBoard, boardRenderer, targets);
-
         }
     }
 }

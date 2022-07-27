@@ -6,6 +6,7 @@ namespace Battleships
     {
         public int XPos { get; private set; }
         public int YPos { get; private set; }
+
         public Coordinate(int x, int y)
         {
             XPos = x;
@@ -82,8 +83,8 @@ namespace Battleships
 
             return XPos.Equals(other.XPos) && YPos.Equals(other.YPos);
         }
-        public override bool Equals(object obj) => Equals(obj as Coordinate);
 
+        public override bool Equals(object obj) => Equals(obj as Coordinate);
     }
 }
 

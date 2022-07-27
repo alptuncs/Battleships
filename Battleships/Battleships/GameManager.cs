@@ -19,6 +19,7 @@ namespace Battleships
         public int ConsecutiveHits { get; private set; }
         public string Message { get; private set; }
         public bool GameStatus { get; private set; }
+
         public GameManager(IConsole console, BoardManager computerBoard, BoardRenderer boardRenderer, List<ITarget> targets)
         {
             this.console = console;

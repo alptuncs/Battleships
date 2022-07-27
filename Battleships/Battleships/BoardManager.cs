@@ -31,6 +31,7 @@ namespace Battleships
                     Board[i, j] = new Cell(false, 0);
                 }
             }
+
             return this;
         }
 
@@ -78,6 +79,7 @@ namespace Battleships
                 ShipCoordinates.Add(coordinate);
                 coordinate = Coordinate.GetNeighbour(coordinate, ship.Direction);
             }
+
             PlacedShips++;
             return true;
         }
@@ -126,6 +128,7 @@ namespace Battleships
             {
                 if (HasShip(neighbour)) return false;
             }
+
             return true;
         }
     }
