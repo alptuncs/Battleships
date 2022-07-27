@@ -9,10 +9,11 @@ namespace Battleships
     public interface IConsole
     {
         void WriteLine(string message);
+
         void WriteLine(string message, params object[] args);
 
         void Clear();
-        
+
         string ReadLine();
     }
 }
