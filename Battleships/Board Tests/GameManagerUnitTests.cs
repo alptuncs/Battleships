@@ -27,9 +27,8 @@ namespace Board_Tests
             targets.Add(denizalti);
             var game = new Battleships.GameManager(console, computerBoard, boardRenderer, targets);
             game.Initialize();
-            game.UpdateGame(true, "1,1");
 
-            Assert.AreEqual("Please enter the coordinates", game.Message.GetMessage(), game.Message.GetMessage());
+            Assert.AreEqual("\n\nPlease enter the coordinates", game.Message, game.Message);
         }
 
         [TestMethod]
@@ -58,7 +57,7 @@ namespace Board_Tests
             game.UpdateGame(true, "1,1");
             game.UpdateGame(true, "1,1");
 
-            Assert.AreEqual("Out of lives...", game.Message.GetMessage(), game.Message.GetMessage());
+            Assert.AreEqual("Out of lives...", game.Message, game.Message);
 
 
         }
@@ -83,7 +82,7 @@ namespace Board_Tests
             game.UpdateGame(true, "8,7");
             game.UpdateGame(true, "10,8");
 
-            Assert.AreEqual("You won !", game.Message.GetMessage(), game.Message.GetMessage());
+            Assert.AreEqual("You won !", game.Message, game.Message);
         }
     }
 }

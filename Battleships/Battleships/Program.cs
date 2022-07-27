@@ -34,6 +34,8 @@ namespace Battleships
             GameSession gameSession = new GameSession(gameManager);
 
             gameSession.Play();
+
+
         }
     }
 }

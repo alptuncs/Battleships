@@ -47,14 +47,12 @@
     <Compile Include="BoardRenderer.cs" />
     <Compile Include="BoardManager.cs" />
     <Compile Include="Cell.cs" />
-    <Compile Include="IMessage.cs" />
     <Compile Include="Coordinate.cs" />
     <Compile Include="Dİrection.cs" />
     <Compile Include="GameSession.cs" />
     <Compile Include="GameSessionFactory.cs" />
     <Compile Include="ITarget.cs" />
-    <Compile Include="Message.cs" />
-    <Compile Include="MessageFactory.cs" />
+    <Compile Include="Messages.cs" />
     <Compile Include="SystemConsole.cs" />
     <Compile Include="GameManager.cs" />
     <Compile Include="IConsole.cs" />

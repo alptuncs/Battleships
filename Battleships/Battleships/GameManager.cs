@@ -17,7 +17,7 @@ namespace Battleships
         public int Score { get; private set; }
         public int ShipValue { get; private set; }
         public int ConsecutiveHits { get; private set; }
-        public IMessage Message { get; private set; }
+        public string Message { get; private set; }
         public bool GameStatus { get; private set; }
         public GameManager(IConsole console, BoardManager computerBoard, BoardRenderer boardRenderer, List<ITarget> targets)
         {
@@ -30,7 +30,7 @@ namespace Battleships
             ShipValue = 0;
             ConsecutiveHits = 0;
             PlayerLives = 30;
-            Message = UpdateMessage(7);
+            Message = "" + "\n\n" + Messages.ENTER_COORDS;
         }
         public void Initialize()
         {
@@ -57,12 +57,12 @@ namespace Battleships
                 FireMissile(computerBoard, new Coordinate(int.Parse(playerInput[0]) - 1, int.Parse(playerInput[1]) - 1));
                 if (PlayerLives == 0)
                 {
-                    Message = UpdateMessage(3);
+                    Message = Messages.OUT_OF_LIVES;
                     GameStatus = false;
                 }
                 else if (ShipValue == 0)
                 {
-                    Message = UpdateMessage(4);
+                    Message = Messages.YOU_WON;
                     GameStatus = false;
                 }
             }
@@ -72,12 +72,12 @@ namespace Battleships
                 FireMissile(computerBoard, new Coordinate(int.Parse(givenInput[0]) - 1, int.Parse(givenInput[1]) - 1));
                 if (PlayerLives == 0)
                 {
-                    Message = UpdateMessage(3);
+                    Message = Messages.OUT_OF_LIVES;
                     GameStatus = false;
                 }
                 else if (ShipValue == 0)
                 {
-                    Message = UpdateMessage(4);
+                    Message = Messages.YOU_WON;
                     GameStatus = false;
                 }
             }
@@ -87,14 +87,14 @@ namespace Battleships
 
             if (board.IsHit(coordinates))
             {
-                Message = UpdateMessage(0);
+                Message = Messages.SAME_COORD + "\n\n" + Messages.ENTER_COORDS;
                 PlayerLives--;
                 ConsecutiveHits = 0;
             }
             else if (!board.HasShip(coordinates))
             {
                 board.HitSquare(coordinates);
-                Message = UpdateMessage(2);
+                Message = Messages.HIT_MISSED + "\n\n" + Messages.ENTER_COORDS;
                 PlayerLives--;
                 ConsecutiveHits = 0;
 
@@ -105,7 +105,7 @@ namespace Battleships
                 ShipValue -= board.Board[coordinates.XPos, coordinates.YPos].shipType;
                 ConsecutiveHits++;
                 Score += 100 * ConsecutiveHits;
-                Message = UpdateMessage(1);
+                Message = Messages.HIT_SUCCESS + "\n\n" + Messages.ENTER_COORDS;
             }
         }
         public void RenderGame()
@@ -113,9 +113,7 @@ namespace Battleships
             console.Clear();
             console.WriteLine($"Lives: {PlayerLives}    Score: {Score} \n");
             console.WriteLine(boardRenderer.Render(computerBoard, false));
-            console.WriteLine($"{Message.GetMessage()} \n");
-            Message = UpdateMessage(8);
-            console.WriteLine(Message.GetMessage());
+            console.WriteLine(Message);
         }
 
         private string TakeInput()
@@ -131,22 +129,17 @@ namespace Battleships
 
             if (!rx.IsMatch(stringPlayerInput))
             {
-                Message = UpdateMessage(5);
+                Message = Messages.WRONG_INPUT + "\n\n" + Messages.ENTER_COORDS;
                 return false;
             }
 
             if (int.Parse(playerInput[0]) <= 0 || int.Parse(playerInput[0]) > 10 || int.Parse(playerInput[1]) <= 0 || int.Parse(playerInput[1]) > 10)
             {
-                Message = UpdateMessage(6);
+                Message = Messages.OUT_OF_BOUND + "\n\n" + Messages.ENTER_COORDS;
                 return false;
             }
 
             return true;
-        }
-
-        private IMessage UpdateMessage(int messageType)
-        {
-            return MessageFactory.Create(messageType);
         }
     }
 }
