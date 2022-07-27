@@ -12,12 +12,14 @@ namespace Battleships
         public int Width { get; private set; }
         public string BoardGraphicString { get; private set; }
         public string[][] BoardSurface { get; private set; }
+
         public BoardRenderer(int height, int width)
         {
             this.Height = height;
             this.Width = width;
             InitializeBoardSurface();
         }
+
         public string InitializeBoardGraphicString()
         {
             BoardGraphicString = "";
@@ -48,19 +50,11 @@ namespace Battleships
             {
                 for (int j = 0; j < Width; j++)
                 {
-                    if (boardManager.HasShip(new Coordinate(i, j)) && !hide)
-                    {
-                        BoardSurface[i][j] = $"[{boardManager.Board[i, j].shipType}]";
-                    }
-                    if (boardManager.IsHit(new Coordinate(i, j)) && boardManager.HasShip(new Coordinate(i, j)))
-                    {
-                        BoardSurface[i][j] = "[*]";
-                    }
-                    else if (boardManager.IsHit(new Coordinate(i, j)) && !boardManager.HasShip(new Coordinate(i, j)))
-                    {
-                        BoardSurface[i][j] = "[X]";
-                    }
+                    if (boardManager.HasShip(new Coordinate(i, j)) && !hide) BoardSurface[i][j] = $"[{boardManager.Board[i, j].shipType}]";
 
+                    if (boardManager.IsHit(new Coordinate(i, j)) && boardManager.HasShip(new Coordinate(i, j))) BoardSurface[i][j] = "[*]";
+
+                    else if (boardManager.IsHit(new Coordinate(i, j)) && !boardManager.HasShip(new Coordinate(i, j))) BoardSurface[i][j] = "[X]";
                 }
             }
             return InitializeBoardGraphicString();

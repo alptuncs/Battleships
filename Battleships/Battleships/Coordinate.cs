@@ -62,6 +62,28 @@ namespace Battleships
 
             return neightbourList;
         }
+        public static bool operator ==(Coordinate left, Coordinate right)
+        {
+            if (ReferenceEquals(left, right)) return true;
+
+            if (left is null) return false;
+
+            if (right is null) return false;
+
+            return left.Equals(right);
+        }
+        public static bool operator !=(Coordinate left, Coordinate right) => !(left == right);
+
+        public bool Equals(Coordinate other)
+        {
+            if (other is null) return false;
+
+            if (ReferenceEquals(this, other)) return true;
+
+            return XPos.Equals(other.XPos) && YPos.Equals(other.YPos);
+        }
+        public override bool Equals(object obj) => Equals(obj as Coordinate);
+
     }
 }
 

@@ -8,5 +8,6 @@ namespace Battleships
 {
     internal class GameSessionFactory
     {
+
     }
 }
