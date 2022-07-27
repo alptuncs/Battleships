@@ -10,7 +10,8 @@ namespace Battleships
     {
         public BoardManager Create(int height, int width)
         {
-            return new BoardManager(height, width);
+            var boardManager = new BoardManager(height, width);
+            return boardManager.Initialize();
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Battleships
@@ -8,22 +9,29 @@ namespace Battleships
         public int Height { get; private set; }
         public int Width { get; private set; }
         public int PlacedShips { get; private set; }
+        public List<Coordinate> ShipCoordinates { get; private set; }
         public Cell[,] Board { get; private set; }
 
         public BoardManager(int height, int width)
         {
             this.Height = height;
             this.Width = width;
+        }
+        internal BoardManager Initialize()
+        {
+            ShipCoordinates = new List<Coordinate>();
             PlacedShips = 0;
-            Board = new Cell[height, width];
 
-            for (int i = 0; i < height; i++)
+            Board = new Cell[Height, Width];
+
+            for (int i = 0; i < Height; i++)
             {
-                for (int j = 0; j < width; j++)
+                for (int j = 0; j < Width; j++)
                 {
                     Board[i, j] = new Cell(false, 0);
                 }
             }
+            return this;
         }
 
         public bool HasShip(Coordinate coordinates)
@@ -67,6 +75,7 @@ namespace Battleships
             {
                 Board[coordinate.XPos, coordinate.YPos].hasShip = true;
                 Board[coordinate.XPos, coordinate.YPos].shipType = ship.Size;
+                ShipCoordinates.Add(coordinate);
                 coordinate = Coordinate.GetNeighbour(coordinate, ship.Direction);
             }
             PlacedShips++;
@@ -103,6 +112,11 @@ namespace Battleships
                 coordinate = Coordinate.GetNeighbour(coordinate, ship.Direction);
             }
             return true;
+        }
+
+        internal void RemoveShip(Coordinate coordinate)
+        {
+            ShipCoordinates.Remove(coordinate);
         }
 
         public bool CheckAdjacentSquares(Coordinate coordinates)

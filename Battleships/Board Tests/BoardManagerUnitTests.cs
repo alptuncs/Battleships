@@ -11,7 +11,7 @@ namespace Board_Tests
         [TestMethod]
         public void PlaceShip_Gemiyi_Dogru_Koordinatta_Yerlestirmeye_Baslar()
         {
-            BoardManager boardManager = new BoardManager(10, 10);
+            var boardManager = new BoardManagerFactory().Create(10, 10);
             var targetFactory = new TargetFactory();
             ITarget amiralGemisi = targetFactory.Create(Direction.East(), "amiralgemisi");
 
@@ -23,7 +23,7 @@ namespace Board_Tests
         [TestMethod]
         public void PlaceShip_Gemiyi_Dogru_Koordinatta_Yerlestirmeyi_Bitirir()
         {
-            BoardManager boardManager = new BoardManager(10, 10);
+            var boardManager = new BoardManagerFactory().Create(10, 10);
             var targetFactory = new TargetFactory();
             ITarget amiralGemisi = targetFactory.Create(Direction.East(), "amiralgemisi");
 
@@ -35,7 +35,7 @@ namespace Board_Tests
         [TestMethod]
         public void Belirli_Sayıda_Gemiyi_Rastgele_Yerleştirir()
         {
-            BoardManager boardManager = new BoardManager(10, 10);
+            var boardManager = new BoardManagerFactory().Create(10, 10);
             var targetFactory = new TargetFactory();
             ITarget amiralGemisi = targetFactory.Create(Direction.East(), "amiralgemisi");
             ITarget kruvazor = targetFactory.Create(Direction.North(), "kruvazor");
@@ -60,7 +60,7 @@ namespace Board_Tests
 
         public void Kapasiteden_Fazla_Gemi_Eklenince_Exception_Atar()
         {
-            BoardManager boardManager = new BoardManager(10, 10);
+            var boardManager = new BoardManagerFactory().Create(10, 10);
             var targetFactory = new TargetFactory();
             ITarget kruvazor = targetFactory.Create(Direction.North(), "kruvazor");
 
@@ -70,7 +70,7 @@ namespace Board_Tests
         [TestMethod]
         public void Salrıdı_Icin_Koordinat_Verilince_O_Koordinatı_Vurur()
         {
-            var boardManager = new BoardManager(10, 10);
+            var boardManager = new BoardManagerFactory().Create(10, 10);
             var coordinate = new Coordinate(2, 5);
             boardManager.HitSquare(coordinate);
 

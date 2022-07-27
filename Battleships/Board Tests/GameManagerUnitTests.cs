@@ -10,8 +10,7 @@ namespace Board_Tests
         [TestMethod]
         public void Oyunu_Olusturup_Kullanicidan_Koordinat_Ister()
         {
-            var computerBoard = new BoardManager(10, 10);
-            var playerBoard = new BoardManager(10, 10);
+            var computerBoard = new BoardManagerFactory().Create(10, 10);
             var boardRenderer = new BoardRenderer(10, 10);
             IConsole console = new SystemConsole();
             var targetFactory = new TargetFactory();
@@ -34,8 +33,7 @@ namespace Board_Tests
         [TestMethod]
         public void Oyuncunun_Haklari_Bitince_Oyun_Sonlanır()
         {
-            var computerBoard = new BoardManager(10, 10);
-            var playerBoard = new BoardManager(10, 10);
+            var computerBoard = new BoardManagerFactory().Create(10, 10);
             var boardRenderer = new BoardRenderer(10, 10);
             IConsole console = new SystemConsole();
             var targetFactory = new TargetFactory();
@@ -64,8 +62,7 @@ namespace Board_Tests
         [TestMethod]
         public void Tum_Gemiler_Vurulunca_Oyun_Sonlanir()
         {
-            var computerBoard = new BoardManager(10, 10);
-            var playerBoard = new BoardManager(10, 10);
+            var computerBoard = new BoardManagerFactory().Create(10, 10);
             var boardRenderer = new BoardRenderer(10, 10);
             IConsole console = new SystemConsole();
             var targetFactory = new TargetFactory();

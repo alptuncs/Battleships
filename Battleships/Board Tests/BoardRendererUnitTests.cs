@@ -24,7 +24,7 @@ namespace Board_Tests
         public void Verilen_Boyutlarda_Oyun_Tahtasini_Render_Fonksiyonu_ile_Ekrana_Cizer()
         {
             BoardRenderer testBoardRenderer = new BoardRenderer(2, 2);
-            BoardManager testBoardManager = new BoardManager(2, 2);
+            BoardManager testBoardManager = new BoardManagerFactory().Create(2, 2);
             var targetFactory = new TargetFactory();
             ITarget ship = targetFactory.Create(Direction.North(), "denizalti");
 
