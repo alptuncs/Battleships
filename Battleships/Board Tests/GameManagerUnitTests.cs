@@ -52,8 +52,8 @@ namespace Board_Tests
 
             game.Initialize();
             game.SetPlayerLives(2);
-            game.UpdateGame(true, "1,1");
-            game.UpdateGame(true, "1,1");
+            game.UpdateGame(true, "A,1");
+            game.UpdateGame(true, "A,1");
 
             Assert.AreEqual("Out of lives...", game.Message, game.Message);
 
@@ -74,10 +74,10 @@ namespace Board_Tests
 
 
             game.Initialize();
-            game.UpdateGame(true, "4,5");
-            game.UpdateGame(true, "8,3");
-            game.UpdateGame(true, "8,7");
-            game.UpdateGame(true, "10,8");
+            game.UpdateGame(true, "D,5");
+            game.UpdateGame(true, "H,3");
+            game.UpdateGame(true, "H,7");
+            game.UpdateGame(true, "J,8");
 
             Assert.AreEqual("You won !", game.Message, game.Message);
         }

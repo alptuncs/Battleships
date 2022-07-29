@@ -54,20 +54,23 @@ namespace Battleships
             if (GameStatus == false) return;
 
             string[] playerInput;
+            char[] playerInputChar;
 
             if (!manualUpdate)
             {
-                string userInput = TakeInput();
+                string userInput = TakeInput().ToUpper();
                 if (!InputCheck(userInput)) return;
 
                 playerInput = userInput.Split(',');
+                playerInputChar = playerInput[0].ToCharArray();
             }
             else
             {
                 playerInput = manualInput.Split(',');
+                playerInputChar = playerInput[0].ToCharArray();
             }
 
-            FireMissile(ComputerBoard, new Coordinate(int.Parse(playerInput[0]) - 1, int.Parse(playerInput[1]) - 1));
+            FireMissile(ComputerBoard, new Coordinate(playerInputChar[0], int.Parse(playerInput[1]) - 1));
             EndTurn();
         }
 
@@ -78,9 +81,10 @@ namespace Battleships
 
         private bool InputCheck(string input)
         {
-            Regex rx = new Regex(@"^\d{1,2},\d{1,2}$");
-            string stringPlayerInput = input;
+            Regex rx = new Regex(@"^^[A-J]{1},\d{1,2}$");
+            string stringPlayerInput = input.ToUpper();
             string[] playerInput = stringPlayerInput.Split(',');
+            char[] playerInputChar = playerInput[0].ToCharArray();
 
             if (!rx.IsMatch(stringPlayerInput))
             {
@@ -88,7 +92,7 @@ namespace Battleships
                 return false;
             }
 
-            if (int.Parse(playerInput[0]) <= 0 || int.Parse(playerInput[0]) > 10 || int.Parse(playerInput[1]) <= 0 || int.Parse(playerInput[1]) > 10)
+            if (int.Parse(playerInput[1]) <= 0 || int.Parse(playerInput[1]) > 10 || playerInputChar[0] > 'J' || playerInputChar[0] < 'A')
             {
                 Message = Messages.OUT_OF_BOUND + "\n\n" + Messages.ENTER_COORDS;
                 return false;

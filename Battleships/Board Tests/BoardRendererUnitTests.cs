@@ -12,7 +12,7 @@ namespace Board_Tests
         public void Verilen_Boyutlarda_Oyun_Tahtası_Ekrana_Cizer()
         {
             BoardRenderer testBoard = new BoardRenderer(2, 2);
-            string expectedBoardGraphicString = "[ ] [ ]\n[ ] [ ]";
+            string expectedBoardGraphicString = "  1  2\nA[ ][ ]\nB[ ][ ]";
 
             testBoard.InitializeBoardGraphicString();
 
@@ -28,7 +28,7 @@ namespace Board_Tests
             var targetFactory = new TargetFactory();
             ITarget ship = targetFactory.Create(Direction.North(), "denizalti");
 
-            string expectedBoardGraphicString = "[ ] [ ]\n[ ] [1]";
+            string expectedBoardGraphicString = "  1  2\nA[ ][ ]\nB[ ][1]";
             expectedBoardGraphicString = expectedBoardGraphicString.Substring(0, expectedBoardGraphicString.Length);
 
             testBoardManager.PlaceShip(new Coordinate(1, 1), ship);
