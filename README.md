@@ -4,6 +4,10 @@ This is a simple .Net Framework Console Application project that lets you play a
 
 ![alt text](https://github.com/alptuncs/Battleships/blob/S%C4%B0ngleplayer-Tutorial-Refactoring/Battleships/src/GameImages/game_screenshot.png)
 
+## Game Rules
+
+Game rules are similar to the boardgame Battleships, ships are placed on the board and the player tries to guess the coordinates of ships that are on the opposite board until one side looses all their ships but since this is a singleplayer game there is only one board and the ships are placed randomly, the game continues until all the ship coordinates are guessed by the user or until the user runs out of lives. 
+
 ## GameSession
 
 The game is played in GameSession class which uses BoardManager, GameManager classes to initialize the board and use the game logic and prints the board using BoardRenderer class, Ships are created using a TargetFactory and GameSession is created using a GameSessionFactory, it lets you play the game untill a game ending condition occurs.
