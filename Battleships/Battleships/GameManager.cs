@@ -9,7 +9,7 @@ namespace Battleships
 {
     public class GameManager
     {
-        public IConsole _Console { get; private set; }
+        public IConsole GameManagerConsole { get; private set; }
         public BoardManager ComputerBoard { get; private set; }
         public BoardRenderer BoardRenderer { get; private set; }
         public List<ITarget> Targets { get; private set; }
@@ -22,7 +22,7 @@ namespace Battleships
 
         public GameManager(IConsole console, BoardManager computerBoard, BoardRenderer boardRenderer, List<ITarget> targets)
         {
-            _Console = console;
+            GameManagerConsole = console;
             ComputerBoard = computerBoard;
             BoardRenderer = boardRenderer;
             Targets = targets;
@@ -77,7 +77,7 @@ namespace Battleships
 
         private string TakeInput()
         {
-            return _Console.ReadLine();
+            return GameManagerConsole.ReadLine();
         }
 
         private bool InputCheck(string input)
@@ -142,30 +142,30 @@ namespace Battleships
 
         public void RenderGame()
         {
-            _Console.Clear();
-            _Console.WriteLine($"Lives: {PlayerLives}    Score: {Score} \n");
+            GameManagerConsole.Clear();
+            GameManagerConsole.WriteLine($"Lives: {PlayerLives}    Score: {Score} \n");
             string board = BoardRenderer.Render(ComputerBoard, true);
 
             for (int i = 0; i < board.Length; i++)
             {
                 if (board[i] == '•')
                 {
-                    _Console.Write('*');
+                    GameManagerConsole.Write('*');
                 }
                 else if (board[i] == '*')
                 {
 
                     Console.ForegroundColor = ConsoleColor.Red;
-                    _Console.Write(board[i]);
+                    GameManagerConsole.Write(board[i]);
                 }
                 else
                 {
-                    _Console.Write(board[i]);
+                    GameManagerConsole.Write(board[i]);
                 }
                 Console.ForegroundColor = ConsoleColor.White;
             }
 
-            _Console.WriteLine("\n" + Message);
+            GameManagerConsole.WriteLine("\n" + Message);
         }
     }
 }
