@@ -8,7 +8,7 @@ namespace Board_Tests
     public class GameManagerUnitTests
     {
         [TestMethod]
-        public void Oyunu_Olusturup_Kullanicidan_Koordinat_Ister()
+        public void Oyunu_olusturup_kullanicidan_koordinat_ister()
         {
             var computerBoard = new BoardManagerFactory().Create(10, 10);
             var boardRenderer = new BoardRenderer(10, 10);
@@ -31,7 +31,7 @@ namespace Board_Tests
         }
 
         [TestMethod]
-        public void Oyuncunun_Haklari_Bitince_Oyun_Sonlanır()
+        public void Oyuncunun_haklari_bitince_oyun_sonlanir()
         {
             var computerBoard = new BoardManagerFactory().Create(10, 10);
             var boardRenderer = new BoardRenderer(10, 10);
@@ -60,7 +60,7 @@ namespace Board_Tests
 
         }
         [TestMethod]
-        public void Tum_Gemiler_Vurulunca_Oyun_Sonlanir()
+        public void Tum_gemiler_vurulunca_oyun_sonlanir()
         {
             var computerBoard = new BoardManagerFactory().Create(10, 10);
             var boardRenderer = new BoardRenderer(10, 10);

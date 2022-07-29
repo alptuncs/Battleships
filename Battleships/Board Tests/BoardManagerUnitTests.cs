@@ -9,7 +9,7 @@ namespace Board_Tests
     public class BoardManagerUnitTests
     {
         [TestMethod]
-        public void PlaceShip_Gemiyi_Dogru_Koordinatta_Yerlestirmeye_Baslar()
+        public void Gemiyi_dogru_koordinatta_yerlestirmeye_baslar()
         {
             var boardManager = new BoardManagerFactory().Create(10, 10);
             var targetFactory = new TargetFactory();
@@ -21,7 +21,7 @@ namespace Board_Tests
             Assert.IsFalse(boardManager.HasShip(new Coordinate(5, 5)), "5,5 hatalı yerleştirme");
         }
         [TestMethod]
-        public void PlaceShip_Gemiyi_Dogru_Koordinatta_Yerlestirmeyi_Bitirir()
+        public void Gemiyi_yerlestirmeyi_dogru_koordinatta_bitirir()
         {
             var boardManager = new BoardManagerFactory().Create(10, 10);
             var targetFactory = new TargetFactory();
@@ -33,7 +33,7 @@ namespace Board_Tests
             Assert.IsFalse(boardManager.HasShip(new Coordinate(5, 5)), "5,5 hatalı yerleştirme");
         }
         [TestMethod]
-        public void Belirli_Sayıda_Gemiyi_Rastgele_Yerleştirir()
+        public void Belirli_sayida_gemiyi_rastgele_yerlestirir()
         {
             var boardManager = new BoardManagerFactory().Create(10, 10);
             var targetFactory = new TargetFactory();
@@ -58,7 +58,7 @@ namespace Board_Tests
 
         [TestMethod]
 
-        public void Kapasiteden_Fazla_Gemi_Eklenince_Exception_Atar()
+        public void Kapasiteden_fazla_gemi_eklemez()
         {
             var boardManager = new BoardManagerFactory().Create(10, 10);
             var targetFactory = new TargetFactory();
@@ -68,7 +68,7 @@ namespace Board_Tests
         }
 
         [TestMethod]
-        public void Salrıdı_Icin_Koordinat_Verilince_O_Koordinatı_Vurur()
+        public void Saldiri_icin_koordinat_verilince_o_koordinati_vurur()
         {
             var boardManager = new BoardManagerFactory().Create(10, 10);
             var coordinate = new Coordinate(2, 5);
@@ -79,7 +79,7 @@ namespace Board_Tests
         }
         [TestMethod]
 
-        public void Koseye_tahtanin_disina_bakicak_sekilde_denizalti_yerlestirir()
+        public void Tahtanin_kosesine_tahtanin_disina_bakicak_sekilde_denizalti_yerlestirir()
         {
             var boardManager = new BoardManagerFactory().Create(1, 1);
             var coordinate = new Coordinate(0, 0);
