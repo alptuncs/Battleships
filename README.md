@@ -5,7 +5,7 @@ During this project I started learning to use .Net Framework and GitHub, to work
 
 This is a simple .Net Framework Console Application project that lets you play a simple singleplayer game.
 
-![alt text](https://github.com/alptuncs/Battleships/blob/S%C4%B0ngleplayer-Tutorial-Refactoring/Battleships/src/GameImages/game_screenshot.png)
+![alt text](https://github.com/alptuncs/Battleships/blob/master/Battleships/src/GameImages/game_image.png)
 
 ## Game Rules
 
