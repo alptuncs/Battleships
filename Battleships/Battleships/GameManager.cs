@@ -9,7 +9,7 @@ namespace Battleships
 {
     public class GameManager
     {
-        public IConsole Console { get; private set; }
+        public IConsole _Console { get; private set; }
         public BoardManager ComputerBoard { get; private set; }
         public BoardRenderer BoardRenderer { get; private set; }
         public List<ITarget> Targets { get; private set; }
@@ -22,10 +22,11 @@ namespace Battleships
 
         public GameManager(IConsole console, BoardManager computerBoard, BoardRenderer boardRenderer, List<ITarget> targets)
         {
-            Console = console;
+            _Console = console;
             ComputerBoard = computerBoard;
             BoardRenderer = boardRenderer;
             Targets = targets;
+            Console.OutputEncoding = System.Text.Encoding.UTF8;
         }
 
         public void Initialize()
@@ -76,7 +77,7 @@ namespace Battleships
 
         private string TakeInput()
         {
-            return Console.ReadLine();
+            return _Console.ReadLine();
         }
 
         private bool InputCheck(string input)
@@ -141,10 +142,30 @@ namespace Battleships
 
         public void RenderGame()
         {
-            Console.Clear();
-            Console.WriteLine($"Lives: {PlayerLives}    Score: {Score} \n");
-            Console.WriteLine(BoardRenderer.Render(ComputerBoard, true));
-            Console.WriteLine(Message);
+            _Console.Clear();
+            _Console.WriteLine($"Lives: {PlayerLives}    Score: {Score} \n");
+            string board = BoardRenderer.Render(ComputerBoard, true);
+
+            for (int i = 0; i < board.Length; i++)
+            {
+                if (board[i] == '•')
+                {
+                    _Console.Write('*');
+                }
+                else if (board[i] == '*')
+                {
+
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    _Console.Write(board[i]);
+                }
+                else
+                {
+                    _Console.Write(board[i]);
+                }
+                Console.ForegroundColor = ConsoleColor.White;
+            }
+
+            _Console.WriteLine("\n" + Message);
         }
     }
 }
