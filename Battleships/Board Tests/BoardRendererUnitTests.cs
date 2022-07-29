@@ -1,7 +1,5 @@
 ﻿using Battleships;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Linq;
 
 namespace Board_Tests
 {
@@ -25,14 +23,15 @@ namespace Board_Tests
         [TestMethod]
         public void Verilen_Boyutlarda_Oyun_Tahtasini_Render_Fonksiyonu_ile_Ekrana_Cizer()
         {
-            var testBoardRenderer = new BoardRenderer(2, 2);
-            var testBoardManager = new BoardManager(2, 2);
-            var denizalti = new Target(1, "north", "denizalti");
+            BoardRenderer testBoardRenderer = new BoardRenderer(2, 2);
+            BoardManager testBoardManager = new BoardManagerFactory().Create(2, 2);
+            var targetFactory = new TargetFactory();
+            ITarget ship = targetFactory.Create(Direction.North(), "denizalti");
 
             string expectedBoardGraphicString = "[ ] [ ]\n[ ] [1]";
             expectedBoardGraphicString = expectedBoardGraphicString.Substring(0, expectedBoardGraphicString.Length);
 
-            testBoardManager.PlaceShip(new Coordinate(1, 1), denizalti);
+            testBoardManager.PlaceShip(new Coordinate(1, 1), ship);
 
             testBoardRenderer.Render(testBoardManager, false);
 

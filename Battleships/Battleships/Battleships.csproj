@@ -43,15 +43,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BoardManagerFactory.cs" />
     <Compile Include="BoardRenderer.cs" />
     <Compile Include="BoardManager.cs" />
+    <Compile Include="Cell.cs" />
     <Compile Include="Coordinate.cs" />
+    <Compile Include="Direction.cs" />
+    <Compile Include="GameSession.cs" />
+    <Compile Include="GameManagerFactory.cs" />
+    <Compile Include="ITarget.cs" />
+    <Compile Include="Messages.cs" />
     <Compile Include="SystemConsole.cs" />
     <Compile Include="GameManager.cs" />
     <Compile Include="IConsole.cs" />
     <Compile Include="Target.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TargetFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

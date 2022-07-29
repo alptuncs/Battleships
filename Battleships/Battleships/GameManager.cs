@@ -9,116 +9,138 @@ namespace Battleships
 {
     public class GameManager
     {
-        private IConsole console;
-        private BoardManager _playerBoard;
-        private BoardManager _computerBoard;
-        private BoardRenderer _boardRenderer;
-        private Coordinate _coordinates;
-        List<Target> _targets = new List<Target>();
-        private int playerLives = 30;
-        private int score = 0;
-        private int shipValue = 0;
-        private int consecutiveHits = 0;
-        private string message = "";
-        public string Message => message;
-        private bool gameStatus = true;
-        public GameManager(IConsole console, BoardManager playerBoard, BoardManager computerBoard, BoardRenderer boardRenderer, List<Target> targets)
+        public IConsole Console { get; private set; }
+        public BoardManager ComputerBoard { get; private set; }
+        public BoardRenderer BoardRenderer { get; private set; }
+        public List<ITarget> Targets { get; private set; }
+        public int PlayerLives { get; private set; }
+        public int Score { get; private set; }
+        public int ShipValue { get; private set; }
+        public int ConsecutiveHits { get; private set; }
+        public string Message { get; private set; }
+        public bool GameStatus { get; private set; }
+
+        public GameManager(IConsole console, BoardManager computerBoard, BoardRenderer boardRenderer, List<ITarget> targets)
         {
-            this.console = console;
-            _playerBoard = playerBoard;
-            _computerBoard = computerBoard;
-            _boardRenderer = boardRenderer;
-            _targets = targets;
+            Console = console;
+            ComputerBoard = computerBoard;
+            BoardRenderer = boardRenderer;
+            Targets = targets;
         }
+
         public void Initialize()
         {
-            foreach (Target target in _targets)
+            foreach (ITarget target in Targets)
             {
-                _computerBoard.RandomPlaceShip(5 - target.Size, target);
-                shipValue += target.Size * target.Size * (5 - target.Size);
+                ComputerBoard.PlaceShip(5 - target.Size, target);
+                ShipValue += target.Size * target.Size * (5 - target.Size);
             }
-        }
-        public void Play()
-        {
 
-            do
-            {
-                RenderGame();
-                UpdateGame();
-            } while (gameStatus);
-            RenderGame();
+            GameStatus = true;
+            Score = 0;
+            ShipValue = 0;
+            ConsecutiveHits = 0;
+            PlayerLives = 30;
+            Message = "" + "\n\n" + Messages.ENTER_COORDS;
         }
-        private void FireMissile(BoardManager board, Coordinate coordinates)
-        {
-            if (board.IsHit(coordinates))
-            {
-                message = "That coordinate has already been hit";
-                playerLives--;
-                consecutiveHits = 0;
-            }
-            else if (!board.HasShip(coordinates))
-            {
-                board.HitSquare(coordinates);
-                message = "You missed...";
-                playerLives--;
-                consecutiveHits = 0;
 
-            }
-            else if (board.HasShip(coordinates))
-            {
-                board.HitSquare(coordinates);
-                shipValue -= board.Board[coordinates.xPos][coordinates.yPos].shipType;
-                consecutiveHits++;
-                score += 100 * consecutiveHits;
-                message = "Successful hit !";
-            }
+        public void SetPlayerLives(int i)
+        {
+            PlayerLives = i;
         }
-        private void RenderGame()
-        {
-            console.Clear();
-            console.WriteLine($"Lives: {playerLives}    Score: {score} \n");
-            console.WriteLine(_boardRenderer.Render(_computerBoard, true));
-            console.WriteLine($"{message} \n");
-            if (gameStatus)
-            {
-                message = "Please enter the coordinates";
-                console.WriteLine(message);
-            }
-        }
-        private void UpdateGame()
-        {
-            if (gameStatus == false) return;
 
-            Regex rx = new Regex(@"^\d{1,2},\d{1,2}");
-            string[] playerInput = new string[2];
-            string stringPlayerInput = "";
-            stringPlayerInput = console.ReadLine();
-            playerInput = stringPlayerInput.Split(',');
+        public void UpdateGame(bool manualUpdate = false, string manualInput = "TakeUserInputForCoordinate")
+        {
+            if (GameStatus == false) return;
 
-            if (!rx.IsMatch(stringPlayerInput))
+            string[] playerInput;
+
+            if (!manualUpdate)
             {
-                message = "Wrong input";
-            }
-            else if (int.Parse(playerInput[0]) <= 0 || int.Parse(playerInput[0]) > 10 || int.Parse(playerInput[1]) <= 0 || int.Parse(playerInput[1]) > 10)
-            {
-                message = "Wrong input";
+                string userInput = TakeInput();
+                if (!InputCheck(userInput)) return;
+
+                playerInput = userInput.Split(',');
             }
             else
             {
-                _coordinates = new Coordinate(int.Parse(playerInput[0]) - 1, int.Parse(playerInput[1]) - 1);
-                FireMissile(_computerBoard, _coordinates);
-                if (playerLives == 0)
-                {
-                    message = "Out of lives...";
-                    gameStatus = false;
-                }
-                else if (shipValue == 0)
-                {
-                    message = "You won !";
-                    gameStatus = false;
-                }
-
+                playerInput = manualInput.Split(',');
             }
+
+            FireMissile(ComputerBoard, new Coordinate(int.Parse(playerInput[0]) - 1, int.Parse(playerInput[1]) - 1));
+            EndTurn();
+        }
+
+        private string TakeInput()
+        {
+            return Console.ReadLine();
+        }
+
+        private bool InputCheck(string input)
+        {
+            Regex rx = new Regex(@"^\d{1,2},\d{1,2}$");
+            string stringPlayerInput = input;
+            string[] playerInput = stringPlayerInput.Split(',');
+
+            if (!rx.IsMatch(stringPlayerInput))
+            {
+                Message = Messages.WRONG_INPUT + "\n\n" + Messages.ENTER_COORDS;
+                return false;
+            }
+
+            if (int.Parse(playerInput[0]) <= 0 || int.Parse(playerInput[0]) > 10 || int.Parse(playerInput[1]) <= 0 || int.Parse(playerInput[1]) > 10)
+            {
+                Message = Messages.OUT_OF_BOUND + "\n\n" + Messages.ENTER_COORDS;
+                return false;
+            }
+
+            return true;
+        }
+
+        private void FireMissile(BoardManager board, Coordinate coordinate)
+        {
+
+            if (board.IsHit(coordinate) || !board.HasShip(coordinate))
+            {
+                Message = board.IsHit(coordinate) ? Messages.SAME_COORD : Messages.HIT_MISSED;
+                PlayerLives--;
+                ConsecutiveHits = 0;
+            }
+            else
+            {
+                ConsecutiveHits++;
+                Score += 100 * ConsecutiveHits;
+                ComputerBoard.RemoveShip(coordinate);
+                Message = Messages.HIT_SUCCESS;
+            }
+
+            board.HitSquare(coordinate);
+        }
+
+        public void EndTurn()
+        {
+            if (PlayerLives == 0)
+            {
+                Message = Messages.OUT_OF_LIVES;
+                GameStatus = false;
+            }
+            else if (ComputerBoard.ShipCoordinates.Count == 0)
+            {
+                Message = Messages.YOU_WON;
+                GameStatus = false;
+            }
+            else
+            {
+                Message += "\n\n" + Messages.ENTER_COORDS;
+            }
+        }
+
+        public void RenderGame()
+        {
+            Console.Clear();
+            Console.WriteLine($"Lives: {PlayerLives}    Score: {Score} \n");
+            Console.WriteLine(BoardRenderer.Render(ComputerBoard, true));
+            Console.WriteLine(Message);
         }
     }
 }

@@ -10,57 +10,76 @@ namespace Board_Tests
         [TestMethod]
         public void Oyunu_Olusturup_Kullanicidan_Koordinat_Ister()
         {
-            var computerBoard = new BoardManager(10, 10);
-            var playerBoard = new BoardManager(10, 10);
+            var computerBoard = new BoardManagerFactory().Create(10, 10);
             var boardRenderer = new BoardRenderer(10, 10);
             IConsole console = new SystemConsole();
-            List<Target> targets = new List<Target>();
-            var amiralGemisi = new Target(4, "east", "amiralGemisi");
-            var kruvazor = new Target(3, "north", "kruvazor");
-            var mayinGemisi = new Target(2, "east", "mayinGemisi");
-            var denizalti = new Target(1, "north", "denizalti");
+            var targetFactory = new TargetFactory();
+            List<ITarget> targets = new List<ITarget>();
+            ITarget amiralGemisi = targetFactory.Create(Direction.East(), "amiralgemisi");
+            ITarget kruvazor = targetFactory.Create(Direction.North(), "kruvazor");
+            ITarget mayinGemisi = targetFactory.Create(Direction.East(), "mayingemisi");
+            ITarget denizalti = targetFactory.Create(Direction.North(), "denizalti");
 
             targets.Add(amiralGemisi);
             targets.Add(kruvazor);
             targets.Add(mayinGemisi);
             targets.Add(denizalti);
-            var game = new Battleships.GameManager(console, playerBoard, computerBoard, boardRenderer, targets);
+            var game = new Battleships.GameManager(console, computerBoard, boardRenderer, targets);
             game.Initialize();
-            game.Play();
 
-            Assert.AreEqual(game.Message, "Please enter the coordinates");
+            Assert.AreEqual("\n\nPlease enter the coordinates", game.Message, game.Message);
         }
 
         [TestMethod]
         public void Oyuncunun_Haklari_Bitince_Oyun_Sonlanır()
         {
-            var computerBoard = new BoardManager(10, 10);
-            var playerBoard = new BoardManager(10, 10);
+            var computerBoard = new BoardManagerFactory().Create(10, 10);
             var boardRenderer = new BoardRenderer(10, 10);
             IConsole console = new SystemConsole();
-            List<Target> targets = new List<Target>();
+            var targetFactory = new TargetFactory();
+            List<ITarget> targets = new List<ITarget>();
+            ITarget amiralGemisi = targetFactory.Create(Direction.East(), "amiralgemisi");
+            ITarget kruvazor = targetFactory.Create(Direction.North(), "kruvazor");
+            ITarget mayinGemisi = targetFactory.Create(Direction.East(), "mayingemisi");
+            ITarget denizalti = targetFactory.Create(Direction.North(), "denizalti");
 
-            var game = new Battleships.GameManager(console, playerBoard, computerBoard, boardRenderer, targets);
+            targets.Add(amiralGemisi);
+            targets.Add(kruvazor);
+            targets.Add(mayinGemisi);
+            targets.Add(denizalti);
+
+            var game = new Battleships.GameManager(console, computerBoard, boardRenderer, targets);
 
             game.Initialize();
-            game.Play();
+            game.SetPlayerLives(2);
+            game.UpdateGame(true, "1,1");
+            game.UpdateGame(true, "1,1");
+
+            Assert.AreEqual("Out of lives...", game.Message, game.Message);
 
 
         }
         [TestMethod]
         public void Tum_Gemiler_Vurulunca_Oyun_Sonlanir()
         {
-            var computerBoard = new BoardManager(10, 10);
-            var playerBoard = new BoardManager(10, 10);
+            var computerBoard = new BoardManagerFactory().Create(10, 10);
             var boardRenderer = new BoardRenderer(10, 10);
             IConsole console = new SystemConsole();
-            List<Target> targets = new List<Target>();
-
-            var game = new Battleships.GameManager(console, playerBoard, computerBoard, boardRenderer, targets);
-            var denizalti = new Target(1, "north", "denizalti");
+            var targetFactory = new TargetFactory();
+            List<ITarget> targets = new List<ITarget>();
+            var denizalti = targetFactory.Create(Direction.North(), "denizalti");
             targets.Add(denizalti);
 
-            game.Play();
+            var game = new Battleships.GameManager(console, computerBoard, boardRenderer, targets);
+
+
+            game.Initialize();
+            game.UpdateGame(true, "4,5");
+            game.UpdateGame(true, "8,3");
+            game.UpdateGame(true, "8,7");
+            game.UpdateGame(true, "10,8");
+
+            Assert.AreEqual("You won !", game.Message, game.Message);
         }
     }
 }
