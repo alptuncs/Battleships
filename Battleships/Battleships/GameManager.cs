@@ -9,9 +9,9 @@ namespace Battleships
 {
     public class GameManager
     {
-        private IConsole console;
-        private BoardManager computerBoard;
-        private BoardRenderer boardRenderer;
+        public IConsole Console { get; private set; }
+        public BoardManager ComputerBoard { get; private set; }
+        public BoardRenderer BoardRenderer { get; private set; }
         public List<ITarget> Targets { get; private set; }
         public int PlayerLives { get; private set; }
         public int Score { get; private set; }
@@ -22,9 +22,9 @@ namespace Battleships
 
         public GameManager(IConsole console, BoardManager computerBoard, BoardRenderer boardRenderer, List<ITarget> targets)
         {
-            this.console = console;
-            this.computerBoard = computerBoard;
-            this.boardRenderer = boardRenderer;
+            Console = console;
+            ComputerBoard = computerBoard;
+            BoardRenderer = boardRenderer;
             Targets = targets;
         }
 
@@ -32,7 +32,7 @@ namespace Battleships
         {
             foreach (ITarget target in Targets)
             {
-                computerBoard.PlaceShip(5 - target.Size, target);
+                ComputerBoard.PlaceShip(5 - target.Size, target);
                 ShipValue += target.Size * target.Size * (5 - target.Size);
             }
 
@@ -67,13 +67,13 @@ namespace Battleships
                 playerInput = manualInput.Split(',');
             }
 
-            FireMissile(computerBoard, new Coordinate(int.Parse(playerInput[0]) - 1, int.Parse(playerInput[1]) - 1));
+            FireMissile(ComputerBoard, new Coordinate(int.Parse(playerInput[0]) - 1, int.Parse(playerInput[1]) - 1));
             EndTurn();
         }
 
         private string TakeInput()
         {
-            return console.ReadLine();
+            return Console.ReadLine();
         }
 
         private bool InputCheck(string input)
@@ -110,7 +110,7 @@ namespace Battleships
             {
                 ConsecutiveHits++;
                 Score += 100 * ConsecutiveHits;
-                computerBoard.RemoveShip(coordinate);
+                ComputerBoard.RemoveShip(coordinate);
                 Message = Messages.HIT_SUCCESS;
             }
 
@@ -124,7 +124,7 @@ namespace Battleships
                 Message = Messages.OUT_OF_LIVES;
                 GameStatus = false;
             }
-            else if (computerBoard.ShipCoordinates.Count == 0)
+            else if (ComputerBoard.ShipCoordinates.Count == 0)
             {
                 Message = Messages.YOU_WON;
                 GameStatus = false;
@@ -137,10 +137,10 @@ namespace Battleships
 
         public void RenderGame()
         {
-            console.Clear();
-            console.WriteLine($"Lives: {PlayerLives}    Score: {Score} \n");
-            console.WriteLine(boardRenderer.Render(computerBoard, true));
-            console.WriteLine(Message);
+            Console.Clear();
+            Console.WriteLine($"Lives: {PlayerLives}    Score: {Score} \n");
+            Console.WriteLine(BoardRenderer.Render(ComputerBoard, true));
+            Console.WriteLine(Message);
         }
     }
 }
