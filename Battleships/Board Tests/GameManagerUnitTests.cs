@@ -27,7 +27,7 @@ namespace Board_Tests
             var game = new Battleships.GameManager(console, computerBoard, boardRenderer, targets);
             game.Initialize();
 
-            Assert.AreEqual("\n\nPlease enter the coordinates", game.Message, game.Message);
+            Assert.AreEqual("\n\nPlease enter the coordinate", game.Message, game.Message);
         }
 
         [TestMethod]

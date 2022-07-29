@@ -21,7 +21,7 @@ namespace Battleships
 
         public static readonly string OUT_OF_LIVES = "Out of lives...";
 
-        public static readonly string ENTER_COORDS = "Please enter the coordinates";
+        public static readonly string ENTER_COORDS = "Please enter the coordinate (E.g. A,7)";
 
         public static readonly string WRONG_INPUT = "Wrong input";
     }
