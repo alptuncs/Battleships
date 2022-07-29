@@ -12,6 +12,23 @@ namespace Battleships
             XPos = x;
             YPos = y;
         }
+        public Coordinate(char userInput, int y)
+        {
+            switch (userInput)
+            {
+                case 'A': { XPos = 0; YPos = y; } break;
+                case 'B': { XPos = 1; YPos = y; } break;
+                case 'C': { XPos = 2; YPos = y; } break;
+                case 'D': { XPos = 3; YPos = y; } break;
+                case 'E': { XPos = 4; YPos = y; } break;
+                case 'F': { XPos = 5; YPos = y; } break;
+                case 'G': { XPos = 6; YPos = y; } break;
+                case 'H': { XPos = 7; YPos = y; } break;
+                case 'I': { XPos = 8; YPos = y; } break;
+                case 'J': { XPos = 9; YPos = y; } break;
+
+            }
+        }
 
         public static Coordinate GetNeighbour(Coordinate coordinate, Direction direction)
         {

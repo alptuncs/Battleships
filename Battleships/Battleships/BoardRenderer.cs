@@ -28,7 +28,11 @@ namespace Battleships
             {
                 for (int j = 0; j < BoardSurface[i].Length; j++)
                 {
-                    BoardGraphicString += BoardSurface[i][j] + (j < BoardSurface[i].Length - 1 ? " " : "");
+                    if (i == 0 && j == 0) BoardGraphicString += "  1  2  3  4  5  6  7  8  9 10".Substring(0, BoardSurface[0].Length * 3) + "\n";
+
+                    if (j == 0) BoardGraphicString += "ABCDEFGHIJ".Substring(i, 1);
+
+                    BoardGraphicString += BoardSurface[i][j];
                 }
                 BoardGraphicString += i < BoardSurface.Length - 1 ? "\n" : "";
             }
@@ -56,7 +60,7 @@ namespace Battleships
                     if (boardManager.HasShip(new Coordinate(i, j)) && !hide) BoardSurface[i][j] = $"[{boardManager.Board[i, j].shipType}]";
 
                     if (boardManager.IsHit(new Coordinate(i, j)) && boardManager.HasShip(new Coordinate(i, j))) BoardSurface[i][j] = "[*]";
-                    else if (boardManager.IsHit(new Coordinate(i, j)) && !boardManager.HasShip(new Coordinate(i, j))) BoardSurface[i][j] = "[X]";
+                    else if (boardManager.IsHit(new Coordinate(i, j)) && !boardManager.HasShip(new Coordinate(i, j))) BoardSurface[i][j] = "[•]";
                 }
             }
 

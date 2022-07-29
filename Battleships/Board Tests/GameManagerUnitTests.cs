@@ -8,7 +8,7 @@ namespace Board_Tests
     public class GameManagerUnitTests
     {
         [TestMethod]
-        public void Oyunu_Olusturup_Kullanicidan_Koordinat_Ister()
+        public void Oyunu_olusturup_kullanicidan_koordinat_ister()
         {
             var computerBoard = new BoardManagerFactory().Create(10, 10);
             var boardRenderer = new BoardRenderer(10, 10);
@@ -27,11 +27,11 @@ namespace Board_Tests
             var game = new Battleships.GameManager(console, computerBoard, boardRenderer, targets);
             game.Initialize();
 
-            Assert.AreEqual("\n\nPlease enter the coordinates", game.Message, game.Message);
+            Assert.AreEqual("\n\nPlease enter the coordinate (E.g. A,7)", game.Message, game.Message);
         }
 
         [TestMethod]
-        public void Oyuncunun_Haklari_Bitince_Oyun_Sonlanır()
+        public void Oyuncunun_haklari_bitince_oyun_sonlanir()
         {
             var computerBoard = new BoardManagerFactory().Create(10, 10);
             var boardRenderer = new BoardRenderer(10, 10);
@@ -52,15 +52,15 @@ namespace Board_Tests
 
             game.Initialize();
             game.SetPlayerLives(2);
-            game.UpdateGame(true, "1,1");
-            game.UpdateGame(true, "1,1");
+            game.UpdateGame(true, "A,1");
+            game.UpdateGame(true, "A,1");
 
             Assert.AreEqual("Out of lives...", game.Message, game.Message);
 
 
         }
         [TestMethod]
-        public void Tum_Gemiler_Vurulunca_Oyun_Sonlanir()
+        public void Tum_gemiler_vurulunca_oyun_sonlanir()
         {
             var computerBoard = new BoardManagerFactory().Create(10, 10);
             var boardRenderer = new BoardRenderer(10, 10);
@@ -74,10 +74,10 @@ namespace Board_Tests
 
 
             game.Initialize();
-            game.UpdateGame(true, "4,5");
-            game.UpdateGame(true, "8,3");
-            game.UpdateGame(true, "8,7");
-            game.UpdateGame(true, "10,8");
+            game.UpdateGame(true, "D,5");
+            game.UpdateGame(true, "H,3");
+            game.UpdateGame(true, "H,7");
+            game.UpdateGame(true, "J,8");
 
             Assert.AreEqual("You won !", game.Message, game.Message);
         }

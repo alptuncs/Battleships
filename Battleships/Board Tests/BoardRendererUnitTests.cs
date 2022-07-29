@@ -9,10 +9,10 @@ namespace Board_Tests
 
 
         [TestMethod]
-        public void Verilen_Boyutlarda_Oyun_Tahtası_Ekrana_Cizer()
+        public void Verilen_boyutlarda_oyun_tahtasini_ekrana_cizer()
         {
             BoardRenderer testBoard = new BoardRenderer(2, 2);
-            string expectedBoardGraphicString = "[ ] [ ]\n[ ] [ ]";
+            string expectedBoardGraphicString = "  1  2\nA[ ][ ]\nB[ ][ ]";
 
             testBoard.InitializeBoardGraphicString();
 
@@ -21,14 +21,14 @@ namespace Board_Tests
 
 
         [TestMethod]
-        public void Verilen_Boyutlarda_Oyun_Tahtasini_Render_Fonksiyonu_ile_Ekrana_Cizer()
+        public void Verilen_boyutlarda_oyun_tahtasini_render_ile_ekrana_cizer()
         {
             BoardRenderer testBoardRenderer = new BoardRenderer(2, 2);
             BoardManager testBoardManager = new BoardManagerFactory().Create(2, 2);
             var targetFactory = new TargetFactory();
             ITarget ship = targetFactory.Create(Direction.North(), "denizalti");
 
-            string expectedBoardGraphicString = "[ ] [ ]\n[ ] [1]";
+            string expectedBoardGraphicString = "  1  2\nA[ ][ ]\nB[ ][1]";
             expectedBoardGraphicString = expectedBoardGraphicString.Substring(0, expectedBoardGraphicString.Length);
 
             testBoardManager.PlaceShip(new Coordinate(1, 1), ship);

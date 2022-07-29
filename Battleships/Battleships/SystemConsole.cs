@@ -15,5 +15,7 @@ namespace Battleships
         public string ReadLine() => Console.ReadLine();
 
         public void Clear() => Console.Clear();
+
+        public void Write(char c) => Console.Write(c);
     }
 }

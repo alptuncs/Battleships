@@ -12,6 +12,8 @@ namespace Battleships
 
         void WriteLine(string message, params object[] args);
 
+        void Write(char c);
+
         void Clear();
 
         string ReadLine();

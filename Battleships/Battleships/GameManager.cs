@@ -9,7 +9,7 @@ namespace Battleships
 {
     public class GameManager
     {
-        public IConsole Console { get; private set; }
+        public IConsole GameManagerConsole { get; private set; }
         public BoardManager ComputerBoard { get; private set; }
         public BoardRenderer BoardRenderer { get; private set; }
         public List<ITarget> Targets { get; private set; }
@@ -22,10 +22,11 @@ namespace Battleships
 
         public GameManager(IConsole console, BoardManager computerBoard, BoardRenderer boardRenderer, List<ITarget> targets)
         {
-            Console = console;
+            GameManagerConsole = console;
             ComputerBoard = computerBoard;
             BoardRenderer = boardRenderer;
             Targets = targets;
+            Console.OutputEncoding = System.Text.Encoding.UTF8;
         }
 
         public void Initialize()
@@ -54,33 +55,37 @@ namespace Battleships
             if (GameStatus == false) return;
 
             string[] playerInput;
+            char[] playerInputChar;
 
             if (!manualUpdate)
             {
-                string userInput = TakeInput();
+                string userInput = TakeInput().ToUpper();
                 if (!InputCheck(userInput)) return;
 
                 playerInput = userInput.Split(',');
+                playerInputChar = playerInput[0].ToCharArray();
             }
             else
             {
                 playerInput = manualInput.Split(',');
+                playerInputChar = playerInput[0].ToCharArray();
             }
 
-            FireMissile(ComputerBoard, new Coordinate(int.Parse(playerInput[0]) - 1, int.Parse(playerInput[1]) - 1));
+            FireMissile(ComputerBoard, new Coordinate(playerInputChar[0], int.Parse(playerInput[1]) - 1));
             EndTurn();
         }
 
         private string TakeInput()
         {
-            return Console.ReadLine();
+            return GameManagerConsole.ReadLine();
         }
 
         private bool InputCheck(string input)
         {
-            Regex rx = new Regex(@"^\d{1,2},\d{1,2}$");
-            string stringPlayerInput = input;
+            Regex rx = new Regex(@"^^[A-J]{1},\d{1,2}$");
+            string stringPlayerInput = input.ToUpper();
             string[] playerInput = stringPlayerInput.Split(',');
+            char[] playerInputChar = playerInput[0].ToCharArray();
 
             if (!rx.IsMatch(stringPlayerInput))
             {
@@ -88,7 +93,7 @@ namespace Battleships
                 return false;
             }
 
-            if (int.Parse(playerInput[0]) <= 0 || int.Parse(playerInput[0]) > 10 || int.Parse(playerInput[1]) <= 0 || int.Parse(playerInput[1]) > 10)
+            if (int.Parse(playerInput[1]) <= 0 || int.Parse(playerInput[1]) > 10 || playerInputChar[0] > 'J' || playerInputChar[0] < 'A')
             {
                 Message = Messages.OUT_OF_BOUND + "\n\n" + Messages.ENTER_COORDS;
                 return false;
@@ -137,10 +142,30 @@ namespace Battleships
 
         public void RenderGame()
         {
-            Console.Clear();
-            Console.WriteLine($"Lives: {PlayerLives}    Score: {Score} \n");
-            Console.WriteLine(BoardRenderer.Render(ComputerBoard, true));
-            Console.WriteLine(Message);
+            GameManagerConsole.Clear();
+            GameManagerConsole.WriteLine($"Lives: {PlayerLives}    Score: {Score} \n");
+            string board = BoardRenderer.Render(ComputerBoard, true);
+
+            for (int i = 0; i < board.Length; i++)
+            {
+                if (board[i] == '•')
+                {
+                    GameManagerConsole.Write('*');
+                }
+                else if (board[i] == '*')
+                {
+
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    GameManagerConsole.Write(board[i]);
+                }
+                else
+                {
+                    GameManagerConsole.Write(board[i]);
+                }
+                Console.ForegroundColor = ConsoleColor.White;
+            }
+
+            GameManagerConsole.WriteLine("\n" + Message);
         }
     }
 }

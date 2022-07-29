@@ -13,7 +13,7 @@ namespace Battleships
         {
             GameSession gameSession = new GameSession(new GameManagerFactory().Create());
 
-            gameSession.Play();
+            gameSession.Play(); 
         }
     }
 }
