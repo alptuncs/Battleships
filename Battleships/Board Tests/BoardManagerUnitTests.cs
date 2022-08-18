@@ -64,7 +64,7 @@ namespace Board_Tests
             var targetFactory = new TargetFactory();
             ITarget kruvazor = targetFactory.Create(Direction.North(), "kruvazor");
 
-            Assert.ThrowsException<InvalidOperationException>(() => boardManager.PlaceShip(105, kruvazor));
+            Assert.ThrowsException<InvalidOperationException>(() => boardManager.PlaceShip(105, kruvazor)); 
         }
 
         [TestMethod]
