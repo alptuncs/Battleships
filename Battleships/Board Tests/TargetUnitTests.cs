@@ -1,20 +1,17 @@
 ﻿using Battleships;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
+using NUnit.Framework;
 
-namespace Board_Tests
+namespace Board_Tests;
+
+[TestFixture]
+public class TargetUnitTests
 {
-    [TestClass]
-    public class TargetUnitTests
+    [Test]
+    public void Dogru_Target_Olusturur()
     {
-        [TestMethod]
-        public void Dogru_Target_Olusturur()
-        {
-            var targetFactory = new TargetFactory();
-            ITarget actualTarget = targetFactory.Create(Direction.North(), "denizalti");
+        var targetFactory = new TargetFactory();
+        ITarget actualTarget = targetFactory.Create(Direction.North(), "denizalti");
 
-            Assert.AreEqual(actualTarget.Size, 1, "Size Yanlış");
-        }
+        Assert.AreEqual(1, actualTarget.Size, "Size Yanlış");
     }
 }
-

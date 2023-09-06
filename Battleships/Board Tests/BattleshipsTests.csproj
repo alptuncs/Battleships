@@ -6,6 +6,7 @@
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+	<ImplicitUsings>true</ImplicitUsings>
     <AssemblyTitle>Board Tests</AssemblyTitle>
     <Company>HP</Company>
     <Product>Board Tests</Product>
@@ -14,11 +15,21 @@
     <FileVersion>1.0.0.0</FileVersion>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Battleships\Battleships.csproj" />
+    <PackageReference Include="coverlet.collector" Version="6.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.7.2" />
+    <PackageReference Include="Moq" Version="4.20.69" />
+    <PackageReference Include="NUnit" Version="3.13.3" />
+    <PackageReference Include="NUnit.Analyzers" Version="3.6.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="NUnit3TestAdapter" Version="4.5.0" />
+    <PackageReference Include="Shouldly" Version="4.2.1" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.*" />
-    <PackageReference Include="MSTest.TestAdapter" Version="2.2.7" />
-    <PackageReference Include="MSTest.TestFramework" Version="2.2.7" />
+    <ProjectReference Include="..\Battleships\Battleships.csproj" />
   </ItemGroup>
 </Project>

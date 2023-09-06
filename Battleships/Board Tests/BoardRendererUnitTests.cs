@@ -1,42 +1,37 @@
 ﻿using Battleships;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
-namespace Board_Tests
+namespace Board_Tests;
+
+[TestFixture]
+public class BoardRendererUnitTests
 {
-    [TestClass]
-    public class BoardRendererUnitTests
+    [Test]
+    public void Verilen_boyutlarda_oyun_tahtasini_ekrana_cizer()
     {
+        BoardRenderer testBoard = new BoardRenderer(2, 2);
+        string expectedBoardGraphicString = "  1  2\nA[ ][ ]\nB[ ][ ]";
 
+        testBoard.InitializeBoardGraphicString();
 
-        [TestMethod]
-        public void Verilen_boyutlarda_oyun_tahtasini_ekrana_cizer()
-        {
-            BoardRenderer testBoard = new BoardRenderer(2, 2);
-            string expectedBoardGraphicString = "  1  2\nA[ ][ ]\nB[ ][ ]";
+        Assert.AreEqual(expectedBoardGraphicString, testBoard.BoardGraphicString);
+    }
 
-            testBoard.InitializeBoardGraphicString();
+    [Test]
+    public void Verilen_boyutlarda_oyun_tahtasini_render_ile_ekrana_cizer()
+    {
+        BoardRenderer testBoardRenderer = new BoardRenderer(2, 2);
+        BoardManager testBoardManager = new BoardManagerFactory().Create(2, 2);
+        var targetFactory = new TargetFactory();
+        ITarget ship = targetFactory.Create(Direction.North(), "denizalti");
 
-            Assert.AreEqual(expectedBoardGraphicString, testBoard.BoardGraphicString);
-        }
+        string expectedBoardGraphicString = "  1  2\nA[ ][ ]\nB[ ][1]";
+        expectedBoardGraphicString = expectedBoardGraphicString.Substring(0, expectedBoardGraphicString.Length);
 
+        testBoardManager.PlaceShip(new Coordinate(1, 1), ship);
 
-        [TestMethod]
-        public void Verilen_boyutlarda_oyun_tahtasini_render_ile_ekrana_cizer()
-        {
-            BoardRenderer testBoardRenderer = new BoardRenderer(2, 2);
-            BoardManager testBoardManager = new BoardManagerFactory().Create(2, 2);
-            var targetFactory = new TargetFactory();
-            ITarget ship = targetFactory.Create(Direction.North(), "denizalti");
+        testBoardRenderer.Render(testBoardManager, false);
 
-            string expectedBoardGraphicString = "  1  2\nA[ ][ ]\nB[ ][1]";
-            expectedBoardGraphicString = expectedBoardGraphicString.Substring(0, expectedBoardGraphicString.Length);
-
-            testBoardManager.PlaceShip(new Coordinate(1, 1), ship);
-
-            testBoardRenderer.Render(testBoardManager, false);
-
-            Assert.AreEqual(expectedBoardGraphicString, testBoardRenderer.BoardGraphicString);
-
-        }
+        Assert.AreEqual(expectedBoardGraphicString, testBoardRenderer.BoardGraphicString);
     }
 }
