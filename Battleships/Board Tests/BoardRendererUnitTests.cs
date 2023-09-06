@@ -4,7 +4,7 @@ using NUnit.Framework;
 namespace Board_Tests;
 
 [TestFixture]
-public class BoardRendererUnitTests
+public class BoardRendererUnitTests : Spec
 {
     [Test]
     public void Verilen_boyutlarda_oyun_tahtasini_ekrana_cizer()

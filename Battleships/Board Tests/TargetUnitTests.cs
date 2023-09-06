@@ -4,7 +4,7 @@ using NUnit.Framework;
 namespace Board_Tests;
 
 [TestFixture]
-public class TargetUnitTests
+public class TargetUnitTests : Spec
 {
     [Test]
     public void Dogru_Target_Olusturur()

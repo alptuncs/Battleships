@@ -4,7 +4,7 @@ using NUnit.Framework;
 namespace Board_Tests;
 
 [TestFixture]
-public class BoardManagerUnitTests
+public class BoardManagerUnitTests : Spec
 {
     [Test]
     public void Gemiyi_dogru_koordinatta_yerlestirmeye_baslar()

@@ -4,7 +4,7 @@ using NUnit.Framework;
 namespace Board_Tests;
 
 [TestFixture]
-public class GameManagerUnitTests
+public class GameManagerUnitTests : Spec
 {
     [Test]
     public void Oyunu_olusturup_kullanicidan_koordinat_ister()
