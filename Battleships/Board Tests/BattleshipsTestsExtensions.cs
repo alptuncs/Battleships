@@ -12,4 +12,7 @@ public static class BattleshipsTestsExtensions
 
     public static Coordinate ACoordinate(this Spec.Stubber _, int xCoordinate, int yCoordinate) =>
         new Coordinate(xCoordinate, yCoordinate);
+
+    public static BoardRenderer ABoardRenderer(this Spec.Stubber _, int height, int width) =>
+        new BoardRenderer(height, width);
 }

@@ -7,31 +7,24 @@ namespace Board_Tests;
 public class BoardRendererUnitTests : Spec
 {
     [Test]
-    public void Verilen_boyutlarda_oyun_tahtasini_ekrana_cizer()
+    public void BoardRenderer_renders_the_board_with_given_height_and_width()
     {
-        BoardRenderer testBoard = new BoardRenderer(2, 2);
-        string expectedBoardGraphicString = "  1  2\nA[ ][ ]\nB[ ][ ]";
+        BoardRenderer testBoard = GiveMe.ABoardRenderer(2, 2);
 
         testBoard.InitializeBoardGraphicString();
 
-        Assert.AreEqual(expectedBoardGraphicString, testBoard.BoardGraphicString);
+        Assert.AreEqual("  1  2\nA[ ][ ]\nB[ ][ ]", testBoard.BoardGraphicString);
     }
 
     [Test]
-    public void Verilen_boyutlarda_oyun_tahtasini_render_ile_ekrana_cizer()
+    public void BoardRenderer_renders_the_targets_BoardManager_places()
     {
-        BoardRenderer testBoardRenderer = new BoardRenderer(2, 2);
-        BoardManager testBoardManager = new BoardManagerFactory().Create(2, 2);
-        var targetFactory = new TargetFactory();
-        ITarget ship = targetFactory.Create(Direction.North(), "denizalti");
-
-        string expectedBoardGraphicString = "  1  2\nA[ ][ ]\nB[ ][1]";
-        expectedBoardGraphicString = expectedBoardGraphicString.Substring(0, expectedBoardGraphicString.Length);
-
-        testBoardManager.PlaceShip(new Coordinate(1, 1), ship);
+        BoardRenderer testBoardRenderer = GiveMe.ABoardRenderer(2, 2);
+        BoardManager testBoardManager = GiveMe.ABoardManager(2, 2);
+        testBoardManager.PlaceShip(GiveMe.ACoordinate(1, 1), GiveMe.ATarget(Direction.North(), "denizalti"));
 
         testBoardRenderer.Render(testBoardManager, false);
 
-        Assert.AreEqual(expectedBoardGraphicString, testBoardRenderer.BoardGraphicString);
+        Assert.AreEqual("  1  2\nA[ ][ ]\nB[ ][1]", testBoardRenderer.BoardGraphicString);
     }
 }
