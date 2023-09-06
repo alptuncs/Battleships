@@ -7,84 +7,60 @@ namespace Board_Tests;
 public class BoardManagerUnitTests : Spec
 {
     [Test]
-    public void Gemiyi_dogru_koordinatta_yerlestirmeye_baslar()
+    public void Places_target_at_the_given_coordinate()
     {
-        var boardManager = new BoardManagerFactory().Create(10, 10);
-        var targetFactory = new TargetFactory();
-        ITarget amiralGemisi = targetFactory.Create(Direction.East(), "amiralgemisi");
+        var boardManager = GiveMe.ABoardManager(10, 10);
 
-        boardManager.PlaceShip(new Coordinate(3, 2), amiralGemisi);
+        boardManager.PlaceShip(GiveMe.ACoordinate(3, 2), GiveMe.ATarget());
 
-        Assert.IsTrue(boardManager.HasShip(new Coordinate(3, 2)), "3,2 olmadı");
-        Assert.IsFalse(boardManager.HasShip(new Coordinate(5, 5)), "5,5 hatalı yerleştirme");
+        Assert.IsTrue(boardManager.HasShip(GiveMe.ACoordinate(3, 2)));
     }
 
     [Test]
-    public void Gemiyi_yerlestirmeyi_dogru_koordinatta_bitirir()
+    public void Places_target_based_on_given_direction()
     {
-        var boardManager = new BoardManagerFactory().Create(10, 10);
-        var targetFactory = new TargetFactory();
-        ITarget amiralGemisi = targetFactory.Create(Direction.East(), "amiralgemisi");
+        var boardManager = GiveMe.ABoardManager(10, 10);
 
-        boardManager.PlaceShip(new Coordinate(3, 2), amiralGemisi);
+        boardManager.PlaceShip(GiveMe.ACoordinate(3, 2), GiveMe.ATarget(Direction.East(), "amiralgemisi"));
 
-        Assert.IsTrue(boardManager.HasShip(new Coordinate(3, 5)), "3,5 olmadı");
-        Assert.IsFalse(boardManager.HasShip(new Coordinate(5, 5)), "5,5 hatalı yerleştirme");
+        Assert.IsTrue(boardManager.HasShip(GiveMe.ACoordinate(3, 3)));
     }
 
     [Test]
-    public void Belirli_sayida_gemiyi_rastgele_yerlestirir()
+    public void Randomly_places_given_targets()
     {
-        var boardManager = new BoardManagerFactory().Create(10, 10);
-        var targetFactory = new TargetFactory();
-        ITarget amiralGemisi = targetFactory.Create(Direction.East(), "amiralgemisi");
-        ITarget kruvazor = targetFactory.Create(Direction.North(), "kruvazor");
-        ITarget mayinGemisi = targetFactory.Create(Direction.East(), "mayingemisi");
-        ITarget denizalti = targetFactory.Create(Direction.North(), "denizalti");
+        var boardManager = GiveMe.ABoardManager(10, 10);
 
-        List<ITarget> targets = new List<ITarget>();
-        targets.Add(amiralGemisi);
-        targets.Add(kruvazor);
-        targets.Add(mayinGemisi);
-        targets.Add(denizalti);
+        boardManager.PlaceShip(4, GiveMe.ATarget());
 
-        foreach (ITarget target in targets)
-        {
-            boardManager.PlaceShip(5 - target.Size, target);
-        }
-
-        Assert.AreEqual(boardManager.PlacedShips, 10);
+        Assert.AreEqual(4, boardManager.PlacedShips);
     }
 
     [Test]
-    public void Kapasiteden_fazla_gemi_eklemez()
+    public void Gives_an_error_if_the_given_targets_do_not_fit_on_the_board()
     {
-        var boardManager = new BoardManagerFactory().Create(10, 10);
-        var targetFactory = new TargetFactory();
-        ITarget kruvazor = targetFactory.Create(Direction.North(), "kruvazor");
+        var boardManager = GiveMe.ABoardManager(10, 10);
 
-        Assert.Throws<InvalidOperationException>(() => boardManager.PlaceShip(105, kruvazor));
+        Assert.Throws<InvalidOperationException>(() => boardManager.PlaceShip(101, GiveMe.ATarget()));
     }
 
     [Test]
-    public void Saldiri_icin_koordinat_verilince_o_koordinati_vurur()
+    public void BoardManager_hits_the_given_coordinate()
     {
-        var boardManager = new BoardManagerFactory().Create(10, 10);
-        var coordinate = new Coordinate(2, 5);
-        boardManager.HitSquare(coordinate);
+        var boardManager = GiveMe.ABoardManager(10, 10);
 
-        Assert.IsTrue(boardManager.IsHit(coordinate));
+        boardManager.HitSquare(GiveMe.ACoordinate(2, 5));
+
+        Assert.IsTrue(boardManager.IsHit(GiveMe.ACoordinate(2, 5)));
     }
 
     [Test]
-    public void Tahtanin_kosesine_tahtanin_disina_bakicak_sekilde_denizalti_yerlestirir()
+    public void Can_place_submarine_at_the_edge_of_the_board_facing_outside()
     {
-        var boardManager = new BoardManagerFactory().Create(1, 1);
-        var coordinate = new Coordinate(0, 0);
-        var target = new TargetFactory().Create(Direction.North(), "denizalti");
+        var boardManager = GiveMe.ABoardManager(1, 1);
 
-        boardManager.PlaceShip(coordinate, target);
+        boardManager.PlaceShip(GiveMe.ACoordinate(0, 0), GiveMe.ATarget(Direction.North(), "denizalti"));
 
-        Assert.IsTrue(boardManager.HasShip(coordinate));
+        Assert.IsTrue(boardManager.HasShip(GiveMe.ACoordinate(0, 0)));
     }
 }

@@ -4,7 +4,7 @@ namespace Board_Tests;
 
 public abstract class Spec
 {
-    public Stubber GiveMe { get; private set;    } = default!;
+    public Stubber GiveMe { get; private set; } = default!;
     public Mocker MockMe { get; private set; } = default!;
 
     [SetUp]
