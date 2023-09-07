@@ -3,8 +3,6 @@ on:
   pull_request:
     branches:
       - main
-    paths:
-      - 'Battleships/**'
 
 env:
   MIN_COVERAGE: 50
@@ -40,7 +38,7 @@ jobs:
           dotnet-version: |
             6.0.x
       - name: Build Solution
-        run: dotnet build
+        run: dotnet build Battleships/Battleships.sln
   test:
     name: Test
     needs: build
@@ -57,7 +55,7 @@ jobs:
             6.0.x
       - name: Test
         if: ${{ matrix.os != 'ubuntu-latest' }}
-        run: dotnet test
+        run: dotnet test Battleships/Battleships.sln
       - name: Test w/ Coverage
         if: ${{ matrix.os == 'ubuntu-latest' }}
         # If a project is not listed in coverage report,
