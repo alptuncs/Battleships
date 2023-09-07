@@ -7,11 +7,10 @@ namespace Board_Tests;
 public class TargetUnitTests : Spec
 {
     [Test]
-    public void Dogru_Target_Olusturur()
+    public void Creates_target_with_correct_size()
     {
-        var targetFactory = new TargetFactory();
-        ITarget actualTarget = targetFactory.Create(Direction.North(), "denizalti");
+        ITarget actualTarget = GiveMe.ATarget(shipType: "denizalti");
 
-        Assert.AreEqual(1, actualTarget.Size, "Size Yanlış");
+        Assert.AreEqual(1, actualTarget.Size);
     }
 }

@@ -9,7 +9,7 @@ public class BoardManagerUnitTests : Spec
     [Test]
     public void Places_target_at_the_given_coordinate()
     {
-        var boardManager = GiveMe.ABoardManager(10, 10);
+        var boardManager = GiveMe.ABoardManager();
 
         boardManager.PlaceShip(GiveMe.ACoordinate(3, 2), GiveMe.ATarget());
 
@@ -19,7 +19,7 @@ public class BoardManagerUnitTests : Spec
     [Test]
     public void Places_target_based_on_given_direction()
     {
-        var boardManager = GiveMe.ABoardManager(10, 10);
+        var boardManager = GiveMe.ABoardManager();
 
         boardManager.PlaceShip(GiveMe.ACoordinate(3, 2), GiveMe.ATarget(Direction.East(), "amiralgemisi"));
 
@@ -29,7 +29,7 @@ public class BoardManagerUnitTests : Spec
     [Test]
     public void Randomly_places_given_targets()
     {
-        var boardManager = GiveMe.ABoardManager(10, 10);
+        var boardManager = GiveMe.ABoardManager();
 
         boardManager.PlaceShip(4, GiveMe.ATarget());
 
@@ -39,7 +39,7 @@ public class BoardManagerUnitTests : Spec
     [Test]
     public void Gives_an_error_if_the_given_targets_do_not_fit_on_the_board()
     {
-        var boardManager = GiveMe.ABoardManager(10, 10);
+        var boardManager = GiveMe.ABoardManager();
 
         Assert.Throws<InvalidOperationException>(() => boardManager.PlaceShip(101, GiveMe.ATarget()));
     }
@@ -47,7 +47,7 @@ public class BoardManagerUnitTests : Spec
     [Test]
     public void BoardManager_hits_the_given_coordinate()
     {
-        var boardManager = GiveMe.ABoardManager(10, 10);
+        var boardManager = GiveMe.ABoardManager();
 
         boardManager.HitSquare(GiveMe.ACoordinate(2, 5));
 
