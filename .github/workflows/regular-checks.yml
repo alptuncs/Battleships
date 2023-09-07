@@ -4,8 +4,7 @@ on:
     branches:
       - main
     paths:
-      - 'Battleships/Battleships/**'
-      - 'Battleships/Board Tests/**'
+      - 'Battleships/**'
 
 env:
   MIN_COVERAGE: 50
