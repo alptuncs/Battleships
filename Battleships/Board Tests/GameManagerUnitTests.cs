@@ -1,5 +1,5 @@
-﻿using Battleships;
-using NUnit.Framework;
+﻿using NUnit.Framework;
+using Shouldly;
 
 namespace Board_Tests;
 
@@ -13,7 +13,7 @@ public class GameManagerUnitTests : Spec
 
         game.Initialize();
 
-        Assert.AreEqual("\n\nPlease enter the coordinate (E.g. A,7)", game.Message, game.Message);
+        game.Message.ShouldBe("\n\nPlease enter the coordinate (E.g. A,7)");
     }
 
     [Test]
@@ -26,7 +26,7 @@ public class GameManagerUnitTests : Spec
         game.UpdateGame(true, "A,1");
         game.UpdateGame(true, "A,1");
 
-        Assert.AreEqual("Out of lives...", game.Message, game.Message);
+        game.Message.ShouldBe("Out of lives...");
     }
 
     [Test]
@@ -40,6 +40,6 @@ public class GameManagerUnitTests : Spec
         game.UpdateGame(true, "H,7");
         game.UpdateGame(true, "J,8");
 
-        Assert.AreEqual("You won !", game.Message, game.Message);
+        game.Message.ShouldBe("You won !");
     }
 }

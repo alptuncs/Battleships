@@ -1,5 +1,6 @@
 ﻿using Battleships;
 using NUnit.Framework;
+using Shouldly;
 
 namespace Board_Tests;
 
@@ -13,7 +14,7 @@ public class BoardManagerUnitTests : Spec
 
         boardManager.PlaceShip(GiveMe.ACoordinate(3, 2), GiveMe.ATarget());
 
-        Assert.IsTrue(boardManager.HasShip(GiveMe.ACoordinate(3, 2)));
+        boardManager.HasShip(GiveMe.ACoordinate(3, 2)).ShouldBeTrue();
     }
 
     [Test]
@@ -23,7 +24,7 @@ public class BoardManagerUnitTests : Spec
 
         boardManager.PlaceShip(GiveMe.ACoordinate(3, 2), GiveMe.ATarget(Direction.East(), "amiralgemisi"));
 
-        Assert.IsTrue(boardManager.HasShip(GiveMe.ACoordinate(3, 3)));
+        boardManager.HasShip(GiveMe.ACoordinate(3, 3)).ShouldBeTrue();
     }
 
     [Test]
@@ -33,7 +34,7 @@ public class BoardManagerUnitTests : Spec
 
         boardManager.PlaceShip(4, GiveMe.ATarget());
 
-        Assert.AreEqual(4, boardManager.PlacedShips);
+        boardManager.PlacedShips.ShouldBe(4);
     }
 
     [Test]
@@ -41,7 +42,9 @@ public class BoardManagerUnitTests : Spec
     {
         var boardManager = GiveMe.ABoardManager();
 
-        Assert.Throws<InvalidOperationException>(() => boardManager.PlaceShip(101, GiveMe.ATarget()));
+        var task = () => boardManager.PlaceShip(101, GiveMe.ATarget());
+
+        task.ShouldThrow<InvalidOperationException>();
     }
 
     [Test]
@@ -51,7 +54,7 @@ public class BoardManagerUnitTests : Spec
 
         boardManager.HitSquare(GiveMe.ACoordinate(2, 5));
 
-        Assert.IsTrue(boardManager.IsHit(GiveMe.ACoordinate(2, 5)));
+        boardManager.IsHit(GiveMe.ACoordinate(2, 5)).ShouldBeTrue();
     }
 
     [Test]
@@ -61,6 +64,6 @@ public class BoardManagerUnitTests : Spec
 
         boardManager.PlaceShip(GiveMe.ACoordinate(0, 0), GiveMe.ATarget(Direction.North(), "denizalti"));
 
-        Assert.IsTrue(boardManager.HasShip(GiveMe.ACoordinate(0, 0)));
+        boardManager.HasShip(GiveMe.ACoordinate(0, 0)).ShouldBeTrue();
     }
 }

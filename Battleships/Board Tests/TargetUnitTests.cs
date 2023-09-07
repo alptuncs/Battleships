@@ -1,5 +1,6 @@
 ﻿using Battleships;
 using NUnit.Framework;
+using Shouldly;
 
 namespace Board_Tests;
 
@@ -11,6 +12,6 @@ public class TargetUnitTests : Spec
     {
         ITarget actualTarget = GiveMe.ATarget(shipType: "denizalti");
 
-        Assert.AreEqual(1, actualTarget.Size);
+        actualTarget.Size.ShouldBe(1);
     }
 }

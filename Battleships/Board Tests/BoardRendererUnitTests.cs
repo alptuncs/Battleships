@@ -1,5 +1,6 @@
 ﻿using Battleships;
 using NUnit.Framework;
+using Shouldly;
 
 namespace Board_Tests;
 
@@ -13,7 +14,7 @@ public class BoardRendererUnitTests : Spec
 
         testBoard.InitializeBoardGraphicString();
 
-        Assert.AreEqual("  1  2\nA[ ][ ]\nB[ ][ ]", testBoard.BoardGraphicString);
+        testBoard.BoardGraphicString.ShouldBe("  1  2\nA[ ][ ]\nB[ ][ ]");
     }
 
     [Test]
@@ -25,6 +26,6 @@ public class BoardRendererUnitTests : Spec
 
         testBoardRenderer.Render(testBoardManager, false);
 
-        Assert.AreEqual("  1  2\nA[ ][ ]\nB[ ][1]", testBoardRenderer.BoardGraphicString);
+        testBoardRenderer.BoardGraphicString.ShouldBe("  1  2\nA[ ][ ]\nB[ ][1]");
     }
 }
