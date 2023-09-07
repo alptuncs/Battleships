@@ -69,7 +69,7 @@ jobs:
         if: ${{ matrix.os == 'ubuntu-latest' }}
         uses: irongut/CodeCoverageSummary@v1.3.0
         with:
-          filename: Battleships/.coverage/**/coverage.cobertura.xml
+          filename:  /home/runner/work/Battleships/Battleships/.coverage/**/coverage.cobertura.xml
           badge: true
           format: 'markdown'
           output: 'both'
