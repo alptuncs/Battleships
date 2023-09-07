@@ -62,18 +62,9 @@ jobs:
         # use '-verbosity:diagnostic --diag:log.log' options
         # to log collector warnings.
         run: |
-          dotnet test \
+          dotnet test Battleships/Battleships.sln \
             --collect:"XPlat Code Coverage" \
-            --logger trx \
-            --results-directory .coverage \
-            --settings test/runsettings.xml
-      - name: Merge Multiple Test Coverage Report
-        if: ${{ matrix.os == 'ubuntu-latest' }}
-        uses: danielpalme/ReportGenerator-GitHub-Action@5.1.12
-        with:
-          reports: '.coverage/*/coverage.cobertura.xml'
-          targetdir: 'coveragereport'
-          reporttypes: 'Cobertura'
+            --results-directory .coverage
       - name: Code Coverage Summary Report
         if: ${{ matrix.os == 'ubuntu-latest' }}
         uses: irongut/CodeCoverageSummary@v1.3.0
