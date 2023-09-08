@@ -7,55 +7,40 @@ namespace Battleships
         public int XPos { get; private set; }
         public int YPos { get; private set; }
 
+        public Coordinate(char userInput, int y)
+            : this(userInput - 'A', y) { }
         public Coordinate(int x, int y)
         {
             XPos = x;
             YPos = y;
         }
-        public Coordinate(char userInput, int y)
-        {
-            switch (userInput)
-            {
-                case 'A': { XPos = 0; YPos = y; } break;
-                case 'B': { XPos = 1; YPos = y; } break;
-                case 'C': { XPos = 2; YPos = y; } break;
-                case 'D': { XPos = 3; YPos = y; } break;
-                case 'E': { XPos = 4; YPos = y; } break;
-                case 'F': { XPos = 5; YPos = y; } break;
-                case 'G': { XPos = 6; YPos = y; } break;
-                case 'H': { XPos = 7; YPos = y; } break;
-                case 'I': { XPos = 8; YPos = y; } break;
-                case 'J': { XPos = 9; YPos = y; } break;
 
-            }
-        }
-
-        public static Coordinate GetNeighbour(Coordinate coordinate, Direction direction)
+        public Coordinate GetNeighbour(Direction direction)
         {
             switch (direction.Value)
             {
                 case "North":
-                    if (coordinate.XPos - 1 >= 0)
+                    if (XPos - 1 >= 0)
                     {
-                        return new Coordinate(coordinate.XPos - 1, coordinate.YPos);
+                        return new Coordinate(XPos - 1, YPos);
                     }
                     return null;
                 case "East":
-                    if (coordinate.YPos + 1 < 10)
+                    if (YPos + 1 < 10)
                     {
-                        return new Coordinate(coordinate.XPos, coordinate.YPos + 1);
+                        return new Coordinate(XPos, YPos + 1);
                     }
                     return null;
                 case "South":
-                    if (coordinate.XPos + 1 < 10)
+                    if (XPos + 1 < 10)
                     {
-                        return new Coordinate(coordinate.XPos + 1, coordinate.YPos);
+                        return new Coordinate(XPos + 1, YPos);
                     }
                     return null;
                 case "West":
-                    if (coordinate.YPos - 1 >= 0)
+                    if (YPos - 1 >= 0)
                     {
-                        return new Coordinate(coordinate.XPos, coordinate.YPos - 1);
+                        return new Coordinate(XPos, YPos - 1);
                     }
                     return null;
                 default:
@@ -65,8 +50,7 @@ namespace Battleships
 
         public List<Coordinate> GetAllNeighours(int xUpperBound, int yUpperBound, int xLowerBound = 0, int yLowerBound = 0)
         {
-            List<Coordinate> neightbourList = new List<Coordinate>();
-
+            var neightbourList = new List<Coordinate>();
             for (int i = -1; i <= 1; i++)
             {
                 for (int j = -1; j <= 1; j++)
@@ -83,9 +67,7 @@ namespace Battleships
         public static bool operator ==(Coordinate left, Coordinate right)
         {
             if (ReferenceEquals(left, right)) return true;
-
             if (left is null) return false;
-
             if (right is null) return false;
 
             return left.Equals(right);

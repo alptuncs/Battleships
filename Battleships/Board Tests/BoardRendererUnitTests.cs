@@ -8,7 +8,7 @@ namespace Board_Tests;
 public class BoardRendererUnitTests : Spec
 {
     [Test]
-    public void BoardRenderer_renders_the_board_with_given_height_and_width()
+    public void Renders_the_board_with_given_height_and_width()
     {
         BoardRenderer testBoard = GiveMe.ABoardRenderer(2, 2);
 
@@ -18,14 +18,14 @@ public class BoardRendererUnitTests : Spec
     }
 
     [Test]
-    public void BoardRenderer_renders_the_targets_BoardManager_places()
+    public void Renders_the_targets_BoardManager_places()
     {
         BoardRenderer testBoardRenderer = GiveMe.ABoardRenderer(2, 2);
         BoardManager testBoardManager = GiveMe.ABoardManager(2, 2);
         testBoardManager.PlaceShip(GiveMe.ACoordinate(1, 1), GiveMe.ATarget(Direction.North(), "denizalti"));
 
-        testBoardRenderer.Render(testBoardManager, false);
+        testBoardRenderer.Render(testBoardManager);
 
-        testBoardRenderer.BoardGraphicString.ShouldBe("  1  2\nA[ ][ ]\nB[ ][1]");
+        testBoardRenderer.BoardGraphicString.ShouldBe("  1  2\nA[ ][ ]\nB[ ][ ]");
     }
 }

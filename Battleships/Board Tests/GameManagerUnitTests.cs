@@ -21,9 +21,8 @@ public class GameManagerUnitTests : Spec
     {
         var game = GiveMe.AGameManager();
         game.Initialize();
-        game.SetPlayerLives(2);
+        game.SetPlayerLives(1);
 
-        game.UpdateGame(true, "A,1");
         game.UpdateGame(true, "A,1");
 
         game.Message.ShouldBe("Out of lives...");

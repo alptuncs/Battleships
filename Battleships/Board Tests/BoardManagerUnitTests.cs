@@ -14,7 +14,7 @@ public class BoardManagerUnitTests : Spec
 
         boardManager.PlaceShip(GiveMe.ACoordinate(3, 2), GiveMe.ATarget());
 
-        boardManager.HasShip(GiveMe.ACoordinate(3, 2)).ShouldBeTrue();
+        boardManager[GiveMe.ACoordinate(3, 2)].HasShip.ShouldBeTrue();
     }
 
     [Test]
@@ -24,7 +24,7 @@ public class BoardManagerUnitTests : Spec
 
         boardManager.PlaceShip(GiveMe.ACoordinate(3, 2), GiveMe.ATarget(Direction.East(), "amiralgemisi"));
 
-        boardManager.HasShip(GiveMe.ACoordinate(3, 3)).ShouldBeTrue();
+        boardManager[GiveMe.ACoordinate(3, 3)].HasShip.ShouldBeTrue();
     }
 
     [Test]
@@ -48,13 +48,13 @@ public class BoardManagerUnitTests : Spec
     }
 
     [Test]
-    public void BoardManager_hits_the_given_coordinate()
+    public void Hits_the_given_coordinate()
     {
-        var boardManager = GiveMe.ABoardManager();
+        var cell = GiveMe.ACell();
 
-        boardManager.HitSquare(GiveMe.ACoordinate(2, 5));
+        cell.HitSquare();
 
-        boardManager.IsHit(GiveMe.ACoordinate(2, 5)).ShouldBeTrue();
+        cell.IsHit.ShouldBeTrue();
     }
 
     [Test]
@@ -64,6 +64,6 @@ public class BoardManagerUnitTests : Spec
 
         boardManager.PlaceShip(GiveMe.ACoordinate(0, 0), GiveMe.ATarget(Direction.North(), "denizalti"));
 
-        boardManager.HasShip(GiveMe.ACoordinate(0, 0)).ShouldBeTrue();
+        boardManager[GiveMe.ACoordinate(0, 0)].HasShip.ShouldBeTrue();
     }
 }

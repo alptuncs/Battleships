@@ -1,53 +1,36 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Battleships
 {
     public class BoardManager
     {
-        public int Height { get; private set; }
-        public int Width { get; private set; }
+        private Cell[,] cells;
+
         public int PlacedShips { get; private set; }
-        public List<Coordinate> ShipCoordinates { get; private set; }
-        public Cell[,] Board { get; private set; }
+        public List<Coordinate> ShipCoordinates { get; private set; } = new();
+
+        public int Height => cells.GetLength(0);
+        public int Width => cells.GetLength(1);
+        public Cell this[Coordinate coordinate] => this[coordinate.XPos, coordinate.YPos];
+        public Cell this[int x, int y] => cells[x, y];
 
         public BoardManager(int height, int width)
         {
-            this.Height = height;
-            this.Width = width;
+            cells = new Cell[height, width];
         }
+
         internal BoardManager Initialize()
         {
-            ShipCoordinates = new List<Coordinate>();
-            PlacedShips = 0;
-
-            Board = new Cell[Height, Width];
-
             for (int i = 0; i < Height; i++)
             {
                 for (int j = 0; j < Width; j++)
                 {
-                    Board[i, j] = new Cell(false, 0);
+                    cells[i, j] = new();
                 }
             }
 
             return this;
-        }
-
-        public bool HasShip(Coordinate coordinates)
-        {
-            return Board[coordinates.XPos, coordinates.YPos].hasShip;
-        }
-
-        public bool IsHit(Coordinate coordinates)
-        {
-            return Board[coordinates.XPos, coordinates.YPos].isHit;
-        }
-
-        public void HitSquare(Coordinate coordinates)
-        {
-            if (!IsHit(coordinates)) Board[coordinates.XPos, coordinates.YPos].isHit = true;
         }
 
         public void PlaceShip(Coordinate coordinate, ITarget ship)
@@ -57,7 +40,7 @@ namespace Battleships
 
         public void PlaceShip(int count, ITarget ship)
         {
-            if (count > 100) throw new InvalidOperationException("Count can not exceed total cell count, total cell count = 100!");
+            if (count > Width * Height) throw new InvalidOperationException("Count can not exceed total cell count, total cell count = 100!");
 
             Random random = new Random(10);
             int shipCounter = 0;
@@ -74,10 +57,9 @@ namespace Battleships
 
             for (int i = 0; i < ship.Size; i++)
             {
-                Board[coordinate.XPos, coordinate.YPos].hasShip = true;
-                Board[coordinate.XPos, coordinate.YPos].shipType = ship.Size;
+                this[coordinate].PlaceShip(ship);
                 ShipCoordinates.Add(coordinate);
-                coordinate = Coordinate.GetNeighbour(coordinate, ship.Direction);
+                coordinate = coordinate.GetNeighbour(ship.Direction);
             }
 
             PlacedShips++;
@@ -86,33 +68,16 @@ namespace Battleships
 
         public bool CanPlaceShip(Coordinate coordinate, ITarget ship)
         {
-            if (HasShip(coordinate)) return false;
-
-            if (!CheckAdjacentSquares(coordinate)) return false;
-
             for (int i = 0; i < ship.Size - 1; i++)
             {
-                if (Coordinate.GetNeighbour(coordinate, ship.Direction) == null) return false;
+                if (this[coordinate].HasShip) return false;
+                if (!CheckAdjacentSquares(coordinate)) return false;
+                
+                coordinate = coordinate.GetNeighbour(ship.Direction);
 
-                if (HasShip(Coordinate.GetNeighbour(coordinate, ship.Direction))) return false;
-
-                if (!CheckAdjacentSquares(Coordinate.GetNeighbour(coordinate, ship.Direction))) return false;
-
-                coordinate = Coordinate.GetNeighbour(coordinate, ship.Direction);
+                if (coordinate == null) return false;
             }
-            return true;
-        }
 
-        private bool CheckNeighbors(Coordinate coordinate, ITarget ship)
-        {
-            for (int i = 0; i < ship.Size; i++)
-            {
-                if (HasShip(coordinate) || !CheckAdjacentSquares(coordinate)) return false;
-
-                if (Coordinate.GetNeighbour(coordinate, ship.Direction) == null) return false;
-
-                coordinate = Coordinate.GetNeighbour(coordinate, ship.Direction);
-            }
             return true;
         }
 
@@ -123,10 +88,9 @@ namespace Battleships
 
         public bool CheckAdjacentSquares(Coordinate coordinates)
         {
-
-            foreach (Coordinate neighbour in coordinates.GetAllNeighours(Height, Width))
+            foreach (var neighbour in coordinates.GetAllNeighours(Height, Width))
             {
-                if (HasShip(neighbour)) return false;
+                if (this[neighbour].HasShip) return false;
             }
 
             return true;

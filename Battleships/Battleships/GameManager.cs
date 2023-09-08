@@ -105,9 +105,9 @@ namespace Battleships
         private void FireMissile(BoardManager board, Coordinate coordinate)
         {
 
-            if (board.IsHit(coordinate) || !board.HasShip(coordinate))
+            if (board[coordinate].IsHit || !board[coordinate].HasShip)
             {
-                Message = board.IsHit(coordinate) ? Messages.SAME_COORD : Messages.HIT_MISSED;
+                Message = board[coordinate].IsHit ? Messages.SAME_COORD : Messages.HIT_MISSED;
                 PlayerLives--;
                 ConsecutiveHits = 0;
             }
@@ -119,7 +119,7 @@ namespace Battleships
                 Message = Messages.HIT_SUCCESS;
             }
 
-            board.HitSquare(coordinate);
+            board[coordinate].HitSquare();
         }
 
         public void EndTurn()
@@ -144,7 +144,7 @@ namespace Battleships
         {
             GameManagerConsole.Clear();
             GameManagerConsole.WriteLine($"Lives: {PlayerLives}    Score: {Score} \n");
-            string board = BoardRenderer.Render(ComputerBoard, true);
+            string board = BoardRenderer.Render(ComputerBoard);
 
             for (int i = 0; i < board.Length; i++)
             {

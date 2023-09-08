@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 
 namespace Battleships
 {
@@ -51,16 +47,14 @@ namespace Battleships
             }
         }
 
-        public string Render(BoardManager boardManager, bool hide)
+        public string Render(BoardManager boardManager)
         {
             for (int i = 0; i < Height; i++)
             {
                 for (int j = 0; j < Width; j++)
                 {
-                    if (boardManager.HasShip(new Coordinate(i, j)) && !hide) BoardSurface[i][j] = $"[{boardManager.Board[i, j].shipType}]";
-
-                    if (boardManager.IsHit(new Coordinate(i, j)) && boardManager.HasShip(new Coordinate(i, j))) BoardSurface[i][j] = "[*]";
-                    else if (boardManager.IsHit(new Coordinate(i, j)) && !boardManager.HasShip(new Coordinate(i, j))) BoardSurface[i][j] = "[•]";
+                    if (boardManager[i, j].IsHit && boardManager[i, j].HasShip) BoardSurface[i][j] = "[*]";
+                    else if (boardManager[i, j].IsHit && !boardManager[i, j].HasShip) BoardSurface[i][j] = "[•]";
                 }
             }
 

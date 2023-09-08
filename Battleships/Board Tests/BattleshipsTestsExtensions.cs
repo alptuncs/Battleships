@@ -6,11 +6,13 @@ public static class BattleshipsTestsExtensions
 {
     public static BoardManager ABoardManager(this Spec.Stubber _, int height = default, int width = default) =>
         new BoardManagerFactory().Create(height == default ? 10 : height, width == default ? 10 : width);
+    public static Cell ACell(this Spec.Stubber giveMe) =>
+        giveMe.ABoardManager()[giveMe.ACoordinate()];
 
     public static ITarget ATarget(this Spec.Stubber _, Direction direction = default, string shipType = default) =>
         new TargetFactory().Create(direction ?? Direction.East(), shipType ?? "denizalti");
 
-    public static Coordinate ACoordinate(this Spec.Stubber _, int xCoordinate, int yCoordinate) =>
+    public static Coordinate ACoordinate(this Spec.Stubber _, int xCoordinate = 2, int yCoordinate = 5) =>
         new(xCoordinate, yCoordinate);
 
     public static BoardRenderer ABoardRenderer(this Spec.Stubber _, int height = default, int width = default) =>
