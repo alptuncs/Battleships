@@ -17,6 +17,16 @@ public class GameManagerUnitTests : Spec
     }
 
     [Test]
+    public void Game_allows_using_premade_board()
+    {
+        var game = GiveMe.AGameManager(board: GiveMe.ABoardManager(withShips: true));
+        
+        game.Initialize();
+
+        game.ComputerBoard.PlacedShips.ShouldBe(1);
+    }
+
+    [Test]
     public void Game_ends_when_player_is_out_of_lives()
     {
         var game = GiveMe.AGameManager();
