@@ -4,7 +4,6 @@ on:
     branches:
       - main
 
-env:
 jobs:
   # outputs matrix json so that windows is only added when head branch is a release branch
   prepare:
