@@ -2,28 +2,26 @@
 {
     public class TargetFactory
     {
-        public ITarget Create(Direction direction, string shipType)
+        public Target Create(Direction direction, string shipType)
         {
-            ITarget target = null;
-            if (shipType == "denizalti")
+            if (shipType == "Submarine")
             {
-                target = new Submarine();
+                return new(1, direction);
             }
-            else if (shipType == "mayingemisi")
+            else if (shipType == "Destroyer")
             {
-                target = new Minelayer();
+                return new(2, direction);
             }
-            else if (shipType == "kruvazor")
+            else if (shipType == "Cruiser")
             {
-                target = new Destroyer();
+                return new(3, direction);
             }
-            else
+            else if (shipType == "Battleship")
             {
-                target = new Flagship();
+                return new (4, direction);
             }
 
-            target.SetShipDirection(direction);
-            return target;
+            throw new System.Exception("No such ship");
         }
     }
 }

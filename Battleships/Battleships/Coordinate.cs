@@ -20,31 +20,19 @@ namespace Battleships
             switch (direction.Value)
             {
                 case "North":
-                    if (XPos - 1 >= 0)
-                    {
-                        return new Coordinate(XPos - 1, YPos);
-                    }
-                    return null;
+                    return XPos - 1 >= 0 ? new(XPos - 1, YPos) : new(-1, -1);
+
                 case "East":
-                    if (YPos + 1 < 10)
-                    {
-                        return new Coordinate(XPos, YPos + 1);
-                    }
-                    return null;
+                    return YPos + 1 < 10 ? new(XPos, YPos + 1) : new(-1, -1);
+
                 case "South":
-                    if (XPos + 1 < 10)
-                    {
-                        return new Coordinate(XPos + 1, YPos);
-                    }
-                    return null;
+                    return XPos + 1 < 10 ? new(XPos + 1, YPos) : new(-1, -1);
+
                 case "West":
-                    if (YPos - 1 >= 0)
-                    {
-                        return new Coordinate(XPos, YPos - 1);
-                    }
-                    return null;
+                    return YPos - 1 >= 0 ? new(XPos, YPos - 1) : new(-1, -1);
+
                 default:
-                    return null;
+                    return new(-1, -1);
             }
         }
 
@@ -64,6 +52,7 @@ namespace Battleships
 
             return neightbourList;
         }
+
         public static bool operator ==(Coordinate left, Coordinate right)
         {
             if (ReferenceEquals(left, right)) return true;
@@ -83,7 +72,7 @@ namespace Battleships
             return XPos.Equals(other.XPos) && YPos.Equals(other.YPos);
         }
 
-        public override bool Equals(object obj) => Equals(obj as Coordinate);
+        public override bool Equals(object? obj) => Equals(obj as Coordinate);
     }
 }
 

@@ -31,13 +31,10 @@ public class GameManagerUnitTests : Spec
     [Test]
     public void Game_ends_when_all_targets_are_hit()
     {
-        var game = GiveMe.AGameManager(targetList: GiveMe.ATargetList(1));
+        var game = GiveMe.AGameManager(board: GiveMe.ABoardManager(withShips: true), targetList: GiveMe.ATargetList(empty: true));
         game.Initialize();
 
-        game.UpdateGame(true, "D,5");
-        game.UpdateGame(true, "H,3");
-        game.UpdateGame(true, "H,7");
-        game.UpdateGame(true, "J,8");
+        game.UpdateGame(true, "A,1");
 
         game.Message.ShouldBe("You won !");
     }

@@ -22,7 +22,7 @@ public class BoardManagerUnitTests : Spec
     {
         var boardManager = GiveMe.ABoardManager();
 
-        boardManager.PlaceShip(GiveMe.ACoordinate(3, 2), GiveMe.ATarget(Direction.East(), "amiralgemisi"));
+        boardManager.PlaceShip(GiveMe.ACoordinate(3, 2), GiveMe.ATarget(Direction.East(), "Battleship"));
 
         boardManager[GiveMe.ACoordinate(3, 3)].HasShip.ShouldBeTrue();
     }
@@ -62,7 +62,7 @@ public class BoardManagerUnitTests : Spec
     {
         var boardManager = GiveMe.ABoardManager(1, 1);
 
-        boardManager.PlaceShip(GiveMe.ACoordinate(0, 0), GiveMe.ATarget(Direction.North(), "denizalti"));
+        boardManager.PlaceShip(GiveMe.ACoordinate(0, 0), GiveMe.ATarget(Direction.North(), "Submarine"));
 
         boardManager[GiveMe.ACoordinate(0, 0)].HasShip.ShouldBeTrue();
     }

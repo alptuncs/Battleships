@@ -22,7 +22,7 @@ public class BoardRendererUnitTests : Spec
     {
         BoardRenderer testBoardRenderer = GiveMe.ABoardRenderer(2, 2);
         BoardManager testBoardManager = GiveMe.ABoardManager(2, 2);
-        testBoardManager.PlaceShip(GiveMe.ACoordinate(1, 1), GiveMe.ATarget(Direction.North(), "denizalti"));
+        testBoardManager.PlaceShip(GiveMe.ACoordinate(1, 1), GiveMe.ATarget(Direction.North(), "Submarine"));
 
         testBoardRenderer.Render(testBoardManager);
 

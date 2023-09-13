@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace Battleships
 {
@@ -12,37 +10,45 @@ namespace Battleships
         public IConsole GameManagerConsole { get; private set; }
         public BoardManager ComputerBoard { get; private set; }
         public BoardRenderer BoardRenderer { get; private set; }
-        public List<ITarget> Targets { get; private set; }
+        public List<Target> Targets { get; private set; }
         public int PlayerLives { get; private set; }
         public int Score { get; private set; }
         public int ShipValue { get; private set; }
         public int ConsecutiveHits { get; private set; }
-        public string Message { get; private set; }
+        public string? Message { get; private set; }
         public bool GameStatus { get; private set; }
 
-        public GameManager(IConsole console, BoardManager computerBoard, BoardRenderer boardRenderer, List<ITarget> targets)
+        public GameManager(IConsole console, BoardManager computerBoard, BoardRenderer boardRenderer, List<Target> targets)
         {
             GameManagerConsole = console;
             ComputerBoard = computerBoard;
             BoardRenderer = boardRenderer;
             Targets = targets;
-            Console.OutputEncoding = System.Text.Encoding.UTF8;
+            Console.OutputEncoding = Encoding.UTF8;
         }
 
         public void Initialize()
         {
-            foreach (ITarget target in Targets)
-            {
-                ComputerBoard.PlaceShip(5 - target.Size, target);
-                ShipValue += target.Size * target.Size * (5 - target.Size);
-            }
-
             GameStatus = true;
             Score = 0;
             ShipValue = 0;
             ConsecutiveHits = 0;
             PlayerLives = 30;
             Message = "" + "\n\n" + Messages.ENTER_COORDS;
+
+            if (ComputerBoard.PlacedShips == 0)
+            {
+                PlaceShips();
+            }
+        }
+
+        private void PlaceShips()
+        {
+            foreach (Target target in Targets)
+            {
+                ComputerBoard.PlaceShip(5 - target.Size, target);
+                ShipValue += target.Size * target.Size * (5 - target.Size);
+            }
         }
 
         public void SetPlayerLives(int i)
@@ -82,7 +88,7 @@ namespace Battleships
 
         private bool InputCheck(string input)
         {
-            Regex rx = new Regex(@"^^[A-J]{1},\d{1,2}$");
+            Regex rx = new(@"^^[A-J]{1},\d{1,2}$");
             string stringPlayerInput = input.ToUpper();
             string[] playerInput = stringPlayerInput.Split(',');
             char[] playerInputChar = playerInput[0].ToCharArray();

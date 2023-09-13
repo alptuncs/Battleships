@@ -7,14 +7,14 @@ namespace Board_Tests;
 [TestFixture]
 public class TargetUnitTests : Spec
 {
-    [TestCase("denizalti", 1)]
-    [TestCase("mayingemisi", 2)]
-    [TestCase("kruvazor", 3)]
-    [TestCase("amiralgemisi", 4)]
+    [TestCase("Submarine", 1)]
+    [TestCase("Destroyer", 2)]
+    [TestCase("Cruiser", 3)]
+    [TestCase("Battleship", 4)]
     [Test]
     public void Creates_target_with_correct_size(string shipType, int size)
     {
-        ITarget actualTarget = GiveMe.ATarget(shipType: shipType);
+        Target actualTarget = GiveMe.ATarget(shipType: shipType);
 
         actualTarget.Size.ShouldBe(size);
     }

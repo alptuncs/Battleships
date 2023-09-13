@@ -5,7 +5,7 @@ namespace Battleships
 {
     public class BoardManager
     {
-        private Cell[,] cells;
+        private readonly Cell[,] cells;
 
         public int PlacedShips { get; private set; }
         public List<Coordinate> ShipCoordinates { get; private set; } = new();
@@ -33,16 +33,16 @@ namespace Battleships
             return this;
         }
 
-        public void PlaceShip(Coordinate coordinate, ITarget ship)
+        public void PlaceShip(Coordinate coordinate, Target ship)
         {
             if (!TryPlaceShip(coordinate, ship)) throw new Exception("Couldn't place ship");
         }
 
-        public void PlaceShip(int count, ITarget ship)
+        public void PlaceShip(int count, Target ship)
         {
             if (count > Width * Height) throw new InvalidOperationException("Count can not exceed total cell count, total cell count = 100!");
 
-            Random random = new Random(10);
+            Random random = new();
             int shipCounter = 0;
 
             while (shipCounter < count)
@@ -51,7 +51,7 @@ namespace Battleships
             }
         }
 
-        private bool TryPlaceShip(Coordinate coordinate, ITarget ship)
+        private bool TryPlaceShip(Coordinate coordinate, Target ship)
         {
             if (!CanPlaceShip(coordinate, ship)) return false;
 
@@ -66,16 +66,16 @@ namespace Battleships
             return true;
         }
 
-        public bool CanPlaceShip(Coordinate coordinate, ITarget ship)
+        public bool CanPlaceShip(Coordinate coordinate, Target ship)
         {
             for (int i = 0; i < ship.Size - 1; i++)
             {
                 if (this[coordinate].HasShip) return false;
                 if (!CheckAdjacentSquares(coordinate)) return false;
-                
+
                 coordinate = coordinate.GetNeighbour(ship.Direction);
 
-                if (coordinate == null) return false;
+                if (coordinate.XPos == -1) return false;
             }
 
             return true;
