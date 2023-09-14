@@ -19,11 +19,21 @@ public class GameManagerUnitTests : Spec
     [Test]
     public void Game_allows_using_premade_board()
     {
-        var game = GiveMe.AGameManager(board: GiveMe.ABoardManager(withShips: true));
+        var game = GiveMe.AGameManager(board: GiveMe.ABoardManager(withShips: true), targetList: GiveMe.ATargetList(empty: true));
         
         game.Initialize();
 
         game.ComputerBoard.PlacedShips.ShouldBe(1);
+    }
+
+    [Test]
+    public void Game_allows_placing_ships_when_given_a_premade_board()
+    {
+        var game = GiveMe.AGameManager(board: GiveMe.ABoardManager(withShips: true), targetList: GiveMe.ATargetList(2));
+
+        game.Initialize();
+
+        game.ComputerBoard.PlacedShips.ShouldBe(3);
     }
 
     [Test]

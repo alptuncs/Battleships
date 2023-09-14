@@ -36,17 +36,15 @@ namespace Battleships
             PlayerLives = 30;
             Message = "" + "\n\n" + Messages.ENTER_COORDS;
 
-            if (ComputerBoard.PlacedShips == 0)
-            {
-                PlaceShips();
-            }
+            PlaceShips();
+
         }
 
         private void PlaceShips()
         {
             foreach (Target target in Targets)
             {
-                ComputerBoard.PlaceShip(5 - target.Size, target);
+                ComputerBoard.PlaceShip(1, target);
                 ShipValue += target.Size * target.Size * (5 - target.Size);
             }
         }

@@ -14,7 +14,13 @@ namespace Battleships
             {
                 targetFactory.Create(Direction.West(), "Battleship"),
                 targetFactory.Create(Direction.North(), "Cruiser"),
-                targetFactory.Create(Direction.East(), "Destroyer"),
+                targetFactory.Create(Direction.East(), "Cruiser"),
+                targetFactory.Create(Direction.South(), "Destroyer"),
+                targetFactory.Create(Direction.West(), "Destroyer"),
+                targetFactory.Create(Direction.North(), "Destroyer"),
+                targetFactory.Create(Direction.East(), "Submarine"),
+                targetFactory.Create(Direction.South(), "Submarine"),
+                targetFactory.Create(Direction.West(), "Submarine"),
                 targetFactory.Create(Direction.North(), "Submarine")
             };
 
