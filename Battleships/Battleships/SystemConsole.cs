@@ -1,21 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Battleships
+namespace Battleships;
+
+public class SystemConsole : IConsole
 {
-    public class SystemConsole : IConsole
-    {
-        public void WriteLine(string text, params object[] args) => Console.WriteLine(text, args);
+    public void WriteLine(string text, params object[] args) => Console.WriteLine(text, args);
 
-        public void WriteLine(string text) => Console.WriteLine(text);
+    public void WriteLine(string text) => Console.WriteLine(text);
 
-        public string ReadLine() => Console.ReadLine() ?? "";
+    public string ReadLine() => Console.ReadLine() ?? "";
 
-        public void Clear() => Console.Clear();
+    public void Clear() => Console.Clear();
 
-        public void Write(char c) => Console.Write(c);
-    }
+    public void Write(char c) => Console.Write(c);
 }

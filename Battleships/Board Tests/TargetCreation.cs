@@ -1,11 +1,10 @@
-﻿using Battleships;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using Shouldly;
 
 namespace Board_Tests;
 
 [TestFixture]
-public class TargetUnitTests : Spec
+public class TargetCreation : Spec
 {
     [TestCase("Submarine", 1)]
     [TestCase("Destroyer", 2)]
@@ -14,7 +13,7 @@ public class TargetUnitTests : Spec
     [Test]
     public void Creates_target_with_correct_size(string shipType, int size)
     {
-        Target actualTarget = GiveMe.ATarget(shipType: shipType);
+        Battleships.Target actualTarget = GiveMe.ATarget(shipType: shipType);
 
         actualTarget.Size.ShouldBe(size);
     }

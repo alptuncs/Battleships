@@ -1,30 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace Battleships;
 
-namespace Battleships
+public class GameSession
 {
-    public class GameSession
+    GameManager gameManager;
+
+    public GameManager GameManager => gameManager;
+
+    public GameSession(GameManager gameManager)
     {
-        GameManager gameManager;
+        this.gameManager = gameManager;
+        gameManager.Initialize();
+    }
 
-        public GameSession(GameManager gameManager)
+    public void Play()
+    {
+        while (gameManager.ShouldRun())
         {
-            this.gameManager = gameManager;
-            gameManager.Initialize();
-        }
-
-        public void Play()
-        {
-            do
-            {
-                gameManager.RenderGame();
-                gameManager.UpdateGame();
-            } while (gameManager.GameStatus);
-
             gameManager.RenderGame();
+            gameManager.UpdateGame();
         }
+
+        gameManager.RenderGame();
     }
 }

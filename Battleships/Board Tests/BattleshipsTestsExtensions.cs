@@ -1,24 +1,25 @@
 ﻿using Battleships;
+using Moq;
 
 namespace Board_Tests;
 
 public static class BattleshipsTestsExtensions
 {
-    public static BoardManager ABoardManager(this Spec.Stubber giveMe, int height = default, int width = default, bool? withShips = false) =>
-        withShips == false ? giveMe.Empty(height, width) : giveMe.WithShip(height, width);
+    public static Board ABoard(this Spec.Stubber giveMe, int height = default, int width = default, bool withShips = false) =>
+        withShips ? giveMe.WithShip(height, width) : giveMe.Empty(height, width);
 
-    private static BoardManager WithShip(this Spec.Stubber giveMe, int height, int width)
+    private static Board WithShip(this Spec.Stubber giveMe, int height, int width)
     {
         var board = giveMe.Empty(height, width);
         board.PlaceShip(giveMe.ACoordinate(0, 0), giveMe.ATarget());
 
         return board;
     }
-    private static BoardManager Empty(this Spec.Stubber _, int height, int width) =>
-        new BoardManagerFactory().Create(height == default ? 10 : height, width == default ? 10 : width);
+    private static Board Empty(this Spec.Stubber _, int height, int width) =>
+        BoardFactory.Create(height == default ? 10 : height, width == default ? 10 : width);
 
     public static Cell ACell(this Spec.Stubber giveMe) =>
-        giveMe.ABoardManager()[giveMe.ACoordinate()];
+        giveMe.ABoard()[giveMe.ACoordinate()];
 
     public static Target ATarget(this Spec.Stubber _, Direction? direction = default, string? shipType = default) =>
         new TargetFactory().Create(direction ?? Direction.East(), shipType ?? "Submarine");
@@ -29,22 +30,33 @@ public static class BattleshipsTestsExtensions
     public static BoardRenderer ABoardRenderer(this Spec.Stubber _, int height = default, int width = default) =>
         new(height == default ? 10 : height, width == default ? 10 : width);
 
-    public static List<Target> ATargetList(this Spec.Stubber giveMe, int numTargets = default, bool? empty = false) =>
+    public static List<Target> ATargetList(this Spec.Stubber giveMe, int numTargets = default, bool empty = false) =>
         empty == true ? new() : Enumerable.Repeat(giveMe.ATarget(), numTargets == default ? 5 : numTargets).ToList();
 
-    public static IConsole AConsole(this Spec.Stubber _) =>
-        new SystemConsole();
+    public static IConsole AConsole(this Spec.Mocker _, string input = "A,1")
+    {
+        var result = new Mock<IConsole>();
+
+        result.Setup(c => c.ReadLine()).Returns(input);
+        result.Setup(c => c.Clear());
+
+        return result.Object;
+    }
 
     public static GameManager AGameManager(this Spec.Stubber giveMe,
         int height = default,
         int width = default,
         int numTargets = default,
+        IConsole? console = default,
         List<Target>? targetList = default,
-        BoardManager? board = default
+        Board? board = default
     ) => new(
-            giveMe.AConsole(),
-            board ?? giveMe.ABoardManager(height, width),
+            console ?? giveMe.Spec.MockMe.AConsole(),
+            board ?? giveMe.ABoard(height, width),
             giveMe.ABoardRenderer(height, width),
             targetList ?? giveMe.ATargetList(numTargets)
     );
+
+    public static GameSession AGameSession(this Spec.Stubber giveMe, GameManager? gameManager = default) =>
+        new GameSession(gameManager ?? giveMe.AGameManager());
 }

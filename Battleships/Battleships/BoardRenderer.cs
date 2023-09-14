@@ -1,66 +1,65 @@
 ﻿using System.Linq;
 
-namespace Battleships
+namespace Battleships;
+
+public class BoardRenderer
 {
-    public class BoardRenderer
+    public int Height { get; private set; }
+    public int Width { get; private set; }
+    public string? BoardGraphicString { get; private set; }
+    public string[][] BoardSurface { get; private set; }
+
+    public BoardRenderer(int height, int width)
     {
-        public int Height { get; private set; }
-        public int Width { get; private set; }
-        public string? BoardGraphicString { get; private set; }
-        public string[][] BoardSurface { get; private set; }
+        Height = height;
+        Width = width;
+        BoardSurface = InitializeBoardSurface();
+    }
 
-        public BoardRenderer(int height, int width)
+    public string InitializeBoardGraphicString()
+    {
+        BoardGraphicString = "";
+
+        for (int i = 0; i < BoardSurface.Length; i++)
         {
-            Height = height;
-            Width = width;
-            BoardSurface = InitializeBoardSurface();
-        }
-
-        public string InitializeBoardGraphicString()
-        {
-            BoardGraphicString = "";
-
-            for (int i = 0; i < BoardSurface.Length; i++)
+            for (int j = 0; j < BoardSurface[i].Length; j++)
             {
-                for (int j = 0; j < BoardSurface[i].Length; j++)
-                {
-                    if (i == 0 && j == 0) BoardGraphicString += "  1  2  3  4  5  6  7  8  9 10".Substring(0, BoardSurface[0].Length * 3) + "\n";
+                if (i == 0 && j == 0) BoardGraphicString += "  1  2  3  4  5  6  7  8  9 10".Substring(0, BoardSurface[0].Length * 3) + "\n";
 
-                    if (j == 0) BoardGraphicString += "ABCDEFGHIJ".Substring(i, 1);
+                if (j == 0) BoardGraphicString += "ABCDEFGHIJ".Substring(i, 1);
 
-                    BoardGraphicString += BoardSurface[i][j];
-                }
-                BoardGraphicString += i < BoardSurface.Length - 1 ? "\n" : "";
+                BoardGraphicString += BoardSurface[i][j];
             }
-
-            InitializeBoardSurface();
-            return BoardGraphicString;
+            BoardGraphicString += i < BoardSurface.Length - 1 ? "\n" : "";
         }
 
-        private string[][] InitializeBoardSurface()
+        InitializeBoardSurface();
+        return BoardGraphicString;
+    }
+
+    private string[][] InitializeBoardSurface()
+    {
+        BoardSurface = new string[Height][];
+
+        for (int i = 0; i < BoardSurface.Length; i++)
         {
-            BoardSurface = new string[Height][];
-
-            for (int i = 0; i < BoardSurface.Length; i++)
-            {
-                BoardSurface[i] = Enumerable.Repeat("[ ]", Width).ToArray();
-            }
-
-            return BoardSurface;
+            BoardSurface[i] = Enumerable.Repeat("[ ]", Width).ToArray();
         }
 
-        public string Render(BoardManager boardManager)
+        return BoardSurface;
+    }
+
+    public string Render(Board board)
+    {
+        for (int i = 0; i < Height; i++)
         {
-            for (int i = 0; i < Height; i++)
+            for (int j = 0; j < Width; j++)
             {
-                for (int j = 0; j < Width; j++)
-                {
-                    if (boardManager[i, j].IsHit && boardManager[i, j].HasShip) BoardSurface[i][j] = "[*]";
-                    else if (boardManager[i, j].IsHit && !boardManager[i, j].HasShip) BoardSurface[i][j] = "[•]";
-                }
+                if (board[i, j].IsHit && board[i, j].HasShip) BoardSurface[i][j] = "[*]";
+                else if (board[i, j].IsHit && !board[i, j].HasShip) BoardSurface[i][j] = "[•]";
             }
-
-            return InitializeBoardGraphicString();
         }
+
+        return InitializeBoardGraphicString();
     }
 }

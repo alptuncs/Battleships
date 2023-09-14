@@ -10,10 +10,10 @@ public abstract class Spec
     [SetUp]
     public virtual void SetUp()
     {
-        GiveMe = new Stubber();
-        MockMe = new Mocker();
+        GiveMe = new Stubber(this);
+        MockMe = new Mocker(this);
     }
 
-    public sealed record Stubber();
-    public sealed record Mocker();
+    public sealed record Stubber(Spec Spec);
+    public sealed record Mocker(Spec Spec);
 }
