@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Text.RegularExpressions;
 
 namespace Battleships;
 
@@ -53,7 +52,7 @@ public class GameManager
     {
         string userInput = manualUpdate ? manualInput : TakeInput().ToUpper();
 
-        SetInvalidInputMessage(InvalidInput(userInput));
+        SetInputMessage(InputCheck.GetInputResult(userInput, ComputerBoard));
 
         Action action = string.IsNullOrEmpty(Message) ?
             () =>
@@ -68,25 +67,9 @@ public class GameManager
     private string TakeInput() =>
         GameManagerConsole.ReadLine();
 
-    private InputResult InvalidInput(string input) =>
-        WrongInput(input.ToUpper()) ??
-        OutOfBounds(input.ToUpper()) ??
-        InputResultFactory.Create("Valid");
-
-    private InputResult? WrongInput(string playerInput) =>
-        !Regex.IsMatch(playerInput, @"^^[A-Z]{1},\d{1,2}$") ?
-            InputResultFactory.Create("WrongInput") : null;
-
-    private InputResult? OutOfBounds(string playerInput) =>
-        int.Parse(playerInput[2..]) <= 0 ||
-        int.Parse(playerInput[2..]) > ComputerBoard.Width ||
-        playerInput[0] - 'A' > ComputerBoard.Width ||
-        playerInput[0] - 'A' < 0 ?
-            InputResultFactory.Create("OutOfBounds") : null;
-
-    private void SetInvalidInputMessage(InputResult ınputResult)
+    private void SetInputMessage(string inputCheckResult)
     {
-        Message = ınputResult.Message != string.Empty ? ınputResult.Message : string.Empty;
+        Message = inputCheckResult;
     }
 
     private void FireMissile(Board board, Coordinate coordinate)
