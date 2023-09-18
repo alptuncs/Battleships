@@ -9,15 +9,15 @@ public class GameSession
     public GameSession(GameManager gameManager)
     {
         this.gameManager = gameManager;
-        gameManager.Initialize();
     }
 
     public void Play()
     {
+        gameManager.Initialize();
+
         while (gameManager.ShouldRun())
         {
             gameManager.RenderGame();
-            gameManager.UpdateGame();
         }
 
         gameManager.RenderGame();

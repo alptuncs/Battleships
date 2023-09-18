@@ -1,112 +1,66 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace Battleships;
 
 public class GameManager
 {
-    public IConsole GameManagerConsole { get; private set; }
-    public Board ComputerBoard { get; private set; }
-    public BoardRenderer BoardRenderer { get; private set; }
-    public List<Target> Targets { get; private set; }
-    public int PlayerLives { get; private set; }
-    public int Score { get; private set; }
-    public int ConsecutiveHits { get; private set; }
-    public string? Message { get; private set; }
+    private readonly IGameUserInterface<IBattleshipGameObjectFactory> gameUserInterface;
 
-    public GameManager(IConsole console, Board computerBoard, BoardRenderer boardRenderer, List<Target> targets)
+    public Board Board { get; private set; }
+    public List<Target> Targets { get; private set; }
+    public Player Player { get; private set; }
+
+    public GameManager(Board board, List<Target> targets, Player player, IGameUserInterface<IBattleshipGameObjectFactory> gameUserInterface)
     {
-        GameManagerConsole = console;
-        ComputerBoard = computerBoard;
-        BoardRenderer = boardRenderer;
+        Board = board;
         Targets = targets;
-        Console.OutputEncoding = Encoding.UTF8;
+        Player = player;
+        this.gameUserInterface = gameUserInterface;
     }
 
     public void Initialize()
     {
-        Score = 0;
-        ConsecutiveHits = 0;
-        PlayerLives = 30;
-        Message = string.Empty;
-
-        PlaceShips();
-
-    }
-
-    private void PlaceShips()
-    {
+        gameUserInterface.ShowMessage("");
         foreach (Target target in Targets)
         {
-            ComputerBoard.PlaceShip(1, target);
+            Board.PlaceShip(1, target);
         }
     }
 
-    public void SetPlayerLives(int playerLives)
+    private void FireMissile(Coordinate coordinate)
     {
-        PlayerLives = playerLives;
-    }
-
-    public void UpdateGame(bool manualUpdate = false, string manualInput = "TakeUserInputForCoordinate")
-    {
-        string userInput = manualUpdate ? manualInput : TakeInput().ToUpper();
-
-        SetInputMessage(InputCheck.GetInputResult(userInput, ComputerBoard));
-
-        Action action = string.IsNullOrEmpty(Message) ?
-            () =>
-            {
-                FireMissile(ComputerBoard, new Coordinate(userInput[0], int.Parse(userInput[2..])));
-            }
-        : () => { };
-
-        action.Invoke();
-    }
-
-    private string TakeInput() =>
-        GameManagerConsole.ReadLine();
-
-    private void SetInputMessage(string inputCheckResult)
-    {
-        Message = inputCheckResult;
-    }
-
-    private void FireMissile(Board board, Coordinate coordinate)
-    {
-
-        if (board[coordinate].IsHit || !board[coordinate].HasShip)
+        if (Board[coordinate].IsHit || !Board[coordinate].HasShip)
         {
-            Message = board[coordinate].IsHit ? Messages.SAME_COORD : Messages.HIT_MISSED;
-            PlayerLives--;
-            ConsecutiveHits = 0;
+            gameUserInterface.ShowMessage(Board[coordinate].IsHit ? Messages.SAME_COORD : Messages.HIT_MISSED);
+            Player.DecreaseLives();
         }
         else
         {
-            ConsecutiveHits++;
-            Score += 100 * ConsecutiveHits;
-            ComputerBoard.RemoveShip(coordinate);
-            Message = Messages.HIT_SUCCESS;
+            Player.IncreaseScore(100);
+            Board.RemoveShip(coordinate);
+            gameUserInterface.ShowMessage(Messages.HIT_SUCCESS);
         }
 
-        board[coordinate].HitSquare();
+        Board[coordinate].HitSquare();
     }
 
     public bool ShouldRun()
     {
-        if (PlayerLives == 0)
+        if (!Player.HasLives)
         {
-            Message = Messages.OUT_OF_LIVES;
+            gameUserInterface.ShowMessage(Messages.OUT_OF_LIVES);
+
             return false;
         }
-        else if (ComputerBoard.ShipCoordinates.Count == 0)
+        else if (Board.ShipCoordinates.Count == 0)
         {
-            Message = Messages.YOU_WON;
+            gameUserInterface.ShowMessage(Messages.YOU_WON);
+
             return false;
         }
         else
         {
-            Message += "\n\n" + Messages.ENTER_COORDS;
+            gameUserInterface.ShowMessage(Messages.ENTER_COORDS);
 
             return true;
         }
@@ -114,29 +68,10 @@ public class GameManager
 
     public void RenderGame()
     {
-        GameManagerConsole.Clear();
-        GameManagerConsole.WriteLine($"Lives: {PlayerLives}    Score: {Score} \n");
-        string board = BoardRenderer.Render(ComputerBoard);
+        gameUserInterface.Status.Clear();
+        gameUserInterface.Status.Add(new("Lives", $"{Player.Lives}"));
+        gameUserInterface.Status.Add(new("Score", $"{Player.Score}"));
 
-        for (int i = 0; i < board.Length; i++)
-        {
-            if (board[i] == '•')
-            {
-                GameManagerConsole.Write('*');
-            }
-            else if (board[i] == '*')
-            {
-
-                Console.ForegroundColor = ConsoleColor.Red;
-                GameManagerConsole.Write(board[i]);
-            }
-            else
-            {
-                GameManagerConsole.Write(board[i]);
-            }
-            Console.ForegroundColor = ConsoleColor.White;
-        }
-
-        GameManagerConsole.WriteLine("\n" + Message);
+        gameUserInterface.Draw(gameUserInterface.GameObjectFactory.CreateBoard(Board.Width, Board.Height), new Coordinate(0, 0));
     }
 }

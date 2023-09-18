@@ -33,6 +33,9 @@ public static class BattleshipsTestsExtensions
     public static List<Target> ATargetList(this Spec.Stubber giveMe, int numTargets = default, bool empty = false) =>
         empty == true ? new() : Enumerable.Repeat(giveMe.ATarget(), numTargets == default ? 5 : numTargets).ToList();
 
+    public static Player APlayer(this Spec.Stubber _, int lives = default, int score = default) =>
+        new Player(lives == default ? 0 : lives, score == default ? 0 : score);
+
     public static IConsole AConsole(this Spec.Mocker _, string input = "A,1")
     {
         var result = new Mock<IConsole>();
@@ -44,17 +47,19 @@ public static class BattleshipsTestsExtensions
     }
 
     public static GameManager AGameManager(this Spec.Stubber giveMe,
+        IConsole? console = default,
         int height = default,
         int width = default,
+        Board? board = default,
         int numTargets = default,
-        IConsole? console = default,
         List<Target>? targetList = default,
-        Board? board = default
+        Player? player = default
     ) => new(
             console ?? giveMe.Spec.MockMe.AConsole(),
             board ?? giveMe.ABoard(height, width),
             giveMe.ABoardRenderer(height, width),
-            targetList ?? giveMe.ATargetList(numTargets)
+            targetList ?? giveMe.ATargetList(numTargets),
+            player ?? giveMe.APlayer(30, 0)
     );
 
     public static GameSession AGameSession(this Spec.Stubber giveMe, GameManager? gameManager = default) =>

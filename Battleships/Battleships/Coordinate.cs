@@ -7,8 +7,8 @@ public class Coordinate
     public int XPos { get; private set; }
     public int YPos { get; private set; }
 
-    public Coordinate(char userInput, int y)
-        : this(userInput - 'A', y) { }
+    public Coordinate(char row, int column)
+        : this(row - 'A', column - 1) { }
     public Coordinate(int x, int y)
     {
         XPos = x;

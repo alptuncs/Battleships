@@ -10,14 +10,11 @@ public class Gameplay : Spec
     [Test]
     public void When_the_game_starts_it_asks_for_coordinates()
     {
-        var console = MockMe.AConsole();
-        var game = GiveMe.AGameManager(console: console);
-        game.Initialize();
-        var gameSession = GiveMe.AGameSession(game);
+        var gameSession = GiveMe.AGameSession();
 
         gameSession.Play();
 
-        Mock.Get(console).Verify(c => c.WriteLine("\n\n\nPlease enter the coordinate (E.g. A,7)"), Times.AtLeastOnce);
+        Mock.Get(gameSession.GameManager.GameManagerConsole).Verify(c => c.WriteLine("\n\n\nPlease enter the coordinate (E.g. A,7)"), Times.AtLeastOnce);
     }
 
     [Test]
@@ -43,21 +40,21 @@ public class Gameplay : Spec
     [Test]
     public void Game_ends_when_player_is_out_of_lives()
     {
-        var game = GiveMe.AGameManager();
-        game.SetPlayerLives(0);
-        var gameSession = GiveMe.AGameSession(game);
+        var gameSession = GiveMe.AGameSession(GiveMe.AGameManager(player: GiveMe.APlayer(lives: 0)));
 
         gameSession.Play();
 
-        gameSession.GameManager.Message.ShouldBe("Out of lives...");
+        Mock.Get(gameSession.GameManager.GameManagerConsole).Verify(c => c.WriteLine("\nOut of lives..."), Times.AtLeastOnce);
     }
 
     [Test]
     public void Game_ends_when_all_targets_are_hit()
     {
-        var game = GiveMe.AGameManager(targetList: GiveMe.ATargetList(empty: true));
-        game.Initialize();
-        var gameSession = GiveMe.AGameSession(game);
+        var gameSession = GiveMe.AGameSession(GiveMe.AGameManager(
+            console: MockMe.AConsole("A,1"),
+            board: GiveMe.ABoard(withShips: true),
+            targetList: GiveMe.ATargetList(empty: true)
+        ));
 
         gameSession.Play();
 

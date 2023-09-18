@@ -2,23 +2,32 @@
 
 namespace Battleships;
 
-public static class InputCheck
+public class InputCheck
 {
-    public static string GetInputResult(string input, Board board) =>
+    public Coordinate Coordinate { get; set; }
+    public string Message { get; set; }
+
+    public InputCheck(string input, Board board)
+    {
+        Message = GetInputResult(input, board);
+        Coordinate = new Coordinate(input[0], int.Parse(input[2..]));
+    }
+
+    public string GetInputResult(string input, Board board) =>
         ResultMessage(WrongInput(input.ToUpper()) ?? OutOfBounds(input.ToUpper(), board) ?? "Valid");
 
-    private static string? WrongInput(string playerInput) =>
+    private string? WrongInput(string playerInput) =>
         !Regex.IsMatch(playerInput, @"^^[A-Z]{1},\d{1,2}$") ?
             "WrongInput" : null;
 
-    private static string? OutOfBounds(string playerInput, Board board) =>
+    private string? OutOfBounds(string playerInput, Board board) =>
         int.Parse(playerInput[2..]) <= 0 ||
         int.Parse(playerInput[2..]) > board.Width ||
         playerInput[0] - 'A' >= board.Width ||
         playerInput[0] - 'A' < 0 ?
             "OutOfBounds" : null;
 
-    private static string ResultMessage(string inputFault) =>
+    private string ResultMessage(string inputFault) =>
         inputFault == "WrongInput" ?
             Messages.WRONG_INPUT :
             inputFault == "OutOfBounds" ?
