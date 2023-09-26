@@ -11,6 +11,7 @@ public class Game
     public Board Board { get; private set; }
     public List<Target> Targets { get; private set; }
     public Player Player { get; private set; }
+    public InputCheck InputCheck { get; private set; }
 
     public Game(Board board, List<Target> targets, Player player, IGameUserInterface<IBattleshipGameObjectFactory> gameUserInterface)
     {
@@ -18,6 +19,7 @@ public class Game
         Targets = targets;
         Player = player;
         this.gameUserInterface = gameUserInterface;
+        InputCheck = new InputCheck(board);
     }
 
     public void Initialize()
@@ -27,6 +29,20 @@ public class Game
         {
             Board.PlaceShip(1, target);
         }
+    }
+
+    public void OnFireMissile(Coordinate coordinate)
+    {
+        var inputCheckResult = InputCheck.GetInputResult(coordinate);
+        if (inputCheckResult == string.Empty)
+        {
+            FireMissile(coordinate);
+        }
+        else
+        {
+            gameUserInterface.ShowMessage(inputCheckResult);
+        }
+
     }
 
     private void FireMissile(Coordinate coordinate)

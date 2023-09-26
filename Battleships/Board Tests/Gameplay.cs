@@ -1,4 +1,5 @@
-﻿using Moq;
+﻿using Battleships;
+using Moq;
 using NUnit.Framework;
 using Shouldly;
 
@@ -13,14 +14,15 @@ public class Gameplay : Spec
         var gameRunner = GiveMe.AGameRunner();
 
         gameRunner.Play();
+        gameRunner.PauseGame();
 
-        Mock.Get(gameRunner.Game.GameUserInterface).Verify(c => c.ShowMessage("Please enter the coordinate (E.g. A,7)"), Times.AtLeastOnce);
+        Mock.Get(gameRunner.Game.GameUserInterface).Verify(c => c.ShowMessage(Messages.ENTER_COORDS), Times.AtLeastOnce);
     }
 
     [Test]
     public void Game_allows_using_premade_board()
     {
-        var game = GiveMe.AGame(board: GiveMe.ABoard(), targetList: GiveMe.ATargetList(empty: true));
+        var game = GiveMe.AGame(board: GiveMe.ABoardWithShip(height: 10, width: 10, coordinate: GiveMe.ACoordinate(1, 1)), targetList: GiveMe.ATargetList(empty: true));
 
         game.Initialize();
 
@@ -30,7 +32,7 @@ public class Gameplay : Spec
     [Test]
     public void Game_allows_placing_ships_when_given_a_premade_board()
     {
-        var game = GiveMe.AGame(board: GiveMe.ABoard(), targetList: GiveMe.ATargetList(2));
+        var game = GiveMe.AGame(board: GiveMe.ABoardWithShip(height: 10, width: 10, coordinate: GiveMe.ACoordinate(1, 1)), targetList: GiveMe.ATargetList(2));
 
         game.Initialize();
 
@@ -38,11 +40,11 @@ public class Gameplay : Spec
     }
 
     [Test]
-    public void Game_ends_when_player_is_out_of_lives()
+    public async Task Game_ends_when_player_is_out_of_lives()
     {
         var gameSession = GiveMe.AGameRunner(GiveMe.AGame(player: GiveMe.APlayer(lives: 0)));
 
-        gameSession.Play();
+        await gameSession.Play();
 
         Mock.Get(gameSession.Game.GameUserInterface).Verify(c => c.ShowMessage("Out of lives..."), Times.AtLeastOnce);
     }
@@ -50,12 +52,13 @@ public class Gameplay : Spec
     [Test]
     public void Game_ends_when_all_targets_are_hit()
     {
-        var gameSession = GiveMe.AGameRunner(GiveMe.AGame(
-            board: GiveMe.ABoard(),
-            targetList: GiveMe.ATargetList(empty: true)
-        ));
+        var game = GiveMe.AGame(board: GiveMe.ABoardWithShip(height: 10, width: 10, coordinate: GiveMe.ACoordinate(1, 1)), targetList: GiveMe.ATargetList(empty: true));
+        var gameInputController = MockMe.AnInputController(game);
+        var gameSession = GiveMe.AGameRunner(game);
 
-        gameSession.Play();
+        var play = Task.Factory.StartNew(() => gameSession.Play());
+        var fire = Task.Factory.StartNew(() => { gameInputController.RegisterFireMissileEvent(GiveMe.ACoordinate(1, 1)); });
+        Task.WaitAll(play, fire);
 
         Mock.Get(gameSession.Game.GameUserInterface).Verify(c => c.ShowMessage("You won !"), Times.AtLeastOnce);
     }

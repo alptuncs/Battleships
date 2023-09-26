@@ -1,25 +1,34 @@
-﻿namespace Battleships;
+﻿using System.Threading.Tasks;
+
+namespace Battleships;
 
 public class GameRunner
 {
     readonly Game game;
 
     public Game Game => game;
+    private bool Paused { get; set; }
 
     public GameRunner(Game game)
     {
         this.game = game;
     }
 
-    public void Play()
+    public async Task Play()
     {
         game.Initialize();
 
-        while (game.ShouldRun())
+        await Task.Run(() =>
         {
-            game.RenderGame();
-        }
+            while (game.ShouldRun() && !Paused)
+            {
+                game.RenderGame();
+            }
+        });
 
         game.RenderGame();
     }
+
+    public void PauseGame() =>
+        Paused = true;
 }

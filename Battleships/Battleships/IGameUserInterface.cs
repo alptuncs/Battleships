@@ -37,26 +37,24 @@ public interface IBattleshipGameObjectFactory : IGameObjectFactory
     IGameObject CreateMiss();
 }
 
-public interface IBalleshipGameInputController : IGameInputController
+public interface IBattleShipInputController : IGameInputController
 {
     public Game? Game { get; }
     void AddGame(Game game);
-    void RegisterFireMissileEvent(Action<Coordinate> action);
+    void RegisterFireMissileEvent(Coordinate coordinate);
 }
 
-public class ConsoleGameInputController : IBalleshipGameInputController
+public class ConsoleGameInputController : IBattleShipInputController
 {
-    public Game? Game { get; private set; }
+    public Game Game { get; private set; } = default!;
 
     public void AddGame(Game game)
     {
         Game = game;
     }
 
-    public void RegisterFireMissileEvent(Action<Coordinate> action)
-    {
-        throw new NotImplementedException();
-    }
+    public void RegisterFireMissileEvent(Coordinate coordinate) =>
+        Game.OnFireMissile(coordinate);
 }
 
 public class AsciiGameUserInterface<TGameObjectFactory> : IGameUserInterface<TGameObjectFactory> where TGameObjectFactory : IGameObjectFactory
@@ -71,7 +69,7 @@ public class AsciiGameUserInterface<TGameObjectFactory> : IGameUserInterface<TGa
     public TGameObjectFactory GameObjectFactory { get; }
     public IGameInputController GameInputController { get; }
 
-    public AsciiGameUserInterface(IConsole console, int width, int height, TGameObjectFactory gameObjectFactory, IBalleshipGameInputController gameInputController)
+    public AsciiGameUserInterface(IConsole console, int width, int height, TGameObjectFactory gameObjectFactory, IBattleShipInputController gameInputController)
     {
         this.console = console;
         this.screen = new char[width, height];
