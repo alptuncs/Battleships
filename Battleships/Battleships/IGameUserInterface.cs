@@ -6,7 +6,6 @@ namespace Battleships;
 
 public interface IGameUserInterface<TGameObjectFactory> where TGameObjectFactory : IGameObjectFactory
 {
-    IGameInputController GameInputController { get; }
     TGameObjectFactory GameObjectFactory { get; }
     List<StatusField> Status { get; }
     void ShowMessage(string text);
@@ -40,11 +39,20 @@ public interface IBattleshipGameObjectFactory : IGameObjectFactory
 
 public interface IBalleshipGameInputController : IGameInputController
 {
+    public Game? Game { get; }
+    void AddGame(Game game);
     void RegisterFireMissileEvent(Action<Coordinate> action);
 }
 
 public class ConsoleGameInputController : IBalleshipGameInputController
 {
+    public Game? Game { get; private set; }
+
+    public void AddGame(Game game)
+    {
+        Game = game;
+    }
+
     public void RegisterFireMissileEvent(Action<Coordinate> action)
     {
         throw new NotImplementedException();
@@ -140,7 +148,7 @@ public class AsciiBoard : IAsciiGameObject
         this.height = height;
     }
 
-    public char[,] Graphics => throw new System.NotImplementedException();
+    public char[,] Graphics => throw new NotImplementedException();
 }
 
 public class AsciiShip : IAsciiGameObject
@@ -155,7 +163,7 @@ public class AsciiShip : IAsciiGameObject
 
     public bool[] Status { get; }
 
-    public char[,] Graphics => throw new System.NotImplementedException();
+    public char[,] Graphics => throw new NotImplementedException();
 }
 
 public class AsciiMiss : IAsciiGameObject

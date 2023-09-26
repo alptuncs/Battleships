@@ -2,15 +2,17 @@
 
 namespace Battleships;
 
-public class GameManager
+public class Game
 {
     private readonly IGameUserInterface<IBattleshipGameObjectFactory> gameUserInterface;
+
+    public IGameUserInterface<IBattleshipGameObjectFactory> GameUserInterface => gameUserInterface;
 
     public Board Board { get; private set; }
     public List<Target> Targets { get; private set; }
     public Player Player { get; private set; }
 
-    public GameManager(Board board, List<Target> targets, Player player, IGameUserInterface<IBattleshipGameObjectFactory> gameUserInterface)
+    public Game(Board board, List<Target> targets, Player player, IGameUserInterface<IBattleshipGameObjectFactory> gameUserInterface)
     {
         Board = board;
         Targets = targets;

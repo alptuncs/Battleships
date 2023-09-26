@@ -5,17 +5,17 @@ namespace Board_Tests;
 
 public static class BattleshipsTestsExtensions
 {
-    public static Board ABoard(this Spec.Stubber giveMe, int height = default, int width = default, bool withShips = false) =>
-        withShips ? giveMe.WithShip(height, width) : giveMe.Empty(height, width);
-
+    public static Board ABoard(this Spec.Stubber giveMe, int height = default, int width = default) =>
+        giveMe.WithShip(height, width);
     private static Board WithShip(this Spec.Stubber giveMe, int height, int width)
     {
-        var board = giveMe.Empty(height, width);
+        var board = giveMe.AnEmptyBoard(height, width);
         board.PlaceShip(giveMe.ACoordinate(0, 0), giveMe.ATarget());
 
         return board;
     }
-    private static Board Empty(this Spec.Stubber _, int height, int width) =>
+
+    public static Board AnEmptyBoard (this Spec.Stubber giveMe, int height = default, int width = default) =>
         BoardFactory.Create(height == default ? 10 : height, width == default ? 10 : width);
 
     public static Cell ACell(this Spec.Stubber giveMe) =>
@@ -46,22 +46,31 @@ public static class BattleshipsTestsExtensions
         return result.Object;
     }
 
-    public static GameManager AGameManager(this Spec.Stubber giveMe,
-        IConsole? console = default,
+    public static IGameUserInterface<IBattleshipGameObjectFactory> AGameInterface(this Spec.Mocker _)
+    {
+        var result = new Mock<IGameUserInterface<IBattleshipGameObjectFactory>>();
+
+        result.Setup(l => l.ShowMessage(""));
+
+
+        return result.Object;
+    }
+
+    public static Game AGame(this Spec.Stubber giveMe,
         int height = default,
         int width = default,
         Board? board = default,
         int numTargets = default,
         List<Target>? targetList = default,
-        Player? player = default
+        Player? player = default,
+        IGameUserInterface<IBattleshipGameObjectFactory>? gameUserInterface = default
     ) => new(
-            console ?? giveMe.Spec.MockMe.AConsole(),
             board ?? giveMe.ABoard(height, width),
-            giveMe.ABoardRenderer(height, width),
             targetList ?? giveMe.ATargetList(numTargets),
-            player ?? giveMe.APlayer(30, 0)
+            player ?? giveMe.APlayer(30, 0),
+            gameUserInterface ?? giveMe.Spec.MockMe.AGameInterface()
     );
 
-    public static GameSession AGameSession(this Spec.Stubber giveMe, GameManager? gameManager = default) =>
-        new GameSession(gameManager ?? giveMe.AGameManager());
+    public static GameRunner AGameRunner(this Spec.Stubber giveMe, Game? gameManager = default) =>
+        new GameRunner(gameManager ?? giveMe.AGame());
 }

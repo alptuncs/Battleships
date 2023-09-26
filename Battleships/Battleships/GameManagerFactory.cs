@@ -4,7 +4,7 @@ namespace Battleships;
 
 public class GameManagerFactory
 {
-    public GameManager Create(IGameUserInterface<IBattleshipGameObjectFactory> userInterface)
+    public Game Create(IGameUserInterface<IBattleshipGameObjectFactory> userInterface)
     {
         var computerBoard = BoardFactory.Create(10, 10);
         var player = new Player(30, 0);
@@ -23,6 +23,6 @@ public class GameManagerFactory
             targetFactory.Create(Direction.North(), "Submarine")
         };
 
-        return new GameManager(computerBoard, targets, player, userInterface);
+        return new Game(computerBoard, targets, player, userInterface);
     }
 }
