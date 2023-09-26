@@ -60,14 +60,3 @@ public class Gameplay : Spec
         Mock.Get(gameSession.Game.GameUserInterface).Verify(c => c.ShowMessage("You won !"), Times.AtLeastOnce);
     }
 }
-
-/* 
-Oyun başlayınca koordinat ister,
-Oyuncu koordinat girene kadar ayrı bir şekilde render etmeye devam eder,
-Oyuncunun hakkı kalmayınca oyun biter,
-Tüm gemiler vurulunca oyun biter,
-Gemileri verilen kordinata yerleştirir,
-Komşu karesinde gemi olan yere gemi yerleştirilmez,
-Input'u kontrol eder
-GameController Lazım
- */
