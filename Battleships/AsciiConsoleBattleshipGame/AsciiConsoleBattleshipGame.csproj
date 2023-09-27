@@ -8,7 +8,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\AsciiGameUserInterface\AsciiGameUserInterface.csproj" />
     <ProjectReference Include="..\Battleships\Battleships.csproj" />
+    <ProjectReference Include="..\ConsoleGameInputController\ConsoleGameInputController.csproj" />
   </ItemGroup>
 
 </Project>

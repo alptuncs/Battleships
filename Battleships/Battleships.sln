@@ -6,9 +6,19 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Battleships", "Battleships\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BattleshipsTests", "Board Tests\BattleshipsTests.csproj", "{D1315AEC-474E-458A-89D8-78F278B5AF3B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleGameInputController", "ConsoleGameInputController\ConsoleGameInputController.csproj", "{2B836831-6A36-4B80-92D8-3AAA33B73F2B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleGameInputController", "ConsoleGameInputController\ConsoleGameInputController.csproj", "{2B836831-6A36-4B80-92D8-3AAA33B73F2B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AsciiGameUserInterface", "AsciiGameUserInterface\AsciiGameUserInterface.csproj", "{48355B93-00DC-48B0-9447-D38BD110ECE7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AsciiGameUserInterface", "AsciiGameUserInterface\AsciiGameUserInterface.csproj", "{48355B93-00DC-48B0-9447-D38BD110ECE7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AsciiGameUserIntefaceTests", "AsciiGameUserIntefaceTests\AsciiGameUserIntefaceTests.csproj", "{AB72B621-3A0D-4161-AAD3-205C84727442}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleGameInputControllerTests", "ConsoleGameInputControllerTests\ConsoleGameInputControllerTests.csproj", "{E9D2EA27-3517-4462-80A1-09E2DC276EFB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AsciiConsoleBattleshipGame", "AsciiConsoleBattleshipGame\AsciiConsoleBattleshipGame.csproj", "{307FC8CD-246D-4FAA-B12D-2F3682CC05AE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{48616D37-607A-4CCD-A2E7-14954CAF9A68}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{682597C1-C503-4BCF-A5C4-50D1457CF597}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -32,9 +42,30 @@ Global
 		{48355B93-00DC-48B0-9447-D38BD110ECE7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{48355B93-00DC-48B0-9447-D38BD110ECE7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{48355B93-00DC-48B0-9447-D38BD110ECE7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AB72B621-3A0D-4161-AAD3-205C84727442}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB72B621-3A0D-4161-AAD3-205C84727442}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB72B621-3A0D-4161-AAD3-205C84727442}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB72B621-3A0D-4161-AAD3-205C84727442}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E9D2EA27-3517-4462-80A1-09E2DC276EFB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E9D2EA27-3517-4462-80A1-09E2DC276EFB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E9D2EA27-3517-4462-80A1-09E2DC276EFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E9D2EA27-3517-4462-80A1-09E2DC276EFB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{307FC8CD-246D-4FAA-B12D-2F3682CC05AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{307FC8CD-246D-4FAA-B12D-2F3682CC05AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{307FC8CD-246D-4FAA-B12D-2F3682CC05AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{307FC8CD-246D-4FAA-B12D-2F3682CC05AE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{BB1FDF3F-B71B-42D5-A19B-24C138669600} = {682597C1-C503-4BCF-A5C4-50D1457CF597}
+		{D1315AEC-474E-458A-89D8-78F278B5AF3B} = {48616D37-607A-4CCD-A2E7-14954CAF9A68}
+		{2B836831-6A36-4B80-92D8-3AAA33B73F2B} = {682597C1-C503-4BCF-A5C4-50D1457CF597}
+		{48355B93-00DC-48B0-9447-D38BD110ECE7} = {682597C1-C503-4BCF-A5C4-50D1457CF597}
+		{AB72B621-3A0D-4161-AAD3-205C84727442} = {48616D37-607A-4CCD-A2E7-14954CAF9A68}
+		{E9D2EA27-3517-4462-80A1-09E2DC276EFB} = {48616D37-607A-4CCD-A2E7-14954CAF9A68}
+		{307FC8CD-246D-4FAA-B12D-2F3682CC05AE} = {682597C1-C503-4BCF-A5C4-50D1457CF597}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {23E07F5E-8AC9-4D1C-B13F-BD079C89F0BD}
