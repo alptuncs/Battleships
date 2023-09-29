@@ -1,22 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace Battleships;
 
-namespace Battleships
+public class Cell
 {
-    public class Cell
-    {
-        public bool hasShip { get; set; }
-        public bool isHit { get; set; }
-        public int shipType { get; set; }
+    public Target? Ship { get; private set; }
+    public bool IsHit { get; private set; }
 
-        public Cell(bool hasShip, int shipType)
-        {
-            this.hasShip = hasShip;
-            this.shipType = shipType;
-            isHit = false;
-        }
-    }
+    public bool HasShip => Ship is not null;
+
+    public void HitSquare() => IsHit = true;
+    public void PlaceShip(Target ship) => Ship = ship;
 }

@@ -1,35 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace Battleships;
 
-namespace Battleships
+public class TargetFactory
 {
-    public class TargetFactory
+    public Target Create(Direction direction, string shipType)
     {
-        public ITarget Create(Direction direction, string shipType)
+        if (shipType == "Submarine")
         {
-            ITarget target = null;
-            if (shipType == "denizalti")
-            {
-                target = new Submarine();
-            }
-            else if (shipType == "mayingemisi")
-            {
-                target = new Minelayer();
-            }
-            else if (shipType == "kruvazor")
-            {
-                target = new Destroyer();
-            }
-            else
-            {
-                target = new Flagship();
-            }
-
-            target.SetShipDirection(direction);
-            return target;
+            return new(1, direction);
         }
+        else if (shipType == "Destroyer")
+        {
+            return new(2, direction);
+        }
+        else if (shipType == "Cruiser")
+        {
+            return new(3, direction);
+        }
+        else if (shipType == "Battleship")
+        {
+            return new(4, direction);
+        }
+
+        throw new System.Exception("No such ship");
     }
 }

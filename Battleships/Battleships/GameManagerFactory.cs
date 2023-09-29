@@ -1,31 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
-namespace Battleships
+namespace Battleships;
+
+public class GameManagerFactory
 {
-    public class GameManagerFactory
+    public Game Create(IGameUserInterface<IBattleshipGameObjectFactory> userInterface)
     {
-        public GameManager Create()
+        var computerBoard = BoardFactory.Create(10, 10);
+        var player = new Player(30, 0);
+        var targetFactory = new TargetFactory();
+        List<Target> targets = new()
         {
-            IConsole console = new SystemConsole();
-            var boardRenderer = new BoardRenderer(10, 10);
-            var computerBoard = new BoardManagerFactory().Create(10, 10);
-            var targetFactory = new TargetFactory();
-            List<ITarget> targets = new List<ITarget>();
-            ITarget amiralGemisi = targetFactory.Create(Direction.West(), "amiralgemisi");
-            ITarget kruvazor = targetFactory.Create(Direction.North(), "kruvazor");
-            ITarget mayinGemisi = targetFactory.Create(Direction.East(), "mayingemisi");
-            ITarget denizalti = targetFactory.Create(Direction.North(), "denizalti");
+            targetFactory.Create(Direction.West(), "Battleship"),
+            targetFactory.Create(Direction.North(), "Cruiser"),
+            targetFactory.Create(Direction.East(), "Cruiser"),
+            targetFactory.Create(Direction.South(), "Destroyer"),
+            targetFactory.Create(Direction.West(), "Destroyer"),
+            targetFactory.Create(Direction.North(), "Destroyer"),
+            targetFactory.Create(Direction.East(), "Submarine"),
+            targetFactory.Create(Direction.South(), "Submarine"),
+            targetFactory.Create(Direction.West(), "Submarine"),
+            targetFactory.Create(Direction.North(), "Submarine")
+        };
 
-            targets.Add(amiralGemisi);
-            targets.Add(kruvazor);
-            targets.Add(mayinGemisi);
-            targets.Add(denizalti);
-
-            return new GameManager(console, computerBoard, boardRenderer, targets);
-        }
+        return new Game(computerBoard, targets, player, userInterface);
     }
 }
