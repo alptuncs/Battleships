@@ -1,4 +1,6 @@
-﻿namespace Battleships;
+﻿using System.Text;
+
+namespace Battleships;
 
 public class AsciiGameUserInterface<TGameObjectFactory> : IGameUserInterface<TGameObjectFactory> where TGameObjectFactory : IGameObjectFactory
 {
@@ -19,6 +21,8 @@ public class AsciiGameUserInterface<TGameObjectFactory> : IGameUserInterface<TGa
 
         GameObjectFactory = gameObjectFactory;
         GameInputController = gameInputController;
+
+        console.SetOutputEncoding(Encoding.GetEncoding("iso-8859-1"));
     }
 
     public void Draw(IGameObject gameObject, Coordinate coordinate)
@@ -52,7 +56,7 @@ public class AsciiGameUserInterface<TGameObjectFactory> : IGameUserInterface<TGa
                 if (screen[x, y] is default(char)) { continue; }
 
                 console.Write(screen[x, y]);
-                screen[x, y] = default;
+                //screen[x, y] = default;
             }
 
             console.WriteLine("");

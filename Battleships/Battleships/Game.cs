@@ -12,6 +12,7 @@ public class Game
     public List<Target> Targets { get; private set; }
     public Player Player { get; private set; }
     public InputCheck InputCheck { get; private set; }
+    public bool State { get; private set; }
 
     public Game(Board board, List<Target> targets, Player player, IGameUserInterface<IBattleshipGameObjectFactory> gameUserInterface)
     {
@@ -20,6 +21,7 @@ public class Game
         Player = player;
         this.gameUserInterface = gameUserInterface;
         InputCheck = new InputCheck(board);
+        State = true;
     }
 
     public void Initialize()
@@ -29,6 +31,8 @@ public class Game
         {
             Board.PlaceShip(1, target);
         }
+
+        gameUserInterface.Draw(gameUserInterface.GameObjectFactory.CreateBoard(Board.Width, Board.Height), new Coordinate(0, 0));
     }
 
     public void OnFireMissile(Coordinate coordinate)
@@ -37,6 +41,7 @@ public class Game
         if (inputCheckResult == string.Empty)
         {
             FireMissile(coordinate);
+            State = true;
         }
         else
         {
@@ -86,10 +91,15 @@ public class Game
 
     public void RenderGame()
     {
-        gameUserInterface.Status.Clear();
-        gameUserInterface.Status.Add(new("Lives", $"{Player.Lives}"));
-        gameUserInterface.Status.Add(new("Score", $"{Player.Score}"));
+        if (State)
+        {
+            gameUserInterface.Status.Clear();
+            gameUserInterface.Status.Add(new("Lives", $"{Player.Lives}"));
+            gameUserInterface.Status.Add(new("Score", $"{Player.Score}"));
 
-        gameUserInterface.Draw(gameUserInterface.GameObjectFactory.CreateBoard(Board.Width, Board.Height), new Coordinate(0, 0));
+            gameUserInterface.Paint();
+        }
+
+        State = false;
     }
 }

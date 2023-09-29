@@ -8,6 +8,7 @@ public interface IGameUserInterface<TGameObjectFactory> where TGameObjectFactory
     List<StatusField> Status { get; }
     void ShowMessage(string text);
     void Draw(IGameObject gameObject, Coordinate coordinate);
+    void Paint();
 }
 
 public class StatusField
